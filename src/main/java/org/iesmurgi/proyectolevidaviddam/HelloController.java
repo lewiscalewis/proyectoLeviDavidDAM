@@ -8,17 +8,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import com.google.gson.Gson;
 
 public class HelloController {
 
     @FXML
-    private Label labelHijoDePuta;
+    private Label labelAmigosDeYoutube;
     @FXML
-    private Button btnHijoDePuta;
+    private Button btnAmigosDeYoutube;
 
     @FXML
     protected void onHelloButtonClick() throws IOException {
@@ -36,7 +34,7 @@ public class HelloController {
         String linea="";
         while ((linea = rd.readLine()) != null) {
             Gson gson = new Gson();
-            labelHijoDePuta.setText(linea);
+            labelAmigosDeYoutube.setText(linea);
         }
 
         // Cerrar el BufferedReader
