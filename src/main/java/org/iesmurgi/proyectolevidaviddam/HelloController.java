@@ -22,7 +22,7 @@ public class HelloController {
 
     @FXML
     protected void onHelloButtonClick() throws IOException {
-
+        sampleRequest();
     }
 
     public void sampleRequest() throws IOException{
