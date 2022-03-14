@@ -3,13 +3,63 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.iesmurgi.proyectolevidaviddam.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-
-    <Label fx:id="labelAmigosDeYoutube"/>
-    <Button fx:id="btnAmigosDeYoutube" onAction="#onHelloButtonClick" text="Hello!" />
+<VBox alignment="CENTER" prefHeight="1080.0" prefWidth="1920.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.HelloController">
+   <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+      <top>
+         <HBox BorderPane.alignment="CENTER">
+            <children>
+               <ImageView fitHeight="79.0" fitWidth="151.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@BitStore_Logo.png" />
+                  </image>
+               </ImageView>
+                <Button fx:id="btnStore" minWidth="200.0" onAction="#loadHomePage" prefHeight="80.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css" text="Home">
+                  <font>
+                     <Font name="DejaVu Sans Bold" size="24.0" />
+                  </font>
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+                  <effect>
+                     <DropShadow height="8.25" radius="2.35" width="3.15" />
+                  </effect>
+               </Button>
+               <Button fx:id="btnProfile" minWidth="200.0" onAction="#loadProfilePage" prefHeight="80.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css" text="Profile">
+                  <font>
+                     <Font name="DejaVu Sans Bold" size="24.0" />
+                  </font>
+                  <effect>
+                     <DropShadow height="8.25" radius="2.35" width="3.15" />
+                  </effect>
+               </Button>
+               <Pane maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="80.0" prefWidth="2000.0" style="-fx-background-color: white;">
+                  <children>
+                     <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="74.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                        <image>
+                           <Image url="@Sample_User_Icon.png" />
+                        </image>
+                     </ImageView>
+                  </children>
+               </Pane>
+            </children>
+         </HBox>
+      </top>
+      <center>
+         <VBox fx:id="pageRoot" prefHeight="200.0" prefWidth="100.0" styleClass="pageRoot" stylesheets="@css/cssmenu.css" BorderPane.alignment="CENTER">
+            <children>
+            
+                <Label fx:id="labelSampleRequest" />
+            </children>
+         </VBox>
+      </center>
+   </BorderPane>
 </VBox>

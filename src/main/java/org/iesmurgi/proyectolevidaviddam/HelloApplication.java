@@ -9,12 +9,19 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException, InterruptedException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 700, 300);
         stage.setTitle("Hello!");
+        stage.setMaximized(true);
+        stage.setMinWidth(700);
+        stage.setMinHeight(300);
         stage.setScene(scene);
+
+
         stage.show();
+        Thread.sleep(500);
+        stage.toFront();
     }
 
     public static void main(String[] args) {
