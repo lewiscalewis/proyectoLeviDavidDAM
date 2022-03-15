@@ -71,7 +71,8 @@ public class HelloController {
             String linea="";
             while ((linea = rd.readLine()) != null) {
                 Gson gson = new Gson();
-                Label labelRequest=new Label(linea);
+                User[] juegos = gson.fromJson(linea, User[].class);
+                Label labelRequest=new Label(juegos[0].toString());
                 root.getChildren().add(labelRequest);
 
 

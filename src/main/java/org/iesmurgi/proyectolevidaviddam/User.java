@@ -1,15 +1,27 @@
 package org.iesmurgi.proyectolevidaviddam;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class User implements Serializable {
+public class User {
+    
+    @SerializedName("Nombre")
+    @Expose
     String nombre;
 
-    public String getNombre(){
+    public User(String nombre){
+        this.nombre = nombre;
+    }
+
+    public String getnombre(){
         return nombre;
     }
-    public void setNombre(String nombre){
+    public void setnombre(String nombre){
         this.nombre=nombre;
+    }
+
+    @Override
+    public String toString(){
+        return "Mi nombre es: " + this.nombre;
     }
 }
