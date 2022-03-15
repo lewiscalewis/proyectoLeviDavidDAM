@@ -10,6 +10,8 @@ module org.iesmurgi.proyectolevidaviddam {
     requires eu.hansolo.tilesfx;
     requires com.google.gson;
 
-    opens org.iesmurgi.proyectolevidaviddam to javafx.fxml;
+
+
+    opens org.iesmurgi.proyectolevidaviddam to javafx.fxml,com.google.gson;
     exports org.iesmurgi.proyectolevidaviddam;
 }

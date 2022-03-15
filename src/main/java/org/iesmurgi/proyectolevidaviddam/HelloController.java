@@ -28,35 +28,13 @@ public class HelloController {
     @FXML
     private VBox pageRoot;
 
-    public void initialize(){
+    public void initialize() throws IOException {
         //Abre la pagina de inicio cuando se abre la aplicacion:
         loadHomePage();
-    }
-
-
-    @Deprecated
-    protected void onHelloButtonClick() throws IOException {
-        sampleRequest();
-    }
-
-    public void sampleRequest() throws IOException{
-        String url="http://25.41.23.74:3000";
-        URL urls1 = new URL(url);
-        HttpURLConnection conexion1 = (HttpURLConnection) urls1.openConnection();
-        conexion1.setRequestMethod("POST");
-        BufferedReader rd = new BufferedReader(new InputStreamReader(conexion1. getInputStream()));
-
-        // Mientras el BufferedReader se pueda leer, agregar contenido a resultado
-        String linea="";
-        while ((linea = rd.readLine()) != null) {
-            Gson gson = new Gson();
-            labelSampleRequest.setText(linea);
-        }
-
-        // Cerrar el BufferedReader
-        rd.close();
 
     }
+
+
 
 
     @FXML
@@ -77,8 +55,33 @@ public class HelloController {
 
         try {
             pageRoot.getChildren().clear();
-            Pane root = (new FXMLLoader(HelloApplication.class.getResource("profilepage.fxml")).load());
+            FXMLLoader rootFxmlLoader=new FXMLLoader(HelloApplication.class.getResource("profilepage.fxml"));
+            Pane root = rootFxmlLoader.load();
             pageRoot.getChildren().add(root);
+
+            //root es la raiz de nuestra página, todoo lo que se ve menos el menu.
+
+            String url="http://25.41.23.74:3000/users";
+            URL urls1 = new URL(url);
+            HttpURLConnection conexion1 = (HttpURLConnection) urls1.openConnection();
+            conexion1.setRequestMethod("POST");
+            BufferedReader rd = new BufferedReader(new InputStreamReader(conexion1. getInputStream()));
+
+            // Mientras el BufferedReader se pueda leer, agregar contenido a resultado
+            String linea="";
+            while ((linea = rd.readLine()) != null) {
+                Gson gson = new Gson();
+                Label labelRequest=new Label(linea);
+                root.getChildren().add(labelRequest);
+
+
+
+            }
+
+            // Cerrar el BufferedReader
+            rd.close();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
