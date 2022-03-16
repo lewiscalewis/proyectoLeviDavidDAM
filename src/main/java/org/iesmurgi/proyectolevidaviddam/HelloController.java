@@ -35,8 +35,6 @@ public class HelloController {
     }
 
 
-
-
     @FXML
     public void loadHomePage()  {
 
