@@ -11,12 +11,12 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("sign_up.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 300);
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("log_in.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
-        stage.setMaximized(true);
-        stage.setMinWidth(700);
-        stage.setMinHeight(300);
+
+        stage.setMinWidth(500);
+        stage.setMinHeight(500);
         stage.setScene(scene);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 
