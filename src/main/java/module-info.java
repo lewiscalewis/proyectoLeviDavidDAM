@@ -11,7 +11,6 @@ module org.iesmurgi.proyectolevidaviddam {
     requires com.google.gson;
 
 
-
     opens org.iesmurgi.proyectolevidaviddam to javafx.fxml,com.google.gson;
     exports org.iesmurgi.proyectolevidaviddam;
 }
