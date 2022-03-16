@@ -14,31 +14,31 @@
          <children>
             <Label fx:id="lblNombre" text="Nombre:" textAlignment="CENTER" textFill="#fffdfd">
                <font>
-                  <Font size="14.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
             <TextField fx:id="textFieldNombre" maxWidth="200.0" stylesheets="@css/main.css" />
             <Label fx:id="lblApellidos" text="Apellidos" textAlignment="CENTER" textFill="#fffdfd">
                <font>
-                  <Font size="14.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
             <TextField fx:id="textFieldApellidos" maxWidth="200.0" stylesheets="@css/main.css" />
             <Label fx:id="lblCorreo" text="Correo:" textAlignment="CENTER" textFill="#fffdfd">
                <font>
-                  <Font size="14.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
             <TextField fx:id="textFieldCorreo" maxWidth="200.0" styleClass="text-field" stylesheets="@css/main.css" />
             <Label fx:id="lblContraseña" text="Contraseña:" textAlignment="CENTER" textFill="#fffdfd">
                <font>
-                  <Font size="14.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
             <PasswordField fx:id="pwdContraseña" maxWidth="200.0" stylesheets="@css/main.css" />
             <Label fx:id="lblRepetirContraseña" text="Repetir contraseña:" textAlignment="CENTER" textFill="#fffdfd">
                <font>
-                  <Font size="14.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
             <PasswordField fx:id="pwdRepetirContraseña" maxWidth="200.0" stylesheets="@css/main.css" />

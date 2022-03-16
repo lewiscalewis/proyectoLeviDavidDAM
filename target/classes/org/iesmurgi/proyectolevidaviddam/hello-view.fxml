@@ -49,7 +49,7 @@
          </Pane>
       </children>
    </HBox>
-   <VBox fx:id="pageRoot" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" styleClass="pageRoot" stylesheets="@css/cssmenu.css">
+   <VBox fx:id="pageRoot" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="pageRoot" stylesheets="@css/cssmenu.css">
       <children>
       
                 <Label fx:id="labelSampleRequest" />

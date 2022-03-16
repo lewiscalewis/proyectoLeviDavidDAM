@@ -1,22 +1,30 @@
 package org.iesmurgi.proyectolevidaviddam;
 
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
 
-public class Profilepage {
-    @javafx.fxml.FXML
+public class LogIn {
+
+    @FXML
     private VBox profileRoot;
-    @javafx.fxml.FXML
-    private Button botonCrearCuenta;
+
+    @FXML
+    private Button btnRegistrarse;
+
+    @FXML
+    private Button btnIniciarSesion;
 
     public void initialize(){
-        botonCrearCuenta.setOnAction(actionEvent -> {
+
+        btnRegistrarse.getStyleClass().setAll("btn", "btn-success");
+        btnIniciarSesion.getStyleClass().setAll("btn", "btn-primary");
+
+        btnRegistrarse.setOnAction(actionEvent -> {
 
             /*
             Scene scene = new Scene(fxmlLoader.load(), 700, 300);

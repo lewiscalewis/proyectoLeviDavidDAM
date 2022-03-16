@@ -52,6 +52,6 @@ public class SignUp {
 //        lblCorreo.getStyleClass().setAll("lbl", "lbl-primary");
 //        lblContraseña.getStyleClass().setAll("lbl", "lbl-primary");
 //        lblRepetirContraseña.getStyleClass().setAll("lbl", "lbl-primary");
-        btnRegistrarse.getStyleClass().setAll("btn", "btn-primary");
+        btnRegistrarse.getStyleClass().setAll("btn", "btn-success");
     }
 }
