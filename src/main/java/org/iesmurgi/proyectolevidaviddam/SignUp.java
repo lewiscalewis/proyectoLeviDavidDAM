@@ -47,11 +47,11 @@ public class SignUp {
 
     @FXML
     void initialize(){
-        lblNombre.getStyleClass().setAll("lbl","lbl-primary");
-        lblApellidos.getStyleClass().setAll("lbl", "lbl-primary");
-        lblCorreo.getStyleClass().setAll("lbl", "lbl-primary");
-        lblContraseña.getStyleClass().setAll("lbl", "lbl-primary");
-        lblRepetirContraseña.getStyleClass().setAll("lbl", "lbl-primary");
+//        lblNombre.getStyleClass().setAll("lbl","lbl-primary");
+//        lblApellidos.getStyleClass().setAll("lbl", "lbl-primary");
+//        lblCorreo.getStyleClass().setAll("lbl", "lbl-primary");
+//        lblContraseña.getStyleClass().setAll("lbl", "lbl-primary");
+//        lblRepetirContraseña.getStyleClass().setAll("lbl", "lbl-primary");
         btnRegistrarse.getStyleClass().setAll("btn", "btn-primary");
     }
 }
