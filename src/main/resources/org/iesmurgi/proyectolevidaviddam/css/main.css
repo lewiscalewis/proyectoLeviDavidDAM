@@ -1,0 +1,20 @@
+.text-field {
+    -fx-accent: blue;
+    -fx-background-color: grey, white;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-background-radius: 8;
+}
+.text-field:focused {
+    -fx-background-color: blue, white;
+}
+
+.card {
+    -fx-border-color: lightgrey;
+    -fx-border-radius: 35;
+    -fx-background-radius: 35;
+    -fx-background-color: #3C3C3C;
+}
+
+.container {
+    -fx-background-color: #232323;
+}
