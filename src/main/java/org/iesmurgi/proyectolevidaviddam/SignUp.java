@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class SignUp {
     @FXML
@@ -79,20 +80,31 @@ public class SignUp {
 
     @FXML
     void signup(MouseEvent event) throws IOException {
-        String url1 = "https://www.mmobomb.com/api1/games?sort-by=";
+        String url1 = "http://25.41.23.74:3000/signup";
 
         BufferedReader rd;
-        BufferedReader rd2;
         String linea;
 
+        String urlParameters  = textFieldCorreo.getText();
+        byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
+        int    postDataLength = postData.length;
+
         URL urls1 = new URL(url1);
-        HttpURLConnection conexion1 = (HttpURLConnection) urls1.openConnection();
-        conexion1.setRequestMethod("GET");
-        rd = new BufferedReader(new InputStreamReader(conexion1. getInputStream()));
+        HttpURLConnection conexion = (HttpURLConnection) urls1.openConnection();
+        conexion.setRequestMethod("POST");
+        conexion.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
+
+        rd = new BufferedReader(new InputStreamReader(conexion. getInputStream()));
 
         // Mientras el BufferedReader se pueda leer, agregar contenido a resultado
         while ((linea = rd.readLine()) != null) {
             System.out.println(linea);
+            if(linea.equals("mail_error")){
+                Alert a = new Alert(Alert.AlertType.NONE);
+                a.setAlertType(Alert.AlertType.ERROR);
+                a.setTitle("El correo introducido ya está en uso");
+                a.show();
+            }
         }
 
         // Cerrar el BufferedReader
