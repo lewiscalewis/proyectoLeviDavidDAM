@@ -9,6 +9,7 @@ module org.iesmurgi.proyectolevidaviddam {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.google.gson;
+    requires org.json;
 
 
     opens org.iesmurgi.proyectolevidaviddam to javafx.fxml,com.google.gson;

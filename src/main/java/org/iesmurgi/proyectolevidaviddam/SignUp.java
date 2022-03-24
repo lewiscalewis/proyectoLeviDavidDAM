@@ -7,14 +7,15 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.HyperlinkLabel;
+import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUp {
     @FXML
@@ -85,14 +86,23 @@ public class SignUp {
         BufferedReader rd;
         String linea;
 
-        String urlParameters  = textFieldCorreo.getText();
+        String urlParameters  = "email="+textFieldCorreo.getText();
+        //JSONObject emailParamJson = new JSONObject("{\"email\":"+"\""+urlParameters+"\"}");
         byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
         int    postDataLength = postData.length;
 
         URL urls1 = new URL(url1);
         HttpURLConnection conexion = (HttpURLConnection) urls1.openConnection();
         conexion.setRequestMethod("POST");
-        conexion.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
+        conexion.setDoOutput(true);
+        //conexion.setRequestProperty("Content-Type", "application/json; utf-8");
+        //conexion.setRequestProperty("Accept", "application/json");
+
+        OutputStream os = conexion.getOutputStream();
+
+        os.write(postData, 0, postDataLength);
+        os.flush();
+        os.close();
 
         rd = new BufferedReader(new InputStreamReader(conexion. getInputStream()));
 
