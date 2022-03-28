@@ -7,14 +7,16 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.HyperlinkLabel;
+import org.iesmurgi.proyectolevidaviddam.Middleware.ApiCall;
+import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUp {
     @FXML
@@ -80,34 +82,20 @@ public class SignUp {
 
     @FXML
     void signup(MouseEvent event) throws IOException {
-        String url1 = "http://25.41.23.74:3000/signup";
 
-        BufferedReader rd;
-        String linea;
+        String url1 = "http://10.147.20.65:3000/signup";
+        String[][] parameters = new String[1][2];
+        parameters[0][0] = "email";
+        parameters[0][1] = textFieldCorreo.getText();
 
-        String urlParameters  = textFieldCorreo.getText();
-        byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
-        int    postDataLength = postData.length;
+        ApiCall api = new ApiCall(url1, parameters);
+        String result = api.openPostConnection();
 
-        URL urls1 = new URL(url1);
-        HttpURLConnection conexion = (HttpURLConnection) urls1.openConnection();
-        conexion.setRequestMethod("POST");
-        conexion.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
-
-        rd = new BufferedReader(new InputStreamReader(conexion. getInputStream()));
-
-        // Mientras el BufferedReader se pueda leer, agregar contenido a resultado
-        while ((linea = rd.readLine()) != null) {
-            System.out.println(linea);
-            if(linea.equals("mail_error")){
-                Alert a = new Alert(Alert.AlertType.NONE);
-                a.setAlertType(Alert.AlertType.ERROR);
-                a.setTitle("El correo introducido ya está en uso");
-                a.show();
-            }
+        if(result.equals("mail_error\n")) {
+            Alert a = new Alert(Alert.AlertType.NONE);
+            a.setAlertType(Alert.AlertType.ERROR);
+            a.setTitle("El correo introducido ya está en uso");
+            a.show();
         }
-
-        // Cerrar el BufferedReader
-        rd.close();
     }
 }
