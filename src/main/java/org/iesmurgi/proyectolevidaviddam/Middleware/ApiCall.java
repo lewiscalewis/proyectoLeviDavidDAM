@@ -54,7 +54,7 @@ public class ApiCall {
      * @return
      * @throws IOException
      */
-    public String openPostConnection() throws IOException {
+    public synchronized String openPostConnection() throws IOException {
 
         //Formamos la URL
 
@@ -71,7 +71,7 @@ public class ApiCall {
         OutputStream os = conexion.getOutputStream();
 
         for(int i = 0; i < parameters.length; i++){
-            String urlParameters  = parameters[i][i]+"="+parameters[i][i+1];
+            String urlParameters  = (i > 0 ? "&" : "") + parameters[i][0]+"="+parameters[i][1];
             byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
             int    postDataLength = postData.length;
             os.write(postData, 0, postDataLength);
@@ -102,7 +102,7 @@ public class ApiCall {
      * Abre una conexión con la API de tipo POST sin esperar resultados.
      * @throws IOException
      */
-    public void openVoidPostConnection() throws IOException {
+    public synchronized void openVoidPostConnection() throws IOException {
 
         //Formamos la URL
 
@@ -134,7 +134,7 @@ public class ApiCall {
      * @return
      * @throws IOException
      */
-    public String openGetConnection() throws IOException {
+    public synchronized String openGetConnection() throws IOException {
         //Formamos la URL
 
         java.net.URL url = new URL(URL);
