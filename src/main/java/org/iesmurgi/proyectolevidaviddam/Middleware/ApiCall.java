@@ -37,7 +37,6 @@ public class ApiCall {
     public ApiCall(String URL, String[][] parameters) throws IOException {
         this.URL = URL;
         this.parameters = parameters;
-        this.requestMethod = requestMethod.toUpperCase();
     }
 
     /**
@@ -47,7 +46,6 @@ public class ApiCall {
      */
     public ApiCall(String URL) throws IOException {
         this.URL = URL;
-        this.requestMethod = requestMethod.toUpperCase();
     }
 
     /**

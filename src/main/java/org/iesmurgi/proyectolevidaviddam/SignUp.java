@@ -83,7 +83,7 @@ public class SignUp {
     @FXML
     void signup(MouseEvent event) throws IOException {
 
-        String url1 = "http://25.41.23.74:3000/signup";
+        String url1 = "http://10.147.20.65:3000/signup";
         String[][] parameters = new String[1][2];
         parameters[0][0] = "email";
         parameters[0][1] = textFieldCorreo.getText();
@@ -91,12 +91,11 @@ public class SignUp {
         ApiCall api = new ApiCall(url1, parameters);
         String result = api.openPostConnection();
 
-        if(result.equals("mail_error")) {
+        if(result.equals("mail_error\n")) {
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.ERROR);
             a.setTitle("El correo introducido ya está en uso");
             a.show();
-
         }
     }
 }
