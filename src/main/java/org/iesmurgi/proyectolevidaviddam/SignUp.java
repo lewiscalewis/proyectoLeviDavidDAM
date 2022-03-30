@@ -1,22 +1,12 @@
 package org.iesmurgi.proyectolevidaviddam;
 
-import com.google.gson.Gson;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import org.controlsfx.control.HyperlinkLabel;
-import org.iesmurgi.proyectolevidaviddam.Middleware.ApiCall;
-import org.json.JSONObject;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SignUp {
     @FXML

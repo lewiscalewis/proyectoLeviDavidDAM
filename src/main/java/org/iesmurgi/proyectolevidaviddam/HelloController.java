@@ -15,6 +15,7 @@ import java.net.URL;
 import com.google.gson.Gson;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.iesmurgi.proyectolevidaviddam.models.User;
 
 public class HelloController {
 
@@ -72,9 +73,6 @@ public class HelloController {
                 User[] juegos = gson.fromJson(linea, User[].class);
                 Label labelRequest=new Label(juegos[0].toString());
                 root.getChildren().add(labelRequest);
-
-
-
             }
 
             // Cerrar el BufferedReader
