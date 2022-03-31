@@ -91,6 +91,8 @@ public class SignUp {
     @FXML
     void signup(MouseEvent event) throws IOException, NoSuchAlgorithmException {
 
+        //AÑADIR VALIDACIÓN DE FORMULARIO !!!!!!!!!!!!!!!!!!!!!!!!
+
         boolean mail = false;
         boolean username = false;
 
