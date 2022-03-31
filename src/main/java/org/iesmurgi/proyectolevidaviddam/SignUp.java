@@ -2,11 +2,20 @@ package org.iesmurgi.proyectolevidaviddam;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import org.iesmurgi.proyectolevidaviddam.Middleware.EncoderMD5;
+import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 
 import java.io.*;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class SignUp {
     @FXML
@@ -80,20 +89,18 @@ public class SignUp {
     }
 
     @FXML
-    void signup(MouseEvent event) throws IOException {
+    void signup(MouseEvent event) throws IOException, NoSuchAlgorithmException {
 
         boolean mail = false;
         boolean username = false;
 
         String url1 = "http://10.147.20.65:3000/check-email";
-        String[][] parameters1 = new String[1][2];
-        parameters1[0][0] = "email";
-        parameters1[0][1] = textFieldCorreo.getText();
+        Requester<String> stringRequester1 = new Requester<>(url1, Requester.Method.POST,String.class);
+        stringRequester1.addParam("email", textFieldCorreo.getText());
+        String[] stringRespuesta1 = new String[]{stringRequester1.execute()};
+        String result1 = stringRespuesta1[0];
 
-        ApiCall api1 = new ApiCall(url1, parameters1);
-        String result1 = api1.openPostConnection();
-
-        if(result1.equals("mail_error\n")) {
+        if(result1.equals("mail_error")) {
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.ERROR);
             a.setTitle("Error!!");
@@ -107,14 +114,12 @@ public class SignUp {
         //---------------------------------------------------------
 
         String url2 = "http://10.147.20.65:3000/check-username";
-        String[][] parameters2 = new String[1][2];
-        parameters2[0][0] = "username";
-        parameters2[0][1] = textFieldNick.getText();
+        Requester<String> stringRequester2 = new Requester<>(url2, Requester.Method.POST,String.class);
+        stringRequester2.addParam("username", textFieldNick.getText());
+        String[] stringRespuesta2 = new String[]{stringRequester2.execute()};
+        String result2 = stringRespuesta2[0];
 
-        ApiCall api2 = new ApiCall(url2, parameters2);
-        String result2 = api2.openPostConnection();
-
-        if(result2.equals("username_error\n")) {
+        if(result2.equals("username_error")) {
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.ERROR);
             a.setTitle("Error!");
@@ -128,22 +133,39 @@ public class SignUp {
         //---------------------------------------------------------
 
         String url3 = "http://10.147.20.65:3000/signup";
-        String[][] parameters3 = new String[5][2];
-        parameters3[0][0] = "email";
-        parameters3[0][1] = textFieldCorreo.getText();
-        parameters3[1][0] = "name";
-        parameters3[1][1] = textFieldNombre.getText();
-        parameters3[2][0] = "surname";
-        parameters3[2][1] = textFieldApellidos.getText();
-        parameters3[3][0] = "username";
-        parameters3[3][1] = textFieldNick.getText();
-        parameters3[4][0] = "password";
-        parameters3[4][1] = pwdContraseña.getText();
 
-        if(mail && username){
-            ApiCall api3 = new ApiCall(url3, parameters3);
-            String result3 = api3.openPostConnection();
-            System.out.println(result3);
+        if(!pwdContraseña.getText().equals(pwdRepetirContraseña.getText())){
+            Alert a = new Alert(Alert.AlertType.NONE);
+            a.setAlertType(Alert.AlertType.ERROR);
+            a.setTitle("Error!");
+            a.setContentText("Las contraseñas no coinciden");
+            a.show();
+        }else{
+            if(mail && username){
+
+                Requester<String> requester = new Requester<>(url3, Requester.Method.POST,String.class);
+                requester.addParam("username", textFieldNick.getText());
+                requester.addParam("email", textFieldCorreo.getText());
+                EncoderMD5 md5 = new EncoderMD5();
+                requester.addParam("password", md5.encodeMD5(pwdContraseña.getText()));
+                requester.addParam("name", textFieldNombre.getText());
+                requester.addParam("surname", textFieldApellidos.getText());
+
+                requester.execute();
+                Node node = (Node) event.getSource();
+                Stage stage = (Stage) node.getScene().getWindow();
+                stage.close();
+                try {
+                    Parent anotherRoot = FXMLLoader.load(getClass().getResource("homepage.fxml"));
+                    Stage anotherStage = new Stage();
+                    anotherStage.setTitle("Home");
+                    anotherStage.setScene(new Scene(anotherRoot));
+                    anotherStage.setMaximized(true);
+                    anotherStage.show();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
