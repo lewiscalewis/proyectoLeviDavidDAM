@@ -9,13 +9,16 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.Middleware.EncoderMD5;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 
 import java.io.*;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class SignUpController {
+public class SignUp {
     @FXML
     private Button btnRegistrarse;
 
@@ -94,7 +97,7 @@ public class SignUpController {
         boolean mail = false;
         boolean username = false;
 
-        String url1 = "http://tux.iesmurgi.org:11230/check-email";
+        String url1 = CONSTANT.URL.getUrl()+"/check-email";
         Requester<String> stringRequester1 = new Requester<>(url1, Requester.Method.POST,String.class);
         stringRequester1.addParam("email", textFieldCorreo.getText());
         String[] stringRespuesta1 = new String[]{stringRequester1.execute()};
@@ -113,7 +116,7 @@ public class SignUpController {
 
         //---------------------------------------------------------
 
-        String url2 = "http://tux.iesmurgi.org:11230/check-username";
+        String url2 = CONSTANT.URL.getUrl()+"/check-username";
         Requester<String> stringRequester2 = new Requester<>(url2, Requester.Method.POST,String.class);
         stringRequester2.addParam("username", textFieldNick.getText());
         String[] stringRespuesta2 = new String[]{stringRequester2.execute()};
@@ -132,7 +135,7 @@ public class SignUpController {
 
         //---------------------------------------------------------
 
-        String url3 = "http://tux.iesmurgi.org:11230/signup";
+        String url3 = CONSTANT.URL.getUrl()+"/signup";
 
         if(!pwdContraseña.getText().equals(pwdRepetirContraseña.getText())){
             Alert a = new Alert(Alert.AlertType.NONE);
