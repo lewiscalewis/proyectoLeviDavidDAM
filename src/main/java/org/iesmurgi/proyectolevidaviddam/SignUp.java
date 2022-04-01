@@ -143,7 +143,7 @@ public class SignUp {
             a.setContentText("Las contraseñas no coinciden");
             a.show();
         }else{
-            if(mail && username){
+            if(mail && username && !textFieldNick.getText().equals("") && !textFieldCorreo.getText().equals("") && !pwdContraseña.getText().equals("")){
 
                 Requester<String> requester = new Requester<>(url3, Requester.Method.POST,String.class);
                 requester.addParam("username", textFieldNick.getText());
@@ -167,6 +167,13 @@ public class SignUp {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+            }else{
+                //AQUI DEBO AÑADIR ADEMÁS QUE SE APLIQUEN CLASES CSS ESPECÍFICAS PARA TEXTFIELD CON ERROR -> PENDIENTE
+                Alert a = new Alert(Alert.AlertType.NONE);
+                a.setAlertType(Alert.AlertType.ERROR);
+                a.setTitle("Campos vacios!");
+                a.setContentText("Asegurese de rellenar todos los campos obligatorios");
+                a.show();
             }
         }
 
