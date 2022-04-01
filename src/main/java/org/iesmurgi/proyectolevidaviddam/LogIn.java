@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.Middleware.EncoderMD5;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
@@ -63,7 +64,7 @@ public class LogIn {
     @FXML
     void login(MouseEvent event) throws NoSuchAlgorithmException, IOException {
 
-        String url = "http://10.147.20.65:3000/login";
+        String url = CONSTANT.URL.getUrl()+"/login";
         Requester<String> requester = new Requester<>(url, Requester.Method.POST, String.class);
         requester.addParam("username", textFieldUsuario.getText());
         EncoderMD5 md5 = new EncoderMD5();
