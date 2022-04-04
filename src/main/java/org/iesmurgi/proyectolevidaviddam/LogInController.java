@@ -3,27 +3,24 @@ package org.iesmurgi.proyectolevidaviddam;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.iesmurgi.proyectolevidaviddam.Middleware.EncoderMD5;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 
 import java.io.IOException;
-import java.math.BigInteger;
-import java.net.MalformedURLException;
-import java.security.MessageDigest;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 
-public class LogIn {
+public class LogInController {
 
     @FXML
     private Button btnIniciarSesion;
@@ -39,31 +36,49 @@ public class LogIn {
 
     @FXML
     private TextField textFieldUsuario;
-
-
     public void initialize(){
 
         btnRegistrarse.getStyleClass().setAll("btn", "btn-success");
         btnIniciarSesion.getStyleClass().setAll("btn", "btn-primary");
 
         btnRegistrarse.setOnAction(actionEvent -> {
+            goToRegister();
+        });
 
+        btnIniciarSesion.setOnAction(actionEvent -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("sign_up.fxml"));
-                profileRoot.getChildren().clear();
-                profileRoot.getChildren().add(fxmlLoader.load());
-
-            } catch (IOException e) {
+                login();
+            } catch (NoSuchAlgorithmException | IOException e) {
                 e.printStackTrace();
             }
         });
 
     }
 
-    @FXML
-    void login(MouseEvent event) throws NoSuchAlgorithmException, IOException {
+    private void goToRegister(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("sign_up.fxml"));
+            profileRoot.getChildren().clear();
+            profileRoot.getChildren().add(fxmlLoader.load());
 
-        String url = "http://10.147.20.65:3000/login";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+    Stage stage;
+    Scene scene;
+
+
+    void onBtnLogin(){
+
+    }
+    private void login() throws NoSuchAlgorithmException, IOException {
+
+        String url = "http://tux.iesmurgi.org:11230/login";
         Requester<String> requester = new Requester<>(url, Requester.Method.POST, String.class);
         requester.addParam("username", textFieldUsuario.getText());
         EncoderMD5 md5 = new EncoderMD5();
@@ -81,16 +96,22 @@ public class LogIn {
             TokenManager tkm = new TokenManager(response);
             tkm.tokenStorage();
             System.out.println("Token de usuario: "+response);
-            Node node = (Node) event.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
-            stage.close();
+
+            scene =btnIniciarSesion.getScene();
+            stage = (Stage) scene.getWindow();
             try {
-                Parent anotherRoot = FXMLLoader.load(getClass().getResource("homepage.fxml"));
-                Stage anotherStage = new Stage();
-                anotherStage.setTitle("Home");
-                anotherStage.setScene(new Scene(anotherRoot));
-                anotherStage.setMaximized(true);
-                anotherStage.show();
+
+                URL helloLocation=getClass().getResource("hello-view.fxml");
+                FXMLLoader helloFXMLLoader =new FXMLLoader(helloLocation);
+                Parent helloView = helloFXMLLoader.load() ;
+                HelloController helloController = helloFXMLLoader.getController();
+                helloController.loadHomePage(); //Loads Home page
+
+
+                Scene s = new Scene(helloView, scene.getWidth()-34, stage.getHeight()-34, Color.BLACK);
+
+                stage.setScene(s);
+                stage.show();
             } catch (Exception e){
                 e.printStackTrace();
             }

@@ -1,16 +1,20 @@
 package org.iesmurgi.proyectolevidaviddam.models;
 
+
+
+
 public class User {
 
     String name;
     String surname;
     String username;
-    String password;
+    //String password;
     String email;
 
     public User(String name, String surname, String username, String password, String email){
 
     }
+
 
 
     @Override
@@ -19,8 +23,12 @@ public class User {
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+
+    public String getName() {
+        return this.name;
     }
 }
