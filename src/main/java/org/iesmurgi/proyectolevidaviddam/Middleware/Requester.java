@@ -58,42 +58,46 @@ public class Requester <T>{
         connection.setDoOutput(true);
 
         //ADD PARAMETERS
+        int i = 0;
         for (Map.Entry<String, String> entry : params.entrySet()) {
             //System.out.println(entry.getKey() + "/" + entry.getValue());
 
-            String urlParameters  = entry.getKey()+"="+entry.getValue();
+            String urlParameters  = (i > 0 ? "&" : "") + entry.getKey()+"="+entry.getValue();
             byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
             int    postDataLength = postData.length;
             connection.getOutputStream().write(postData, 0, postDataLength);
+            i++;
         }
 
-        
-        
-        
+
         // This line makes the request
-        InputStream responseStream = connection.getInputStream();
-
-
-
-
-        Gson gson = new Gson();
-
-
-        BufferedReader responseBR=new BufferedReader(new InputStreamReader(responseStream));
-        String usersJSON="";
-        int character=0;
-        while((character=responseBR.read())!=-1){
-            usersJSON+=(char)character;
-        }
-        //System.out.println(usersJSON);
-
         T vuelta;
-        if(typeParameterClass==String.class){
-            vuelta= (T) usersJSON;
-        }else{
-           vuelta =gson.fromJson(usersJSON,typeParameterClass);
-        }
+        T res = (T)"";
+        if (!connection.getHeaderField("Content-Length").equals("0")) {
+            InputStream responseStream = connection.getInputStream();
 
-        return vuelta;
+
+            Gson gson = new Gson();
+
+
+            BufferedReader responseBR = new BufferedReader(new InputStreamReader(responseStream));
+            String usersJSON = "";
+            String linea = "";
+            while ((linea = responseBR.readLine()) != null) {
+                usersJSON += linea;
+            }
+            //System.out.println(usersJSON);
+
+            if (typeParameterClass == String.class) {
+                vuelta = (T) usersJSON;
+            } else {
+                vuelta = gson.fromJson(usersJSON, typeParameterClass);
+            }
+
+            return vuelta;
+
+        } else {
+            return res;
+        }
     }
 }

@@ -5,9 +5,11 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -28,13 +30,19 @@ public class HelloController {
     private Label labelSampleRequest;
     @FXML
     private VBox pageRoot;
+    @FXML
+    private Hyperlink hyperlinkUser;                //HyperLink que se encuentra arriba a la derecha junto a la imagen del usuario
 
     public void initialize() throws IOException {
-        //Abre la pagina de inicio cuando se abre la aplicacion:
-        loadHomePage();
-
     }
 
+
+    void loadUserData(User user){
+        hyperlinkUser.setText(user.getName());
+        hyperlinkUser.setOnAction(event->{
+
+        });
+    }
 
     @FXML
     public void loadHomePage()  {
@@ -54,13 +62,17 @@ public class HelloController {
 
         try {
             pageRoot.getChildren().clear();
-            FXMLLoader rootFxmlLoader=new FXMLLoader(HelloApplication.class.getResource("profilepage.fxml"));
+            FXMLLoader rootFxmlLoader=new FXMLLoader(
+                    HelloApplication.class.getResource(
+                            "profilepage.fxml"
+                    )
+            );
             Pane root = rootFxmlLoader.load();
             pageRoot.getChildren().add(root);
 
             //root es la raiz de nuestra página, todoo lo que se ve menos el menu.
-
-            String url="http://25.41.23.74:3000/users";
+            /*
+            String url="http://tux.iesmurgi.org:11230/users";
             URL urls1 = new URL(url);
             HttpURLConnection conexion1 = (HttpURLConnection) urls1.openConnection();
             conexion1.setRequestMethod("POST");
@@ -78,7 +90,7 @@ public class HelloController {
             // Cerrar el BufferedReader
             rd.close();
 
-
+*/
         } catch (IOException e) {
             e.printStackTrace();
         }

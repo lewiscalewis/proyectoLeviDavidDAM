@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import org.controlsfx.control.textfield.CustomPasswordField?>
-<?import org.controlsfx.control.textfield.CustomTextField?>
 
-<VBox fx:id="profileRoot" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="container" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.LogIn">
+<VBox fx:id="profileRoot" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="container" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.LogInController">
    <children>
       <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1024.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" spacing="25.0" styleClass="card">
          <children>
@@ -20,15 +19,11 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <CustomTextField maxWidth="200.0">
+            <TextField fx:id="textFieldUsuario" maxWidth="200.0">
                <font>
                   <Font size="14.0" />
                </font>
-               <styleClass>
-                  <String fx:value="custom-text-field" />
-                  <String fx:value="custom-text-field" />
-               </styleClass>
-            </CustomTextField>
+            </TextField>
             <Label text="Contraseña" textFill="WHITE">
                <font>
                   <Font size="20.0" />
@@ -37,11 +32,11 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <CustomPasswordField maxWidth="200.0" styleClass="custom-text-field">
+            <PasswordField fx:id="textFieldContraseña" maxWidth="200.0">
                <font>
                   <Font size="14.0" />
                </font>
-            </CustomPasswordField>
+            </PasswordField>
             <Button fx:id="btnIniciarSesion" mnemonicParsing="false" text="Iniciar sesión">
                <VBox.margin>
                   <Insets />

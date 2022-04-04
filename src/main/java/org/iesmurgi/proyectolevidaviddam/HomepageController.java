@@ -1,6 +1,6 @@
 package org.iesmurgi.proyectolevidaviddam;
 
-public class Homepage {
+public class HomepageController {
     public void initialize(){
 
     }
