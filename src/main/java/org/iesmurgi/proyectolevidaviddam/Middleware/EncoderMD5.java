@@ -10,11 +10,11 @@ public class EncoderMD5 {
 
     }
 
-    public String encodeMD5(String text) throws NoSuchAlgorithmException {
-        String plaintext = text;
+    public String encodeMD5(String plainText) throws NoSuchAlgorithmException {
+
         MessageDigest m = MessageDigest.getInstance("MD5");
         m.reset();
-        m.update(plaintext.getBytes());
+        m.update(plainText.getBytes());
         byte[] digest = m.digest();
         BigInteger bigInt = new BigInteger(1,digest);
         String hashtext = bigInt.toString(16);
@@ -25,4 +25,15 @@ public class EncoderMD5 {
 
         return hashtext;
     }
+
+/*
+    public String decodeMD5(String hashText) throws NoSuchAlgorithmException {
+        String plainText;
+
+
+        return plainText;
+    }
+*/
+
+
 }

@@ -5,6 +5,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 
 import java.io.BufferedReader;
@@ -29,10 +30,19 @@ public class HelloController {
     private Label labelSampleRequest;
     @FXML
     private VBox pageRoot;
+    @FXML
+    private Hyperlink hyperlinkUser;                //HyperLink que se encuentra arriba a la derecha junto a la imagen del usuario
 
     public void initialize() throws IOException {
     }
 
+
+    void loadUserData(User user){
+        hyperlinkUser.setText(user.getName());
+        hyperlinkUser.setOnAction(event->{
+
+        });
+    }
 
     @FXML
     public void loadHomePage()  {

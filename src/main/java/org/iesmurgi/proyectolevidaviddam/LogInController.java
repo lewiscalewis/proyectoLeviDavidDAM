@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import org.iesmurgi.proyectolevidaviddam.Middleware.EncoderMD5;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.models.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -73,10 +74,8 @@ public class LogInController {
     Scene scene;
 
 
-    void onBtnLogin(){
-
-    }
     private void login() throws NoSuchAlgorithmException, IOException {
+
 
         String url = "http://tux.iesmurgi.org:11230/login";
         Requester<String> requester = new Requester<>(url, Requester.Method.POST, String.class);
@@ -107,8 +106,11 @@ public class LogInController {
                 HelloController helloController = helloFXMLLoader.getController();
                 helloController.loadHomePage(); //Loads Home page
 
+                Requester<User[]> userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user",Requester.Method.POST,User[].class);
+                userRequester.addParam("username","hola");
+                helloController.loadUserData(userRequester.execute()[0]);
 
-                Scene s = new Scene(helloView, scene.getWidth()-34, stage.getHeight()-34, Color.BLACK);
+                Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight()-34, Color.BLACK);
 
                 stage.setScene(s);
                 stage.show();
