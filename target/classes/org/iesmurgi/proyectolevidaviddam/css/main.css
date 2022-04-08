@@ -3,6 +3,7 @@
     -fx-background-color: grey, white;
     -fx-background-insets: 0, 0 2 2 0;
     -fx-background-radius: 8;
+    -fx-font-size: 16;
 }
 .text-field:focused {
     -fx-background-color: blue, white;
@@ -33,4 +34,12 @@
     -fx-text-fill: #28a5e8;
     -fx-border-color: #3C3C3C;
     -fx-underline: false;
+}
+
+.text-field-error{
+    -fx-accent: red;
+    -fx-background-color: red, white;
+    -fx-background-insets: 0, 0 2 2 0;
+    -fx-background-radius: 8;
+    -fx-font-size: 16;
 }

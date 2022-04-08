@@ -109,10 +109,10 @@ public class SignUp {
         String url3 = CONSTANT.URL.getUrl()+"/signup";
 
         if(!pwdContraseña.getText().equals(pwdRepetirContraseña.getText())){
-            textFieldCorreo.setStyle("-fx-accent: blue; -fx-background-color: grey, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
-            textFieldNick.setStyle("-fx-accent: blue; -fx-background-color: grey, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
-            pwdContraseña.setStyle("-fx-accent: red; -fx-background-color: red, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
-            pwdRepetirContraseña.setStyle("-fx-accent: red; -fx-background-color: red, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
+            textFieldCorreo.getStyleClass().add("text-field-error");
+            textFieldNick.getStyleClass().add("text-field-error");
+            pwdContraseña.getStyleClass().add("text-field-error");
+            pwdRepetirContraseña.getStyleClass().add("text-field-error");
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.ERROR);
             a.setTitle("Error!");
@@ -154,10 +154,11 @@ public class SignUp {
                     a.setContentText("Asegurese de rellenar todos los campos obligatorios");
                     a.show();
                     //AQUI DEBO AÑADIR ADEMÁS QUE SE APLIQUEN CLASES CSS ESPECÍFICAS PARA TEXTFIELD CON ERROR -> PENDIENTE
-                    pwdContraseña.setStyle("-fx-accent: red; -fx-background-color: red, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
-                    pwdRepetirContraseña.setStyle("-fx-accent: red; -fx-background-color: red, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
-                    textFieldCorreo.setStyle("-fx-accent: red; -fx-background-color: red, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
-                    textFieldNick.setStyle("-fx-accent: red; -fx-background-color: red, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
+                    pwdContraseña.getStyleClass().add("text-field-error");
+                    pwdContraseña.getStyleClass().add("text-field-error");
+                    pwdRepetirContraseña.getStyleClass().add("text-field-error");
+                    textFieldCorreo.getStyleClass().add("text-field-error");
+                    textFieldNick.getStyleClass().add("text-field-error");
                 }
             }
         }
@@ -174,8 +175,8 @@ public class SignUp {
         String result1 = stringRespuesta1[0];
 
         if(result1.equals("mail_error")) {
-            textFieldNick.setStyle("-fx-accent: blue; -fx-background-color: grey, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
-            textFieldCorreo.setStyle("-fx-accent: red; -fx-background-color: red, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
+            textFieldNick.getStyleClass().add("text-field-error");
+            textFieldCorreo.getStyleClass().add("text-field-error");
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.ERROR);
             a.setTitle("Error!!");
@@ -199,8 +200,8 @@ public class SignUp {
         String result2 = stringRespuesta2[0];
 
         if(result2.equals("username_error")) {
-            textFieldCorreo.setStyle("-fx-accent: blue; -fx-background-color: grey, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
-            textFieldNick.setStyle("-fx-accent: red; -fx-background-color: red, white; -fx-background-insets: 0, 0 2 2 0; fx-background-radius: 8; -fx-font-size: 16;");
+            textFieldCorreo.getStyleClass().add("text-field-error");
+            textFieldNick.getStyleClass().add("text-field-error");
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.ERROR);
             a.setTitle("Error!");
