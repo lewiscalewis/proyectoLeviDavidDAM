@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class Requester <T>{
     }
 
 
-    public T execute() throws IOException {
+    public synchronized T execute() throws IOException {
 
 
         // Open a connection(?) on the URL(??) and cast the response(???)
@@ -65,6 +66,7 @@ public class Requester <T>{
             String urlParameters  = (i > 0 ? "&" : "") + entry.getKey()+"="+entry.getValue();
             byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
             int    postDataLength = postData.length;
+            System.out.println("Escribiendo parámetros: key -> "+entry.getKey()+"|| value -> "+entry.getValue());
             connection.getOutputStream().write(postData, 0, postDataLength);
             i++;
         }
@@ -81,22 +83,25 @@ public class Requester <T>{
 
 
             BufferedReader responseBR = new BufferedReader(new InputStreamReader(responseStream));
-            String usersJSON = "";
+            String response = "";
             String linea = "";
             while ((linea = responseBR.readLine()) != null) {
-                usersJSON += linea;
+                response += linea;
             }
-            //System.out.println(usersJSON);
+            //System.out.println(response);
 
             if (typeParameterClass == String.class) {
-                vuelta = (T) usersJSON;
+                vuelta = (T) response;
+                System.out.println("Resultado: " + vuelta);
             } else {
-                vuelta = gson.fromJson(usersJSON, typeParameterClass);
+                vuelta = gson.fromJson(response, typeParameterClass);
+                System.out.println("Resultado: " + vuelta);
+
             }
 
             return vuelta;
-
         } else {
+            System.out.println("Resultado vacio" + res);
             return res;
         }
     }

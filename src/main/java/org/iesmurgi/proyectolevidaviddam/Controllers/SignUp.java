@@ -9,14 +9,18 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
+import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class SignUp {
     @FXML
@@ -67,6 +71,9 @@ public class SignUp {
     @FXML
     private VBox vBoxSignUp;
 
+    boolean mail = false;
+    boolean username = false;
+
     @FXML
     void initialize(){
 //        lblNombre.getStyleClass().setAll("lbl","lbl-primary");
@@ -90,31 +97,20 @@ public class SignUp {
     }
 
     @FXML
-    void signup(MouseEvent event) throws IOException, NoSuchAlgorithmException {
+    void signup(MouseEvent event) throws IOException, NoSuchAlgorithmException, InterruptedException {
 
-        TokenManager tk = new TokenManager();
-        String token = tk.getToken();
-        GeneralDecoder dec = new GeneralDecoder();
-        System.out.println(dec.getUserFromToken());
+//        TokenManager tk = new TokenManager();
+//        String token = tk.getToken();
+//        GeneralDecoder dec = new GeneralDecoder();
+//        System.out.println(dec.getUserFromToken());
 
         //AÑADIR VALIDACIÓN DE FORMULARIO !!!!!!!!!!!!!!!!!!!!!!!!
-
-        boolean mail = false;
-        boolean username = false;
-
-        mail = checkMail();
-
-        //---------------------------------------------------------
-
-        username = checkUsername();
-
-        //---------------------------------------------------------
 
         String url3 = CONSTANT.URL.getUrl()+"/signup";
 
         if(!pwdContraseña.getText().equals(pwdRepetirContraseña.getText())){
-            textFieldCorreo.getStyleClass().add("text-field-error");
-            textFieldNick.getStyleClass().add("text-field-error");
+            textFieldCorreo.getStyleClass().add("text-field");
+            textFieldNick.getStyleClass().add("text-field");
             pwdContraseña.getStyleClass().add("text-field-error");
             pwdRepetirContraseña.getStyleClass().add("text-field-error");
             Alert a = new Alert(Alert.AlertType.NONE);
@@ -123,63 +119,73 @@ public class SignUp {
             a.setContentText("Las contraseñas no coinciden");
             a.show();
         }else{
-            if(mail && username && !textFieldNick.getText().equals("") && !textFieldCorreo.getText().equals("") && !pwdContraseña.getText().equals("")){
+            if(!textFieldNick.getText().equals("") && !textFieldCorreo.getText().equals("") && !pwdContraseña.getText().equals("")){
+                if(checkMail() && checkUsername()){
+                    //                Requester<String> requester = new Requester<>(url3, Requester.Method.POST,String.class);
+//                requester.addParam("username", textFieldNick.getText());
+//                requester.addParam("email", textFieldCorreo.getText());
+                    GeneralDecoder md5 = new GeneralDecoder();
+//                requester.addParam("password", md5.encodeMD5(pwdContraseña.getText()));
+//                requester.addParam("name", textFieldNombre.getText());
+//                requester.addParam("surname", textFieldApellidos.getText());
 
-                Requester<String> requester = new Requester<>(url3, Requester.Method.POST,String.class);
-                requester.addParam("username", textFieldNick.getText());
-                requester.addParam("email", textFieldCorreo.getText());
-                GeneralDecoder md5 = new GeneralDecoder();
-                requester.addParam("password", md5.encodeMD5(pwdContraseña.getText()));
-                requester.addParam("name", textFieldNombre.getText());
-                requester.addParam("surname", textFieldApellidos.getText());
+                    ArrayList<String[]> params3 = new ArrayList<>();
+                    params3.add(new String[] {"username", textFieldNick.getText()});
+                    params3.add(new String[] {"email", textFieldCorreo.getText()});
+                    params3.add(new String[] {"password", md5.encodeMD5(pwdContraseña.getText())});
+                    params3.add(new String[] {"name", textFieldNombre.getText()});
+                    params3.add(new String[] {"surname", textFieldApellidos.getText()});
+                    OpenThread<String> t = new OpenThread<String>(url3, params3, "POST", String.class);
+                    t.getResult();
 
-                requester.execute();
-                Node node = (Node) event.getSource();
-                Stage stage = (Stage) node.getScene().getWindow();
-                stage.close();
-                try {
-                    Parent anotherRoot = FXMLLoader.load(getClass().getResource("homepage.fxml"));
-                    Stage anotherStage = new Stage();
-                    anotherStage.setTitle("Home");
-                    anotherStage.setScene(new Scene(anotherRoot));
-                    anotherStage.setMaximized(true);
-                    anotherStage.show();
-                } catch (Exception e){
-                    e.printStackTrace();
+//                requester.execute();
+                    Node node = (Node) event.getSource();
+                    Stage stage = (Stage) node.getScene().getWindow();
+                    stage.close();
+                    try {
+                        Stage stage1 = new Stage();
+                        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Homepage.fxml")));
+                        Scene scene = new Scene(root);
+                        stage1 = new Stage(StageStyle.DECORATED);
+                        stage1.setScene(scene);
+                        stage1.show();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }else{
-                if(!mail || !username){
-                    checkMail();
-                    checkUsername();
-                }else{
-                    Alert a = new Alert(Alert.AlertType.NONE);
-                    a.setAlertType(Alert.AlertType.ERROR);
-                    a.setTitle("Campos vacios!");
-                    a.setContentText("Asegurese de rellenar todos los campos obligatorios");
-                    a.show();
-                    //AQUI DEBO AÑADIR ADEMÁS QUE SE APLIQUEN CLASES CSS ESPECÍFICAS PARA TEXTFIELD CON ERROR -> PENDIENTE
-                    pwdContraseña.getStyleClass().add("text-field-error");
-                    pwdContraseña.getStyleClass().add("text-field-error");
-                    pwdRepetirContraseña.getStyleClass().add("text-field-error");
-                    textFieldCorreo.getStyleClass().add("text-field-error");
-                    textFieldNick.getStyleClass().add("text-field-error");
-                }
+                Alert a = new Alert(Alert.AlertType.NONE);
+                a.setAlertType(Alert.AlertType.ERROR);
+                a.setTitle("Campos vacios!");
+                a.setContentText("Asegurese de rellenar todos los campos obligatorios");
+                a.show();
+                //AQUI DEBO AÑADIR ADEMÁS QUE SE APLIQUEN CLASES CSS ESPECÍFICAS PARA TEXTFIELD CON ERROR -> PENDIENTE
+                pwdContraseña.getStyleClass().add("text-field-error");
+                pwdContraseña.getStyleClass().add("text-field-error");
+                pwdRepetirContraseña.getStyleClass().add("text-field-error");
+                textFieldCorreo.getStyleClass().add("text-field-error");
+                textFieldNick.getStyleClass().add("text-field-error");
             }
         }
 
     }
 
-    private boolean checkMail() throws IOException {
+    private synchronized boolean checkMail() throws IOException, InterruptedException {
 
         boolean mail = false;
-        String url1 = CONSTANT.URL.getUrl()+"/check-email";
-        Requester<String> stringRequester1 = new Requester<>(url1, Requester.Method.POST,String.class);
-        stringRequester1.addParam("email", textFieldCorreo.getText());
-        String[] stringRespuesta1 = new String[]{stringRequester1.execute()};
-        String result1 = stringRespuesta1[0];
 
-        if(result1.equals("mail_error") || textFieldCorreo.getText().equals("")) {
-            textFieldNick.getStyleClass().add("text-field-error");
+        String url1 = CONSTANT.URL.getUrl()+"/check-email";
+//        Requester<String> stringRequester1 = new Requester<>(url1, Requester.Method.POST,String.class);
+//        stringRequester1.addParam("email", textFieldCorreo.getText());
+//        String[] stringRespuesta1 = new String[]{stringRequester1.execute()};
+//        String result1 = stringRespuesta1[0];
+
+        ArrayList<String[]> params = new ArrayList<>();
+        params.add(new String[]{"email", textFieldCorreo.getText()});
+        OpenThread<String> t = new OpenThread<>(url1, params, "POST", String.class);
+
+        if(t.getResult().equals("mail_error")) {
+            textFieldNick.getStyleClass().add("text-field");
             textFieldCorreo.getStyleClass().add("text-field-error");
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.ERROR);
@@ -190,21 +196,26 @@ public class SignUp {
             System.out.println("Email validado");
             mail = true;
         }
+        System.out.println("Comprobando username");
 
         return mail;
     }
 
-    private boolean checkUsername() throws IOException {
+    private synchronized boolean checkUsername() throws IOException, InterruptedException {
 
         boolean username = false;
-        String url2 = CONSTANT.URL.getUrl()+"/check-username";
-        Requester<String> stringRequester2 = new Requester<>(url2, Requester.Method.POST,String.class);
-        stringRequester2.addParam("username", textFieldNick.getText());
-        String[] stringRespuesta2 = new String[]{stringRequester2.execute()};
-        String result2 = stringRespuesta2[0];
 
-        if(result2.equals("username_error") || textFieldNick.getText().equals("")) {
-            textFieldCorreo.getStyleClass().add("text-field-error");
+        String url2 = CONSTANT.URL.getUrl()+"/check-username";
+//        Requester<String> stringRequester2 = new Requester<>(url2, Requester.Method.POST,String.class);
+//        stringRequester2.addParam("username", textFieldNick.getText());
+//        String[] stringRespuesta2 = new String[]{stringRequester2.execute()};
+//        String result2 = stringRespuesta2[0];
+
+        ArrayList<String[]> params = new ArrayList<>();
+        params.add(new String[]{"username", textFieldNick.getText()});
+        OpenThread<String> t = new OpenThread<>(url2, params, "POST", String.class);
+
+        if(t.getResult().equals("username_error")) {
             textFieldNick.getStyleClass().add("text-field-error");
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.ERROR);
