@@ -73,38 +73,6 @@ public class HelloApplication extends Application {
             System.out.println(user.toString());
         }
 */
-        //Obtiene el los nombres de todos los usuarios.
-        Thread requesterThread =new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Requester<User[]> requester= null;
-
-
-                try {
-                    requester = new Requester<User[]>("http://tux.iesmurgi.org:11230/users", Requester.Method.POST,User[].class);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
-
-                User [] users = new User[0];
-                try {
-                    users = requester.execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-
-
-                for(User user:users){
-                    System.out.println(user.getName());
-                }
-            }
-        });
-        requesterThread.start();
-
-
 
         /*
         Requester<User[]> requester=new Requester<>("http://10.147.20.65:3000/", Requester.Method.POST,User[].class);

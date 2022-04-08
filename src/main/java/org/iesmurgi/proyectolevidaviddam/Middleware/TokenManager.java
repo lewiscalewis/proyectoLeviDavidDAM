@@ -6,10 +6,6 @@ public class TokenManager {
 
     private String token;
 
-    public TokenManager(String token){
-        this.token = token;
-    }
-
     public String getToken() {
         String t = "";
         try{
@@ -26,7 +22,7 @@ public class TokenManager {
         return token;
     }
 
-    public void tokenStorage() {
+    public void tokenStorage(String token) {
         try{
             BufferedWriter w = new BufferedWriter(new FileWriter("src/main/java/org/iesmurgi/proyectolevidaviddam/LocalStorage/UserData.txt"));
             w.write(token);
