@@ -17,7 +17,7 @@
       <children>
          <ImageView fitHeight="79.0" fitWidth="151.0" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@BitStore_Logo.png" />
+               <Image url="@images/BitStore_Logo.png" />
             </image>
          </ImageView>
          <Button fx:id="btnStore" minWidth="200.0" onAction="#loadHomePage" prefHeight="80.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css" text="Home">
