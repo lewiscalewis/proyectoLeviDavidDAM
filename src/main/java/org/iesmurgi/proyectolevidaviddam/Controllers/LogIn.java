@@ -77,7 +77,8 @@ public class LogIn {
                 e.printStackTrace();
             }
 
-            if(response.equals("login_error")){
+            System.out.println("Respuesta: "+response);
+            if(response.equals("login_error") || response == null || response.equals("")){
                 Alert a = new Alert(Alert.AlertType.NONE);
                 a.setAlertType(Alert.AlertType.ERROR);
                 a.setTitle("Error de Autentificación");
