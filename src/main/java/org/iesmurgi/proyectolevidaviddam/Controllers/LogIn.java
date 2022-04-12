@@ -12,9 +12,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
+import org.iesmurgi.proyectolevidaviddam.HelloController;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
@@ -22,6 +24,7 @@ import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
@@ -42,7 +45,8 @@ public class LogIn {
     @FXML
     private TextField textFieldUsuario;
 
-
+    Stage stage;
+    Scene scene;
     public void initialize(){
 
         btnRegistrarse.getStyleClass().setAll("btn", "btn-success");
@@ -90,7 +94,32 @@ public class LogIn {
                 TokenManager tkm = new TokenManager();
                 tkm.tokenStorage(response);
                 System.out.println("Token de usuario: "+response);
+            }
 
+
+            scene =btnIniciarSesion.getScene();
+            stage = (Stage) scene.getWindow();
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+                Parent helloView = fxmlLoader.load() ;
+                HelloController helloController = fxmlLoader.getController();
+                helloController.loadHomePage(); //Loads Home page
+/*
+                Requester<User[]> userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user",Requester.Method.POST,User[].class);
+                userRequester.addParam("username","hola");
+                helloController.loadUserData(userRequester.execute()[0]);
+*/
+                Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight()-34, Color.BLACK);
+
+                stage.setScene(s);
+                stage.show();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+
+/*
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("homepage.fxml"));
                     profileRoot.getChildren().clear();
@@ -99,7 +128,10 @@ public class LogIn {
                     e.printStackTrace();
                 }
             }
-        });
+
+            */
+
+        );
 
     }
 
