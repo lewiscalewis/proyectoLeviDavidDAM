@@ -65,20 +65,21 @@ public class LogIn {
             String response = "";
 
             String url = CONSTANT.URL.getUrl()+"/login";
+            GeneralDecoder md5 = new GeneralDecoder();
 
             try {
                 ArrayList<String[]> params = new ArrayList<>();
                 params.add(new String[]{"username", textFieldUsuario.getText()});
-                params.add(new String[]{"password", textFieldContraseña.getText()});
+                params.add(new String[]{"password", md5.encodeMD5(textFieldContraseña.getText())});
                 OpenThread<String> t = new OpenThread<>(url, params, "POST", String.class);
                 response = t.getResult();
 
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException | InterruptedException | NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
 
             System.out.println("Respuesta: "+response);
-            if(response.equals("login_error") || response == null || response.equals("")){
+            if(response.equals("login_error") || response.equals("")){
                 Alert a = new Alert(Alert.AlertType.NONE);
                 a.setAlertType(Alert.AlertType.ERROR);
                 a.setTitle("Error de Autentificación");
