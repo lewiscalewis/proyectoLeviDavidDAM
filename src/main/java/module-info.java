@@ -10,6 +10,8 @@ module org.iesmurgi.proyectolevidaviddam {
     requires eu.hansolo.tilesfx;
     requires com.google.gson;
     requires org.json;
+    requires socket.io.client;
+    requires engine.io.client;
 
 
     opens org.iesmurgi.proyectolevidaviddam.models to com.google.gson;

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="vboxContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="819.0" styleClass="card" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.chatviewController">
+   <children>
+      <VBox alignment="CENTER" maxHeight="450.0" maxWidth="850.0" prefHeight="447.0" prefWidth="819.0" spacing="10.0">
+         <children>
+            <ScrollPane fx:id="chatContainer" prefHeight="365.0" prefWidth="738.0" />
+            <ImageView fitHeight="22.0" fitWidth="88.0" onMouseClicked="#scrollDown" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/kisspng-arrow-computer-icons-down-arrow-5ac2c83353d143.1682659215227146753433.jpg" />
+               </image>
+            </ImageView>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="40.0" />
+         </padding>
+      </VBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0" stylesheets="@css/main.css">
+         <children>
+            <TextField fx:id="textfieldMessages" onAction="#sendMessagesByKey" prefHeight="35.0" prefWidth="564.0" styleClass="text-field" />
+            <Button mnemonicParsing="false" onMouseClicked="#sendMessage" text="Enviar" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>
