@@ -1,5 +1,6 @@
 package org.iesmurgi.proyectolevidaviddam;
 
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -15,9 +16,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import com.google.gson.Gson;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
@@ -32,10 +32,48 @@ public class HelloController {
     private AnchorPane pageRoot;
     @FXML
     private Hyperlink hyperlinkUser;                //HyperLink que se encuentra arriba a la derecha junto a la imagen del usuario
+    @FXML
+    private StackPane baseRoot;
+    @FXML
+    private ColumnConstraints columnConstraints3;
+    @FXML
+    private ColumnConstraints columnConstraints31;
+    @FXML
+    private GridPane contentRoot;
+    @FXML
+    private VBox chatSlider;
+    @FXML
+    private GridPane gridRoot;
 
 
     public void initialize() throws IOException {
+        chatSlider.setOnMouseClicked(actionEvent->{
+            if(chatOpen) {
+                TranslateTransition slide = new TranslateTransition();
+                slide.setDuration(Duration.seconds(0.4));
+                slide.setNode(chatSlider);
 
+                slide.setToX(180);
+                slide.play();
+
+                chatSlider.setTranslateX(+176);
+                chatOpen=false;
+            }else{
+                TranslateTransition slide = new TranslateTransition();
+                slide.setDuration(Duration.seconds(0.4));
+                slide.setNode(chatSlider);
+
+                slide.setToX(0);
+                slide.play();
+
+                chatSlider.setTranslateX(+176);
+                chatOpen=true;
+            }
+            /*slide.setOnFinished((ActionEvent e)-> {
+                Menu.setVisible(false);
+                MenuClose.setVisible(true);
+            });*/
+        });
 
     }
 
@@ -46,7 +84,7 @@ public class HelloController {
 
         });
     }
-
+    boolean chatOpen=true;
     @FXML
     public void loadHomePage()  {
 
@@ -54,7 +92,7 @@ public class HelloController {
             pageRoot.getChildren().clear();
             FXMLLoader fxmlLoader =new FXMLLoader(HelloApplication.class.getResource("homepage.fxml"));
 
-            HomepageController homepageController = fxmlLoader.getController();
+            //HomepageController homepageController = fxmlLoader.getController();
 
 
 
@@ -62,7 +100,7 @@ public class HelloController {
             Pane root = (fxmlLoader.load());
             pageRoot.getChildren().add(root);
             hyperlinkUser.setOnAction(actionEvent -> {
-                homepageController.slideChatSlider();
+                slideChatSlider();
             });
 
         } catch (IOException e) {
@@ -73,6 +111,34 @@ public class HelloController {
 
 
     }
+    public void slideChatSlider(){
+        if(chatOpen) {
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(chatSlider);
+
+            slide.setToX(180);
+            slide.play();
+
+            chatSlider.setTranslateX(+176);
+            chatOpen=false;
+        }else{
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(chatSlider);
+
+            slide.setToX(0);
+            slide.play();
+
+            chatSlider.setTranslateX(+176);
+            chatOpen=true;
+        }
+    }
+
+
+
+
+
 
     @FXML
     public void loadProfilePage()  {
