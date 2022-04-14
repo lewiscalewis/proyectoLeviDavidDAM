@@ -3,12 +3,11 @@ package org.iesmurgi.proyectolevidaviddam.Controllers;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Menu;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.util.Duration;
 
+
+//Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
 public class HomepageController {
     @javafx.fxml.FXML
     private GridPane gridRoot;
@@ -16,6 +15,12 @@ public class HomepageController {
     private ColumnConstraints columnConstraints3;
     @javafx.fxml.FXML
     private VBox chatSlider;
+    @javafx.fxml.FXML
+    private StackPane baseRoot;
+    @javafx.fxml.FXML
+    private ColumnConstraints columnConstraints31;
+    @javafx.fxml.FXML
+    private GridPane contentRoot;
 
     public VBox getChatSlider() {
         return chatSlider;
@@ -53,10 +58,10 @@ public class HomepageController {
 
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
         //es el AnchorPane del hello-view.fxml. con fxid pageRoot
-        ((AnchorPane)gridRoot.getParent()).setLeftAnchor(gridRoot,0.0);
-        ((AnchorPane)gridRoot.getParent()).setTopAnchor(gridRoot,0.0);
-        ((AnchorPane)gridRoot.getParent()).setRightAnchor(gridRoot,0.0);
-        ((AnchorPane)gridRoot.getParent()).setBottomAnchor(gridRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setTopAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot   .getParent()).setBottomAnchor(baseRoot,0.0);
 
 
 
