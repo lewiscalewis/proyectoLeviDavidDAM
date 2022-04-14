@@ -110,7 +110,6 @@ public class LogIn {
                 helloController.loadUserData(userRequester.execute()[0]);
 */
                 Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight()-34, Color.BLACK);
-
                 stage.setScene(s);
                 stage.show();
             } catch (Exception e){

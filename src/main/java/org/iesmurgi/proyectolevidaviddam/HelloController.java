@@ -15,8 +15,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import com.google.gson.Gson;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
 public class HelloController {
@@ -27,13 +29,14 @@ public class HelloController {
     @FXML
     private Button btnProfile;
     @FXML
-    private Label labelSampleRequest;
-    @FXML
-    private VBox pageRoot;
+    private AnchorPane pageRoot;
     @FXML
     private Hyperlink hyperlinkUser;                //HyperLink que se encuentra arriba a la derecha junto a la imagen del usuario
 
+
     public void initialize() throws IOException {
+
+
     }
 
 
@@ -49,11 +52,25 @@ public class HelloController {
 
         try {
             pageRoot.getChildren().clear();
-            Pane root = (new FXMLLoader(HelloApplication.class.getResource("homepage.fxml")).load());
+            FXMLLoader fxmlLoader =new FXMLLoader(HelloApplication.class.getResource("homepage.fxml"));
+
+            HomepageController homepageController = fxmlLoader.getController();
+
+
+
+
+            Pane root = (fxmlLoader.load());
             pageRoot.getChildren().add(root);
+            hyperlinkUser.setOnAction(actionEvent -> {
+                homepageController.slideChatSlider();
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
 
     }
 
