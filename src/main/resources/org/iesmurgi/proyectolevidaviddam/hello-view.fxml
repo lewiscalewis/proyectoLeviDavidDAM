@@ -43,6 +43,22 @@
                <DropShadow height="8.25" radius="2.35" width="3.15" />
             </effect>
          </Button>
+         <Button fx:id="btnProfile1" minWidth="200.0" onAction="#loadProfilePage" prefHeight="80.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css" text="Profile">
+            <font>
+               <Font name="DejaVu Sans Bold" size="24.0" />
+            </font>
+            <effect>
+               <DropShadow height="8.25" radius="2.35" width="3.15" />
+            </effect>
+         </Button>
+         <Button fx:id="btnProfile2" minWidth="200.0" onAction="#loadProfilePage" prefHeight="80.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css" text="Profile">
+            <font>
+               <Font name="DejaVu Sans Bold" size="24.0" />
+            </font>
+            <effect>
+               <DropShadow height="8.25" radius="2.35" width="3.15" />
+            </effect>
+         </Button>
          <Pane maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="80.0" prefWidth="2000.0" style="-fx-background-color: white;">
             <children>
                <HBox alignment="CENTER" layoutX="74.0" layoutY="6.0">

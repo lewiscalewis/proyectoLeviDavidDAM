@@ -19,13 +19,13 @@ public class ProfilepageController {
     private ColumnConstraints columnConstraints31;
     @javafx.fxml.FXML
     private GridPane contentRoot;
-
+/*
     public VBox getChatSlider() {
         return chatSlider;
     }
 
-    boolean chatOpen=true;
-    public void initialize(){
+    boolean chatOpen=true;*/
+    public void initialize(){/*
         chatSlider.setOnMouseClicked(actionEvent->{
             if(chatOpen) {
                 TranslateTransition slide = new TranslateTransition();
@@ -51,8 +51,8 @@ public class ProfilepageController {
             /*slide.setOnFinished((ActionEvent e)-> {
                 Menu.setVisible(false);
                 MenuClose.setVisible(true);
-            });*/
-        });
+            });
+        });*/
 
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
         //es el AnchorPane del hello-view.fxml. con fxid pageRoot
@@ -65,7 +65,7 @@ public class ProfilepageController {
 
     }
 
-
+/*
     public void slideChatSlider(){
         if(chatOpen) {
             TranslateTransition slide = new TranslateTransition();
@@ -88,6 +88,6 @@ public class ProfilepageController {
             chatSlider.setTranslateX(+176);
             chatOpen=true;
         }
-    }
+    }*/
 
 }

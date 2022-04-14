@@ -17,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import com.google.gson.Gson;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController;
 import org.iesmurgi.proyectolevidaviddam.models.User;
@@ -98,7 +99,14 @@ public class HelloController {
 
 
             Pane root = (fxmlLoader.load());
+
+            
             pageRoot.getChildren().add(root);
+
+            //((Stage)pageRoot.getScene().getWindow()).setMinWidth(900);
+            //((Stage)pageRoot.getScene().getWindow()).setMinHeight(500);
+
+
             hyperlinkUser.setOnAction(actionEvent -> {
                 slideChatSlider();
             });
@@ -152,6 +160,12 @@ public class HelloController {
             );
             Pane root = rootFxmlLoader.load();
             pageRoot.getChildren().add(root);
+
+
+            ((Stage)root.getScene().getWindow()).setMinWidth(900);
+            ((Stage)root.getScene().getWindow()).setMinHeight(500);
+
+
 
             //root es la raiz de nuestra página, todoo lo que se ve menos el menu.
             /*
