@@ -103,7 +103,7 @@
                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
             </rowConstraints>
             <children>
-               <VBox fx:id="chatSlider" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #4433aa;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
+               <VBox fx:id="chatSlider" onSwipeRight="#slideChatSlider" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #4433aa;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
             </children>
          </GridPane>
       </children>

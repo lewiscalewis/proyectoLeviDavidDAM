@@ -48,7 +48,9 @@ public class HelloController {
 
 
     public void initialize() throws IOException {
-        chatSlider.setOnMouseClicked(actionEvent->{
+        chatSlider.setTranslateX(180);
+
+        /*chatSlider.setOnMouseClicked(actionEvent->{
             if(chatOpen) {
                 TranslateTransition slide = new TranslateTransition();
                 slide.setDuration(Duration.seconds(0.4));
@@ -73,13 +75,13 @@ public class HelloController {
             /*slide.setOnFinished((ActionEvent e)-> {
                 Menu.setVisible(false);
                 MenuClose.setVisible(true);
-            });*/
-        });
+            });
+        });*/
 
     }
 
 
-    void loadUserData(User user){
+    public void loadUserData(User user){
         hyperlinkUser.setText(user.getName());
         hyperlinkUser.setOnAction(event->{
 
@@ -107,9 +109,13 @@ public class HelloController {
             //((Stage)pageRoot.getScene().getWindow()).setMinHeight(500);
 
 
-            hyperlinkUser.setOnAction(actionEvent -> {
-                slideChatSlider();
-            });
+            //hyperlinkUser.setOnAction(actionEvent -> {
+                //slideChatSlider();
+           // });
+
+
+            chatSlider.setOnMouseEntered(actionEvent->openChatSlider());
+            chatSlider.setOnMouseExited(actionEvent->closeChatSlider());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -119,8 +125,22 @@ public class HelloController {
 
 
     }
-    public void slideChatSlider(){
-        if(chatOpen) {
+
+
+    public void openChatSlider() {
+
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(chatSlider);
+
+            slide.setToX(0);
+            slide.play();
+
+            chatSlider.setTranslateX(+176);
+    }
+
+    public void closeChatSlider(){
+
             TranslateTransition slide = new TranslateTransition();
             slide.setDuration(Duration.seconds(0.4));
             slide.setNode(chatSlider);
@@ -129,14 +149,15 @@ public class HelloController {
             slide.play();
 
             chatSlider.setTranslateX(+176);
+
+    }
+
+    public void slideChatSlider(){
+        if(chatOpen) {
+            closeChatSlider();
             chatOpen=false;
         }else{
-            TranslateTransition slide = new TranslateTransition();
-            slide.setDuration(Duration.seconds(0.4));
-            slide.setNode(chatSlider);
-
-            slide.setToX(0);
-            slide.play();
+            openChatSlider();
 
             chatSlider.setTranslateX(+176);
             chatOpen=true;

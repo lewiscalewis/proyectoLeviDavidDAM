@@ -21,6 +21,7 @@ import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.models.User;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -40,13 +41,13 @@ public class LogIn {
     private VBox profileRoot;
 
     @FXML
-    private PasswordField textFieldContraseña;
-
-    @FXML
     private TextField textFieldUsuario;
 
     Stage stage;
     Scene scene;
+    @FXML
+    private PasswordField textFieldContrasena;
+
     public void initialize(){
 
         btnRegistrarse.getStyleClass().setAll("btn", "btn-success");
@@ -74,7 +75,7 @@ public class LogIn {
             try {
                 ArrayList<String[]> params = new ArrayList<>();
                 params.add(new String[]{"username", textFieldUsuario.getText()});
-                params.add(new String[]{"password", md5.encodeMD5(textFieldContraseña.getText())});
+                params.add(new String[]{"password", md5.encodeMD5(textFieldContrasena.getText())});
                 OpenThread<String> t = new OpenThread<>(url, params, "POST", String.class);
                 response = t.getResult();
 
@@ -104,11 +105,19 @@ public class LogIn {
                 Parent helloView = fxmlLoader.load() ;
                 HelloController helloController = fxmlLoader.getController();
                 helloController.loadHomePage(); //Loads Home page
-/*
+
+
+
+               GeneralDecoder gd = new GeneralDecoder();
+
+
+                String username= gd.getUserFromToken();
+
+
                 Requester<User[]> userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user",Requester.Method.POST,User[].class);
-                userRequester.addParam("username","hola");
+                userRequester.addParam("username",username);
                 helloController.loadUserData(userRequester.execute()[0]);
-*/
+
                 Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight()-34, Color.BLACK);
                 stage.setScene(s);
                 stage.show();
@@ -134,7 +143,7 @@ public class LogIn {
 
     }
 
-    @FXML
+    @Deprecated
     void login(MouseEvent event) throws NoSuchAlgorithmException, IOException {
 
     }
