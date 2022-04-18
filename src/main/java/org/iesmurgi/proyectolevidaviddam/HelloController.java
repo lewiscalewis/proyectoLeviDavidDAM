@@ -5,30 +5,33 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javafx.scene.control.*;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
 import com.google.gson.Gson;
+import javafx.scene.control.skin.LabeledSkinBase;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController;
+import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
+import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
 public class HelloController {
 
 
-    @FXML
-    private Button btnStore;
-    @FXML
-    private Button btnProfile;
     @FXML
     private AnchorPane pageRoot;
     @FXML
@@ -38,17 +41,29 @@ public class HelloController {
     @FXML
     private ColumnConstraints columnConstraints3;
     @FXML
-    private ColumnConstraints columnConstraints31;
-    @FXML
     private GridPane contentRoot;
     @FXML
     private VBox chatSlider;
     @FXML
     private GridPane gridRoot;
+    @FXML
+    private ImageView imageviewProfileImage;
+    @FXML
+    private Label tileSettings;
+    @FXML
+    private Label tileSettings41;
+    @FXML
+    private Label tileSettings4;
+    @FXML
+    private Label tileSettings3;
+    @FXML
+    private Label tileSettings2;
+    @FXML
+    private Label tileSettings1;
 
 
     public void initialize() throws IOException {
-        chatSlider.setTranslateX(180);
+        chatSlider.setTranslateX(265);
 
         /*chatSlider.setOnMouseClicked(actionEvent->{
             if(chatOpen) {
@@ -86,6 +101,31 @@ public class HelloController {
         hyperlinkUser.setOnAction(event->{
 
         });
+
+
+        //FOR TESTING:
+        //INSERT IMAGE STRING INTO DATABASE.
+
+
+
+
+        ///////////////////////////////////////////////////////////
+
+
+
+
+
+
+        //char[] arrayImage = user.getProfileImage().toCharArray();
+        //System.out.println(user.getProfileImage());
+        //Crea una imagen a partir del String de la base de datos.
+        /*Image profileimage= new Image(new ByteArrayInputStream(
+                user.getProfileImage().getBytes(StandardCharsets.UTF_8)
+        ),30,30,true,true
+        );
+        //Image profileimage= new Image(user.getProfileImage());
+
+        imageviewProfileImage.setImage(profileimage);}}*/
     }
     boolean chatOpen=true;
     @FXML
@@ -145,10 +185,10 @@ public class HelloController {
             slide.setDuration(Duration.seconds(0.4));
             slide.setNode(chatSlider);
 
-            slide.setToX(180);
+            slide.setToX(265);
             slide.play();
 
-            chatSlider.setTranslateX(+176);
+            //chatSlider.setTranslateX(+176);
 
     }
 
@@ -159,7 +199,7 @@ public class HelloController {
         }else{
             openChatSlider();
 
-            chatSlider.setTranslateX(+176);
+            //chatSlider.setTranslateX(+180);
             chatOpen=true;
         }
     }
@@ -213,5 +253,94 @@ public class HelloController {
             e.printStackTrace();
         }
 
+    }
+
+    @FXML
+    public void slideChatSlider(Event event) {
+
+    }
+
+    @FXML
+    public void onSlideHoverExited(Event event) {
+        ((HBox) event.getTarget()).setStyle("-fx-background-color: #4433aa;");
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.1));
+        slide.setNode((HBox) event.getTarget());
+        //((HBox) event.getTarget()).setTranslateY(-6);
+        slide.setToX(0);
+        slide.setToY(0);
+        slide.play();
+
+
+    }
+
+    @FXML
+    public void onSlideHoverEnter(Event event) {
+        ((HBox) event.getTarget()).setStyle("-fx-background-color:#4436cc; ");
+
+        
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.1));
+        slide.setNode((HBox) event.getTarget());
+
+        slide.setToX(-10);
+        slide.setToY(-2);
+        slide.play();
+
+        //((HBox) event.getTarget()).setTranslateY(-6);
+    }
+
+    @FXML
+    public void onMenuItemEnter(Event event) {
+        ((HBox) event.getTarget()).setStyle("-fx-background-color:#4436cc; ");
+
+
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.1));
+        slide.setNode((HBox) event.getTarget());
+
+        slide.setToY(5);
+        //slide.setToX(2);
+        slide.play();
+
+    }
+
+    @FXML
+    public void onMenuItemExited(Event event) {
+        ((HBox) event.getTarget()).setStyle("-fx-background-color: #6168f3;");
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.1));
+        slide.setNode((HBox) event.getTarget());
+        //((HBox) event.getTarget()).setTranslateY(-6);
+        slide.setToY(0);
+        //slide.setToX(0);
+        slide.play();
+
+
+    }
+
+    @FXML
+    public void onSliderPressed(Event event) {/*
+        System.out.println(event.getSource().getClass().getName());
+
+        if(event.getSource().getClass()==HBox.class){
+            ((HBox) event.getTarget()).setStyle("-fx-background-color:#4046c1; ");
+        }else {
+            ((Node) event.getTarget()).getParent().getParent().setStyle("-fx-background-color:#4046c1; ");
+            event.consume();
+        }*/
+    }
+
+    @FXML
+    public void onSliderReleased(Event event) {/*
+
+        if(event.getSource().getClass()==HBox.class){
+            ((HBox) event.getTarget()).setStyle("-fx-background-color:#4436cc; ");
+        }else {
+            ((Node) event.getTarget()).getParent().getParent().setStyle("-fx-background-color:#4436cc; ");
+            event.consume();
+        }*/
     }
 }

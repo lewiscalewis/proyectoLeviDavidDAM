@@ -16,5 +16,5 @@ module org.iesmurgi.proyectolevidaviddam {
     opens org.iesmurgi.proyectolevidaviddam to javafx.fxml,com.google.gson;
     exports org.iesmurgi.proyectolevidaviddam;
     exports org.iesmurgi.proyectolevidaviddam.Controllers;
-    opens org.iesmurgi.proyectolevidaviddam.Controllers to com.google.gson, javafx.fxml;
+    opens org.iesmurgi.proyectolevidaviddam.Controllers to com.google.gson, javafx.fxml,javafx.base;
 }

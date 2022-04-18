@@ -2,9 +2,15 @@ package org.iesmurgi.proyectolevidaviddam.Controllers;
 
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
+import org.iesmurgi.proyectolevidaviddam.HelloApplication;
+import org.iesmurgi.proyectolevidaviddam.HelloController;
+
+import java.io.IOException;
 
 
 //Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
@@ -13,34 +19,31 @@ public class HomepageController {
     private StackPane baseRoot;
 
     boolean chatOpen=true;
-    public void initialize(){/*
-        chatSlider.setOnMouseClicked(actionEvent->{
-            if(chatOpen) {
-                TranslateTransition slide = new TranslateTransition();
-                slide.setDuration(Duration.seconds(0.4));
-                slide.setNode(chatSlider);
+    public void initialize(){
+        Button buttonGoToSettings =new Button("Go to Settings");
+        buttonGoToSettings.setOnAction(actionEvent -> {
 
-                slide.setToX(180);
-                slide.play();
+            FXMLLoader fxmlLoader =new FXMLLoader(HelloApplication.class.getResource("profilepage.fxml"));
 
-                chatSlider.setTranslateX(+176);
-                chatOpen=false;
-            }else{
-                TranslateTransition slide = new TranslateTransition();
-                slide.setDuration(Duration.seconds(0.4));
-                slide.setNode(chatSlider);
+            //HomepageController homepageController = fxmlLoader.getController();
 
-                slide.setToX(0);
-                slide.play();
+            baseRoot.getChildren().clear();
+            Pane root = null;
+            try {
+                root = (fxmlLoader.load());
 
-                chatSlider.setTranslateX(+176);
-                chatOpen=true;
+
+                baseRoot.getChildren().add(root);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            /*slide.setOnFinished((ActionEvent e)-> {
-                Menu.setVisible(false);
-                MenuClose.setVisible(true);
-            });
-        });*/
+
+        });
+
+        baseRoot.getChildren().add(buttonGoToSettings);
+
+
+
 
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
         //es el AnchorPane del hello-view.fxml. con fxid pageRoot
