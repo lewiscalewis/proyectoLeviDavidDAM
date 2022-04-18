@@ -32,7 +32,7 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <PasswordField fx:id="textFieldContraseña" maxWidth="200.0">
+            <PasswordField fx:id="textFieldContrasena" maxWidth="200.0">
                <font>
                   <Font size="14.0" />
                </font>
