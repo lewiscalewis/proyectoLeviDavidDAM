@@ -8,6 +8,7 @@ import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -15,6 +16,16 @@ public class ClientSocket extends Thread {
 
     Socket socket;
     Socket socketReceiver;
+    ArrayList<String> messages;
+    String room;
+
+    public ClientSocket(String room){
+        this.room = room;
+    }
+
+    public ClientSocket(){
+
+    }
 
     @Override
     public void run() {
@@ -31,31 +42,34 @@ public class ClientSocket extends Thread {
                 .setForceNew(false)
                 .build();
 
-        socketReceiver = IO.socket(URI.create(CONSTANT.URL.getUrl()), options);
+        socketReceiver = IO.socket(URI.create(CONSTANT.SOCKET.getUrl()), options);
 
-        socketReceiver.on("chat message", args -> {
-            System.out.println("Mensaje recibido: " + Arrays.toString(args));
-        });
+        socketReceiver.emit("start-room", room);
+
+        socketReceiver.on ("message", objetos ->
+                System.out.println ("cliente: recibió msg->" + Arrays.toString (objetos))
+        );
 
         socketReceiver.connect();
     }
 
-    public void sendMessage(String message) {
-        String room;
-        String emisorId;
-        String receptorId;
-        String socketId;
-        String created;
-        String receptorSocketId;
+    public ArrayList<String> getMessagesAsArray(){
+        return messages;
+    }
 
+    public void sendMessage(String message) {
         IO.Options options = IO.Options.builder()
                 //.setPath("/chat message")
                 .setForceNew(false)
                 .build();
 
-        socket = IO.socket(URI.create(CONSTANT.URL.getUrl()), options);
-        socket.emit("chat message", message);
-        //socket.emit("message", new String[]{ room, emisorId, receptorId, socketId, created, receptorSocketId });
+        socket = IO.socket(URI.create(CONSTANT.SOCKET.getUrl()), options);
+        socket.emit("message", message);
+
         socket.connect();
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 }
