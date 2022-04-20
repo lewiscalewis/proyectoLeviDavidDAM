@@ -112,7 +112,7 @@
                </ImageView>
                <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadHomePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
-                     <Label fx:id="tileSettings4" text="Home">
+                     <Label fx:id="labelTopMenu1" text="Home">
                         <font>
                            <Font size="24.0" />
                         </font>
@@ -124,7 +124,19 @@
                </HBox>
                <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadProfilePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
-                     <Label fx:id="tileSettings41" text="Profile">
+                     <Label fx:id="labelTopMenu2" text="Profile">
+                        <font>
+                           <Font size="24.0" />
+                        </font>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadContactsPage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
+                  <children>
+                     <Label fx:id="labelTopMenu3" text="Contacts">
                         <font>
                            <Font size="24.0" />
                         </font>

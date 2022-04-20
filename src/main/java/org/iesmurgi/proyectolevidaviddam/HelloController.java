@@ -51,15 +51,17 @@ public class HelloController {
     @FXML
     private Label tileSettings;
     @FXML
-    private Label tileSettings41;
-    @FXML
-    private Label tileSettings4;
-    @FXML
     private Label tileSettings3;
     @FXML
     private Label tileSettings2;
     @FXML
     private Label tileSettings1;
+    @FXML
+    private Label labelTopMenu1;
+    @FXML
+    private Label labelTopMenu3;
+    @FXML
+    private Label labelTopMenu2;
 
 
     public void initialize() throws IOException {
@@ -255,6 +257,32 @@ public class HelloController {
 
     }
 
+
+    @FXML
+    public void loadContactsPage(Event event) {
+
+        try {
+            pageRoot.getChildren().clear();
+            FXMLLoader rootFxmlLoader=new FXMLLoader(
+                    HelloApplication.class.getResource(
+                            "contactspage.fxml"
+                    )
+            );
+            Pane root = rootFxmlLoader.load();
+            pageRoot.getChildren().add(root);
+
+
+            ((Stage)root.getScene().getWindow()).setMinWidth(900);
+            ((Stage)root.getScene().getWindow()).setMinHeight(500);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     @FXML
     public void slideChatSlider(Event event) {
 
@@ -343,4 +371,6 @@ public class HelloController {
             event.consume();
         }*/
     }
+
+
 }
