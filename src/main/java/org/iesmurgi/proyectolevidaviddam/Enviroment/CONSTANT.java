@@ -2,7 +2,8 @@ package org.iesmurgi.proyectolevidaviddam.Enviroment;
 
 public enum CONSTANT {
 
-    URL("http://tux.iesmurgi.org:11230");
+    URL("http://tux.iesmurgi.org:11230"),
+    SOCKET("http://tux.iesmurgi.org:11236");
 
     private String url;
 
