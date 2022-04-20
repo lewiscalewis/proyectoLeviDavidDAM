@@ -1,25 +1,62 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
-import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
-import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
-import org.iesmurgi.proyectolevidaviddam.models.ClientSocket;
+import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.layout.*;
+import javafx.util.Duration;
+import org.iesmurgi.proyectolevidaviddam.HelloApplication;
+import org.iesmurgi.proyectolevidaviddam.HelloController;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
+import java.io.IOException;
 
+
+//Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
 public class HomepageController {
-    ClientSocket c = new ClientSocket();
-    public void initialize() throws MalformedURLException, InterruptedException {
+    @javafx.fxml.FXML
+    private StackPane baseRoot;
+
+    boolean chatOpen=true;
+    public void initialize(){
+        Button buttonGoToSettings =new Button("Go to Settings");
+        buttonGoToSettings.setOnAction(actionEvent -> {
+
+            FXMLLoader fxmlLoader =new FXMLLoader(HelloApplication.class.getResource("profilepage.fxml"));
+
+            //HomepageController homepageController = fxmlLoader.getController();
+
+            baseRoot.getChildren().clear();
+            Pane root = null;
+            try {
+                root = (fxmlLoader.load());
+
+
+                baseRoot.getChildren().add(root);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        baseRoot.getChildren().add(buttonGoToSettings);
+
+
+
+
+        //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
+        //es el AnchorPane del hello-view.fxml. con fxid pageRoot
+        ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setTopAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot   .getParent()).setBottomAnchor(baseRoot,0.0);
+
+
 
     }
 
-    public void getResult() throws MalformedURLException, InterruptedException {
-        String url = CONSTANT.URL.getUrl()+"/chatID";
-        ArrayList<String[]> params = new ArrayList<>();
-        params.add(new String[]{"username1", "test"});
-        params.add(new String[]{"username2", "elias"});
-        OpenThread<String> t = new OpenThread<>(url, params, "POST", String.class);
-        c.setRoom(t.getResult());
-        c.start();
-    }
+
+
+
 }

@@ -12,16 +12,20 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
+import org.iesmurgi.proyectolevidaviddam.HelloController;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.models.User;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
@@ -37,11 +41,12 @@ public class LogIn {
     private VBox profileRoot;
 
     @FXML
-    private PasswordField textFieldContraseña;
-
-    @FXML
     private TextField textFieldUsuario;
 
+    Stage stage;
+    Scene scene;
+    @FXML
+    private PasswordField textFieldContrasena;
 
     public void initialize(){
 
@@ -70,7 +75,7 @@ public class LogIn {
             try {
                 ArrayList<String[]> params = new ArrayList<>();
                 params.add(new String[]{"username", textFieldUsuario.getText()});
-                params.add(new String[]{"password", md5.encodeMD5(textFieldContraseña.getText())});
+                params.add(new String[]{"password", md5.encodeMD5(textFieldContrasena.getText())});
                 OpenThread<String> t = new OpenThread<>(url, params, "POST", String.class);
                 response = t.getResult();
 
@@ -90,7 +95,39 @@ public class LogIn {
                 TokenManager tkm = new TokenManager();
                 tkm.tokenStorage(response);
                 System.out.println("Token de usuario: "+response);
+            }
 
+
+            scene =btnIniciarSesion.getScene();
+            stage = (Stage) scene.getWindow();
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+                Parent helloView = fxmlLoader.load() ;
+                HelloController helloController = fxmlLoader.getController();
+                helloController.loadHomePage(); //Loads Home page
+
+
+
+               GeneralDecoder gd = new GeneralDecoder();
+
+
+                String username= gd.getUserFromToken();
+
+
+                Requester<User[]> userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user",Requester.Method.POST,User[].class);
+                userRequester.addParam("username",username);
+                helloController.loadUserData(userRequester.execute()[0]);
+
+                Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight()-34, Color.BLACK);
+                stage.setScene(s);
+                stage.show();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+
+/*
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("homepage.fxml"));
                     profileRoot.getChildren().clear();
@@ -99,11 +136,14 @@ public class LogIn {
                     e.printStackTrace();
                 }
             }
-        });
+
+            */
+
+        );
 
     }
 
-    @FXML
+    @Deprecated
     void login(MouseEvent event) throws NoSuchAlgorithmException, IOException {
 
     }
