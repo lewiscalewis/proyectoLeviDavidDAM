@@ -43,14 +43,14 @@
                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
             </rowConstraints>
             <children>
-               <VBox fx:id="chatSlider" alignment="BOTTOM_LEFT" onSwipeRight="#slideChatSlider" prefHeight="200.0" prefWidth="243.0" style="-fx-background-color: #4433aa;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS">
+               <VBox fx:id="chatSlider" alignment="BOTTOM_LEFT" onSwipeRight="#slideChatSlider" prefHeight="200.0" prefWidth="243.0" style="-fx-background-color: #1c3787;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS">
                   <padding>
                      <Insets bottom="25.0" />
                   </padding>
                   <children>
                      <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Uploads">
+                           <Label fx:id="tileSettings" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Uploads" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>
@@ -62,7 +62,7 @@
                      </HBox>
                      <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings1" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Profile">
+                           <Label fx:id="tileSettings1" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Profile" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>
@@ -74,7 +74,7 @@
                      </HBox>
                      <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings2" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Settings">
+                           <Label fx:id="tileSettings2" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Settings" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>
@@ -86,7 +86,7 @@
                      </HBox>
                      <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings3" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Logout">
+                           <Label fx:id="tileSettings3" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Logout" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>
@@ -112,7 +112,7 @@
                </ImageView>
                <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadHomePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
-                     <Label fx:id="labelTopMenu1" text="Home">
+                     <Label fx:id="labelTopMenu1" text="Home" textFill="WHITE">
                         <font>
                            <Font size="24.0" />
                         </font>
@@ -124,7 +124,7 @@
                </HBox>
                <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadProfilePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
-                     <Label fx:id="labelTopMenu2" text="Profile">
+                     <Label fx:id="labelTopMenu2" text="Profile" textFill="WHITE">
                         <font>
                            <Font size="24.0" />
                         </font>
@@ -136,7 +136,7 @@
                </HBox>
                <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadContactsPage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
-                     <Label fx:id="labelTopMenu3" text="Contacts">
+                     <Label fx:id="labelTopMenu3" text="Contacts" textFill="WHITE">
                         <font>
                            <Font size="24.0" />
                         </font>

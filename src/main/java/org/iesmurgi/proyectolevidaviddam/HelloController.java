@@ -290,7 +290,7 @@ public class HelloController {
 
     @FXML
     public void onSlideHoverExited(Event event) {
-        ((HBox) event.getTarget()).setStyle("-fx-background-color: #4433aa;");
+        ((HBox) event.getTarget()).setStyle("-fx-background-color: #1c3787;");
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.1));
         slide.setNode((HBox) event.getTarget());
@@ -337,7 +337,7 @@ public class HelloController {
 
     @FXML
     public void onMenuItemExited(Event event) {
-        ((HBox) event.getTarget()).setStyle("-fx-background-color: #6168f3;");
+        ((HBox) event.getTarget()).setStyle("-fx-background-color: #1c3787;");
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.1));
         slide.setNode((HBox) event.getTarget());
