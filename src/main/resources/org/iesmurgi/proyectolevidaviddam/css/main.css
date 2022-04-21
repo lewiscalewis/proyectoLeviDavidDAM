@@ -43,3 +43,11 @@
     -fx-background-radius: 8;
     -fx-font-size: 16;
 }
+
+.browser-icon {
+    -fx-background-image: url('../images/lupa.png');
+    -fx-background-repeat: stretch;
+    -fx-background-size: 24 24;
+    -fx-background-position: center center;
+    //-fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
+}

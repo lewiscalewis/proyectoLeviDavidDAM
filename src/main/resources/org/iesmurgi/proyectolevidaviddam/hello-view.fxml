@@ -152,7 +152,7 @@
                         <children>
                            <ImageView fx:id="imageviewProfileImage" fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" smooth="false">
                               <image>
-                                 <Image url="@Sample_User_Icon.png" />
+                                 <Image url="@images/Sample_User_Icon.png" />
                               </image>
                            </ImageView>
                            <Hyperlink fx:id="hyperlinkUser" style="-fx-border-color: white;" text="Hyperlin">
