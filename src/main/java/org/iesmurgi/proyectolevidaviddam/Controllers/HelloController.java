@@ -1,39 +1,26 @@
-package org.iesmurgi.proyectolevidaviddam;
+package org.iesmurgi.proyectolevidaviddam.Controllers;
 
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.geometry.Pos;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-
-import javafx.scene.control.*;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-
-import com.google.gson.Gson;
-import javafx.scene.control.skin.LabeledSkinBase;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController;
-import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
-import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
+import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.models.User;
+
+import java.io.IOException;
 
 public class HelloController {
 
 
     @FXML
-    private AnchorPane pageRoot;
+    private VBox pageRoot;
     @FXML
     private Hyperlink hyperlinkUser;                //HyperLink que se encuentra arriba a la derecha junto a la imagen del usuario
     @FXML
@@ -134,6 +121,7 @@ public class HelloController {
     public void loadHomePage()  {
 
         try {
+            pageRoot.setAlignment(Pos.TOP_LEFT);
             pageRoot.getChildren().clear();
             FXMLLoader fxmlLoader =new FXMLLoader(HelloApplication.class.getResource("homepage.fxml"));
 
@@ -156,8 +144,8 @@ public class HelloController {
            // });
 
 
-            chatSlider.setOnMouseEntered(actionEvent->openChatSlider());
-            chatSlider.setOnMouseExited(actionEvent->closeChatSlider());
+//            chatSlider.setOnMouseEntered(actionEvent->openChatSlider());
+//            chatSlider.setOnMouseExited(actionEvent->closeChatSlider());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -169,44 +157,42 @@ public class HelloController {
     }
 
 
-    public void openChatSlider() {
+//    public void openChatSlider() {
+//
+//            TranslateTransition slide = new TranslateTransition();
+//            slide.setDuration(Duration.seconds(0.4));
+//            slide.setNode(chatSlider);
+//
+//            slide.setToX(0);
+//            slide.play();
+//
+//            chatSlider.setTranslateX(+176);
+//    }
+//
+//    public void closeChatSlider(){
+//
+//            TranslateTransition slide = new TranslateTransition();
+//            slide.setDuration(Duration.seconds(0.4));
+//            slide.setNode(chatSlider);
+//
+//            slide.setToX(265);
+//            slide.play();
+//
+//            //chatSlider.setTranslateX(+176);
+//
+//    }
 
-            TranslateTransition slide = new TranslateTransition();
-            slide.setDuration(Duration.seconds(0.4));
-            slide.setNode(chatSlider);
-
-            slide.setToX(0);
-            slide.play();
-
-            chatSlider.setTranslateX(+176);
-    }
-
-    public void closeChatSlider(){
-
-            TranslateTransition slide = new TranslateTransition();
-            slide.setDuration(Duration.seconds(0.4));
-            slide.setNode(chatSlider);
-
-            slide.setToX(265);
-            slide.play();
-
-            //chatSlider.setTranslateX(+176);
-
-    }
-
-    public void slideChatSlider(){
-        if(chatOpen) {
-            closeChatSlider();
-            chatOpen=false;
-        }else{
-            openChatSlider();
-
-            //chatSlider.setTranslateX(+180);
-            chatOpen=true;
-        }
-    }
-
-
+//    public void slideChatSlider(){
+//        if(chatOpen) {
+//            closeChatSlider();
+//            chatOpen=false;
+//        }else{
+//            openChatSlider();
+//
+//            //chatSlider.setTranslateX(+180);
+//            chatOpen=true;
+//        }
+//    }
 
 
 
@@ -215,6 +201,7 @@ public class HelloController {
     public void loadProfilePage()  {
 
         try {
+            pageRoot.setAlignment(Pos.TOP_LEFT);
             pageRoot.getChildren().clear();
             FXMLLoader rootFxmlLoader=new FXMLLoader(
                     HelloApplication.class.getResource(
@@ -261,6 +248,7 @@ public class HelloController {
     @FXML
     public void loadContactsPage(Event event) {
 
+        pageRoot.setAlignment(Pos.TOP_LEFT);
         try {
             pageRoot.getChildren().clear();
             FXMLLoader rootFxmlLoader=new FXMLLoader(
@@ -282,19 +270,31 @@ public class HelloController {
 
     }
 
-
     @FXML
     public void slideChatSlider(Event event) {
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode((VBox) event.getTarget());
+        //((HBox) event.getTarget()).setTranslateY(-6);
+        slide.setToX(0);
+        slide.play();
+    }
 
+    @FXML
+    public void slideChatSliderExited(Event event) {
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode((VBox) event.getTarget());
+        slide.setToX(265);
+        slide.play();
     }
 
     @FXML
     public void onSlideHoverExited(Event event) {
-        ((HBox) event.getTarget()).setStyle("-fx-background-color: #1c3787;");
+        ((HBox) event.getTarget()).setStyle("-fx-background-color:#1c3787; ");
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.1));
         slide.setNode((HBox) event.getTarget());
-        //((HBox) event.getTarget()).setTranslateY(-6);
         slide.setToX(0);
         slide.setToY(0);
         slide.play();
@@ -305,8 +305,6 @@ public class HelloController {
     @FXML
     public void onSlideHoverEnter(Event event) {
         ((HBox) event.getTarget()).setStyle("-fx-background-color:#4436cc; ");
-
-        
 
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.1));

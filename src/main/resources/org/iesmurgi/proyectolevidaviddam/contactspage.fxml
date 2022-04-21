@@ -3,14 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="baseRoot" minHeight="500.0" minWidth="900.0" prefHeight="500.0" prefWidth="900.0" styleClass="container" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.ContactspageController">
+
+<VBox fx:id="baseRoot" styleClass="container" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.ContactspageController">
    <children>
-      <HBox spacing="50.0">
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="900.0" spacing="50.0">
          <children>
-            <Label maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="626.0" text="Contacts" textFill="#979797" HBox.hgrow="ALWAYS">
+            <Label maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="41.0" text="Contacts" textFill="#979797" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -18,15 +19,15 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <Label maxWidth="1.7976931348623157E308" onMouseClicked="#addFriend" text="Añadir amigo" textFill="#8f8f8f">
+            <Label maxWidth="1.7976931348623157E308" onMouseClicked="#addFriend" styleClass="add-friend" text="Añadir amigo" textFill="#8f8f8f">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
          </children>
          <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets bottom="20.0" left="20.0" right="350.0" top="20.0" />
          </padding>
       </HBox>
    </children>
-</StackPane>
+</VBox>

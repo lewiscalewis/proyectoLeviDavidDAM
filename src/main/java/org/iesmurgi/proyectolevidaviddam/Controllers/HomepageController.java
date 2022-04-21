@@ -1,14 +1,9 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
-import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
 import javafx.scene.layout.*;
-import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
-import org.iesmurgi.proyectolevidaviddam.HelloController;
 
 import java.io.IOException;
 
@@ -20,6 +15,14 @@ public class HomepageController {
 
     boolean chatOpen=true;
     public void initialize(){
+
+        //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
+        //es el AnchorPane del hello-view.fxml. con fxid pageRoot
+        ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setTopAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot   .getParent()).setBottomAnchor(baseRoot,0.0);
+
         Button buttonGoToSettings =new Button("Go to Settings");
         buttonGoToSettings.setOnAction(actionEvent -> {
 
@@ -41,18 +44,6 @@ public class HomepageController {
         });
 
         baseRoot.getChildren().add(buttonGoToSettings);
-
-
-
-
-        //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
-        //es el AnchorPane del hello-view.fxml. con fxid pageRoot
-        ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
-        ((AnchorPane)baseRoot.getParent()).setTopAnchor(baseRoot,0.0);
-        ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
-        ((AnchorPane)baseRoot   .getParent()).setBottomAnchor(baseRoot,0.0);
-
-
 
     }
 

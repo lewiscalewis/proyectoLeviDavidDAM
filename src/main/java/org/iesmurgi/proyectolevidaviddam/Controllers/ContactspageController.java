@@ -2,10 +2,13 @@ package org.iesmurgi.proyectolevidaviddam.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 
 import java.io.IOException;
@@ -13,7 +16,7 @@ import java.io.IOException;
 public class ContactspageController {
 
     @FXML
-    private StackPane baseRoot;
+    private VBox baseRoot;
 
     @FXML
     void initialize(){
@@ -25,10 +28,11 @@ public class ContactspageController {
 
     @FXML
     void addFriend(MouseEvent event) {
-
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-friend-view.fxml"));
         baseRoot.getChildren().clear();
         Pane root = null;
+        VBox pageRoot = (VBox) baseRoot.getParent();
+        pageRoot.setAlignment(Pos.CENTER);
 
         try {
             root = (fxmlLoader.load());

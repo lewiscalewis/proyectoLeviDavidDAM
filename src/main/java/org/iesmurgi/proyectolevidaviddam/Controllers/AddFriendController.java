@@ -4,8 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
@@ -23,6 +25,14 @@ public class AddFriendController {
 
     @FXML
     private TextField textfieldBrowser;
+
+    @FXML
+    void initialize(){
+        ((AnchorPane)container.getParent()).setLeftAnchor(container,0.0);
+        ((AnchorPane)container.getParent()).setTopAnchor(container,0.0);
+        ((AnchorPane)container.getParent()).setRightAnchor(container,0.0);
+        ((AnchorPane)container.getParent()).setBottomAnchor(container,0.0);
+    }
 
     @FXML
     void filterByName(KeyEvent event) {
@@ -47,7 +57,7 @@ public class AddFriendController {
             Text surnameLabel = new Text(u.getSurname());
             Button addToFriend = new Button("Añadir a lista de amigos");
             userCard.getChildren().addAll(usernameLabel, nameLabel, surnameLabel, addToFriend);
-            container.getChildren().add(userCard);
+            container. getChildren().add(userCard);
         }
     }
 

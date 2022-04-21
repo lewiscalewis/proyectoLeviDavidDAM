@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="baseRoot" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #222244;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.ProfilepageController">
+<StackPane fx:id="baseRoot" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #0b1533;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.ProfilepageController">
    <children>
       <HBox>
          <children>
