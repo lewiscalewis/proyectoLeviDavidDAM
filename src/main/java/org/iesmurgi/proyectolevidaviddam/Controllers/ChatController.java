@@ -2,12 +2,9 @@ package org.iesmurgi.proyectolevidaviddam.Controllers;
 
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
@@ -17,7 +14,7 @@ import org.iesmurgi.proyectolevidaviddam.models.ClientSocket;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class chatviewController{
+public class ChatController {
 
     @FXML
     private ScrollPane chatContainer;

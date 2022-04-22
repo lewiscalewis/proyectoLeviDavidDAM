@@ -1,5 +1,6 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -97,7 +98,7 @@ public class SignUp {
     }
 
     @FXML
-    void signup(MouseEvent event) throws IOException, NoSuchAlgorithmException, InterruptedException {
+    void signup(ActionEvent event) throws IOException, NoSuchAlgorithmException, InterruptedException {
 
 //        TokenManager tk = new TokenManager();
 //        String token = tk.getToken();

@@ -55,7 +55,7 @@
                   </Label>
                   <PasswordField fx:id="pwdRepetirContraseña" maxWidth="200.0" stylesheets="@css/main.css" />
                   <Hyperlink fx:id="login" onMouseClicked="#login" text="¿Ya tienes cuenta? Iniciar sesión " />
-                  <Button fx:id="btnRegistrarse" mnemonicParsing="false" onMouseClicked="#signup" text="Crear cuenta" textAlignment="CENTER">
+                  <Button fx:id="btnRegistrarse" mnemonicParsing="false" onAction="#signup" onMouseClicked="#signup" text="Crear cuenta" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>

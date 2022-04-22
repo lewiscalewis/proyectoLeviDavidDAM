@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -15,24 +14,105 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@css/hellocss.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.HelloController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="720.0" minWidth="1200.0" stylesheets="@css/hellocss.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.HelloController">
+   <HBox maxHeight="92.0" minHeight="79.0" prefHeight="92.0" prefWidth="1928.0" spacing="5.0" style="-fx-background-color: #0b1533;" stylesheets="@css/main.css">
+      <children>
+         <HBox maxWidth="740.0" spacing="5.0">
+            <children>
+               <ImageView fitHeight="81.0" fitWidth="140.0" pickOnBounds="true">
+                  <image>
+                     <Image url="@images/BitStore_Logo.png" />
+                  </image>
+               </ImageView>
+               <HBox alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadHomePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
+                  <children>
+                     <Label fx:id="labelTopMenu1" text="Home" textFill="WHITE">
+                        <font>
+                           <Font size="24.0" />
+                        </font>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadProfilePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
+                  <children>
+                     <Label fx:id="labelTopMenu2" text="Profile" textFill="WHITE">
+                        <font>
+                           <Font size="24.0" />
+                        </font>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadContactsPage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
+                  <children>
+                     <Label fx:id="labelTopMenu3" text="Contacts" textFill="WHITE">
+                        <font>
+                           <Font size="24.0" />
+                        </font>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+               </HBox>
+            </children>
+         </HBox>
+         <HBox alignment="TOP_RIGHT" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="79.0" prefWidth="1176.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+            <children>
+               <Pane minWidth="305.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="79.0" prefWidth="305.0" style="-fx-background-color: white;">
+                  <children>
+                     <HBox alignment="CENTER" layoutX="9.0" layoutY="6.0" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="288.0" spacing="30.0">
+                        <children>
+                           <ImageView fx:id="imageviewProfileImage" fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                              <image>
+                                 <Image url="@images/Sample_User_Icon.png" />
+                              </image>
+                           </ImageView>
+                           <Hyperlink fx:id="hyperlinkUser" style="-fx-border-color: white;" text="Hyperlin">
+                              <font>
+                                 <Font size="30.0" />
+                              </font>
+                           </Hyperlink>
+                        </children>
+                     </HBox>
+                  </children>
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+               </Pane>
+            </children>
+         </HBox>
+      </children>
+   </HBox>
    <StackPane fx:id="baseRoot" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
       <children>
-         <GridPane fx:id="contentRoot" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: black;">
+         <GridPane fx:id="contentRoot" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="container" stylesheets="@css/main.css">
             <columnConstraints>
-               <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
             </rowConstraints>
             <children>
-               <AnchorPane fx:id="pageRoot" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+               <VBox fx:id="pageRoot" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.vgrow="SOMETIMES">
+                  <padding>
+                     <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                  </padding>
+               </VBox>
             </children>
             <StackPane.margin>
-               <Insets top="80.0" />
+               <Insets />
             </StackPane.margin>
          </GridPane>
-         <GridPane fx:id="gridRoot" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false" prefHeight="500.0" prefWidth="900.0">
+         <GridPane fx:id="gridRoot" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false">
             <columnConstraints>
                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="100.0" />
                <ColumnConstraints fx:id="columnConstraints3" hgrow="ALWAYS" maxWidth="729.0" minWidth="305.0" prefWidth="305.0" />
@@ -43,7 +123,7 @@
                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
             </rowConstraints>
             <children>
-               <VBox fx:id="chatSlider" alignment="BOTTOM_LEFT" onSwipeRight="#slideChatSlider" prefHeight="200.0" prefWidth="243.0" style="-fx-background-color: #1c3787;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS">
+               <VBox fx:id="chatSlider" alignment="BOTTOM_LEFT" onMouseEntered="#slideChatSlider" onMouseExited="#slideChatSliderExited" prefHeight="200.0" prefWidth="243.0" style="-fx-background-color: #1c3787;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS">
                   <padding>
                      <Insets bottom="25.0" />
                   </padding>
@@ -100,75 +180,9 @@
                </VBox>
             </children>
             <StackPane.margin>
-               <Insets top="80.0" />
-            </StackPane.margin>
-         </GridPane>
-         <HBox maxHeight="0.0" minHeight="79.0">
-            <children>
-               <ImageView fitHeight="81.0" fitWidth="140.0" pickOnBounds="true">
-                  <image>
-                     <Image url="@images/BitStore_Logo.png" />
-                  </image>
-               </ImageView>
-               <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadHomePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
-                  <children>
-                     <Label fx:id="labelTopMenu1" text="Home" textFill="WHITE">
-                        <font>
-                           <Font size="24.0" />
-                        </font>
-                        <HBox.margin>
-                           <Insets />
-                        </HBox.margin>
-                     </Label>
-                  </children>
-               </HBox>
-               <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadProfilePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
-                  <children>
-                     <Label fx:id="labelTopMenu2" text="Profile" textFill="WHITE">
-                        <font>
-                           <Font size="24.0" />
-                        </font>
-                        <HBox.margin>
-                           <Insets />
-                        </HBox.margin>
-                     </Label>
-                  </children>
-               </HBox>
-               <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadContactsPage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
-                  <children>
-                     <Label fx:id="labelTopMenu3" text="Contacts" textFill="WHITE">
-                        <font>
-                           <Font size="24.0" />
-                        </font>
-                        <HBox.margin>
-                           <Insets />
-                        </HBox.margin>
-                     </Label>
-                  </children>
-               </HBox>
-               <Pane maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="80.0" prefWidth="2000.0" style="-fx-background-color: white;">
-                  <children>
-                     <HBox alignment="CENTER" layoutX="74.0" layoutY="6.0">
-                        <children>
-                           <ImageView fx:id="imageviewProfileImage" fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" smooth="false">
-                              <image>
-                                 <Image url="@Sample_User_Icon.png" />
-                              </image>
-                           </ImageView>
-                           <Hyperlink fx:id="hyperlinkUser" style="-fx-border-color: white;" text="Hyperlin">
-                              <font>
-                                 <Font size="30.0" />
-                              </font>
-                           </Hyperlink>
-                        </children>
-                     </HBox>
-                  </children>
-               </Pane>
-            </children>
-            <StackPane.margin>
                <Insets />
             </StackPane.margin>
-         </HBox>
+         </GridPane>
       </children>
    </StackPane>
 </VBox>
