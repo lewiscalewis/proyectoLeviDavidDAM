@@ -1,5 +1,7 @@
 package org.iesmurgi.proyectolevidaviddam.Middleware;
 
+import java.io.IOException;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -71,7 +73,7 @@ public class OpenThread<T> extends Thread implements Callable<T> {
         }
     }
 
-    public synchronized T getResult() throws MalformedURLException, InterruptedException {
+    public T getResult() throws MalformedURLException, InterruptedException {
         mainThread();
         return res;
     }
@@ -90,7 +92,7 @@ public class OpenThread<T> extends Thread implements Callable<T> {
                 req.addParam(s[0], s[1]);;
             }
             response = req.execute();
-        }catch (Exception e){
+        }catch (IOException e){
             e.printStackTrace();
         }
         return response;

@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 
 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="720.0" minWidth="1200.0" stylesheets="@css/hellocss.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.HelloController">
-   <HBox maxHeight="0.0" minHeight="79.0" prefWidth="1920.0" spacing="5.0" style="-fx-background-color: #0b1533;" stylesheets="@css/main.css">
+   <HBox maxHeight="92.0" minHeight="79.0" prefHeight="92.0" prefWidth="1928.0" spacing="5.0" style="-fx-background-color: #0b1533;" stylesheets="@css/main.css">
       <children>
          <HBox maxWidth="740.0" spacing="5.0">
             <children>
@@ -24,7 +24,7 @@
                      <Image url="@images/BitStore_Logo.png" />
                   </image>
                </ImageView>
-               <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadHomePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
+               <HBox alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadHomePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
                      <Label fx:id="labelTopMenu1" text="Home" textFill="WHITE">
                         <font>
@@ -36,7 +36,7 @@
                      </Label>
                   </children>
                </HBox>
-               <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadProfilePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
+               <HBox alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadProfilePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
                      <Label fx:id="labelTopMenu2" text="Profile" textFill="WHITE">
                         <font>
@@ -48,7 +48,7 @@
                      </Label>
                   </children>
                </HBox>
-               <HBox alignment="CENTER" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadContactsPage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
+               <HBox alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadContactsPage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
                      <Label fx:id="labelTopMenu3" text="Contacts" textFill="WHITE">
                         <font>
@@ -65,7 +65,7 @@
                </HBox>
             </children>
          </HBox>
-         <HBox alignment="TOP_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="79.0" prefWidth="1176.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+         <HBox alignment="TOP_RIGHT" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="79.0" prefWidth="1176.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
             <children>
                <Pane minWidth="305.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="79.0" prefWidth="305.0" style="-fx-background-color: white;">
                   <children>

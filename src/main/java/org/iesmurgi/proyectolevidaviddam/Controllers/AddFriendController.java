@@ -20,6 +20,8 @@ import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
+import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,19 +52,20 @@ public class AddFriendController {
     }
 
     @FXML
-    void filterByName(KeyEvent event) throws MalformedURLException, InterruptedException {
+    void filterByName(KeyEvent event) throws MalformedURLException, InterruptedException, ConnectException {
         //método que necesita la previa carga de datos de los usuarios de la aplicación que no sean tus amigos para desde un ArrayList
         //se cree una lista de sugerencias de posibles usuarios
         loadUsers();
     }
 
     @FXML
-    void search(ActionEvent event) throws MalformedURLException, InterruptedException {
+    void search(ActionEvent event) throws MalformedURLException, InterruptedException, ConnectException {
         //recogemos todos los usuarios que coincidan con lo escrito en el textfield
         loadUsers();
     }
 
     void loadUsers() throws MalformedURLException, InterruptedException {
+
         container.getChildren().clear();
         if(!textfieldBrowser.getText().equals("")){
             String url = CONSTANT.URL.getUrl()+"/find-users";
