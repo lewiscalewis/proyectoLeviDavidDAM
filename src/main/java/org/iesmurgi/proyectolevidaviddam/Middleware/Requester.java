@@ -95,7 +95,7 @@ public class Requester <T>{
                 System.out.println("Resultado: " + vuelta);
             } else {
                 vuelta = gson.fromJson(response, typeParameterClass);
-                System.out.println("Resultado: " + vuelta);
+                System.out.println("Resultado: " + vuelta.toString());
 
             }
 

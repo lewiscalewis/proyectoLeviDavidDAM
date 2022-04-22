@@ -37,7 +37,7 @@
                   <Font size="14.0" />
                </font>
             </PasswordField>
-            <Button fx:id="btnIniciarSesion" mnemonicParsing="false" text="Iniciar sesión">
+            <Button fx:id="btnIniciarSesion" mnemonicParsing="false" onAction="#login" text="Iniciar sesión">
                <VBox.margin>
                   <Insets />
                </VBox.margin>

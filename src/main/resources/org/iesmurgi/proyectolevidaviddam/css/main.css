@@ -53,10 +53,8 @@
 }
 
 .scroll-pane {
-    -fx-border-color: lightgrey;
-    -fx-border-radius: 35;
-    -fx-background-radius: 35;
-    -fx-background-color:  #1c3787;
+    -fx-border-color: #1c3787;
+    -fx-background:  #1c3787;
 }
 
 .add-friend {
