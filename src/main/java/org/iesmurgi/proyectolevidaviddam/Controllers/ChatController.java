@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
-import org.iesmurgi.proyectolevidaviddam.models.ClientSocket;
+import org.iesmurgi.proyectolevidaviddam.Middleware.ClientSocket;
 
 import java.io.IOException;
 import java.util.ArrayList;

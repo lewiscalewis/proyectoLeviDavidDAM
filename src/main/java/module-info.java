@@ -12,6 +12,7 @@ module org.iesmurgi.proyectolevidaviddam {
     requires org.json;
     requires socket.io.client;
     requires engine.io.client;
+    requires java.desktop;
 
 
     opens org.iesmurgi.proyectolevidaviddam.models to com.google.gson;
@@ -19,4 +20,5 @@ module org.iesmurgi.proyectolevidaviddam {
     exports org.iesmurgi.proyectolevidaviddam;
     exports org.iesmurgi.proyectolevidaviddam.Controllers;
     opens org.iesmurgi.proyectolevidaviddam.Controllers to com.google.gson, javafx.fxml,javafx.base;
+    opens org.iesmurgi.proyectolevidaviddam.Middleware to com.google.gson;
 }

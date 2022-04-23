@@ -27,6 +27,12 @@ public class OpenThread<T> extends Thread implements Callable<T> {
         this.type = type;
     }
 
+    public OpenThread(String URL, ArrayList<String[]> params, String method) throws MalformedURLException {
+        this.URL = URL;
+        this.params = params;
+        this.method = method;
+    }
+
     public void setParams(ArrayList<String[]> params) {
         this.params = params;
     }

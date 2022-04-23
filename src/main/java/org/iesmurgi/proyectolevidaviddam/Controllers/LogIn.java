@@ -146,6 +146,7 @@ public class LogIn {
             }
         }
 
+
                 }
 /*
                 try {
@@ -159,7 +160,7 @@ public class LogIn {
 
             */
 
-        );
+        //);
 
     }
 
@@ -193,34 +194,33 @@ public class LogIn {
             TokenManager tkm = new TokenManager();
             tkm.tokenStorage(response);
             System.out.println("Token de usuario: "+response);
-        }
 
-
-        scene =btnIniciarSesion.getScene();
-        stage = (Stage) scene.getWindow();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-            Parent helloView = fxmlLoader.load() ;
-            HelloController helloController = fxmlLoader.getController();
-            helloController.loadHomePage(); //Loads Home page
+            scene =btnIniciarSesion.getScene();
+            stage = (Stage) scene.getWindow();
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+                Parent helloView = fxmlLoader.load() ;
+                HelloController helloController = fxmlLoader.getController();
+                helloController.loadHomePage(); //Loads Home page
 
 
 
-            GeneralDecoder gd = new GeneralDecoder();
+                GeneralDecoder gd = new GeneralDecoder();
 
 
-            String username= gd.getUserFromToken();
+                String username= gd.getUserFromToken();
 
 
-            Requester<User[]> userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user",Requester.Method.POST,User[].class);
-            userRequester.addParam("username",username);
-            helloController.loadUserData(userRequester.execute()[0]);
+                Requester<User[]> userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user",Requester.Method.POST,User[].class);
+                userRequester.addParam("username",username);
+                helloController.loadUserData(userRequester.execute()[0]);
 
-            Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight()-34, Color.BLACK);
-            stage.setScene(s);
-            stage.show();
-        } catch (Exception e){
-            e.printStackTrace();
+                Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight()-34, Color.BLACK);
+                stage.setScene(s);
+                stage.show();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

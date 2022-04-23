@@ -19,8 +19,10 @@ import java.net.URL;
 import java.util.List;
 
 public class HelloApplication extends Application {
+    public static Stage mainStage;
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
+        mainStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("log_in.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");

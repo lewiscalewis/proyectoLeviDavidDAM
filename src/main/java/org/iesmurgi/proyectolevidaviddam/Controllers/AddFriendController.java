@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
+import org.iesmurgi.proyectolevidaviddam.Middleware.Toast;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
@@ -25,6 +26,8 @@ import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static org.iesmurgi.proyectolevidaviddam.HelloApplication.mainStage;
 
 public class AddFriendController {
 
@@ -36,6 +39,8 @@ public class AddFriendController {
 
     @FXML
     private ScrollPane scrollPane;
+
+    TokenManager tk = new TokenManager();
 
     @FXML
     void initialize(){
@@ -65,13 +70,15 @@ public class AddFriendController {
     }
 
     void loadUsers() throws MalformedURLException, InterruptedException {
+        GeneralDecoder d = new GeneralDecoder();
+        String me = d.getUserFromToken();
 
         container.getChildren().clear();
         if(!textfieldBrowser.getText().equals("")){
             String url = CONSTANT.URL.getUrl()+"/find-users";
             ArrayList<String[]> params = new ArrayList<>();
             params.add(new String[]{"username", textfieldBrowser.getText()});
-            TokenManager tk = new TokenManager();
+            params.add(new String[]{"me", me});
             params.add(new String[]{"token", tk.getToken()});
             OpenThread<User[]> t = new OpenThread<User[]>(url, params, "POST", User[].class);
             User[] users;
@@ -88,19 +95,40 @@ public class AddFriendController {
                 userCard.maxWidth(900);
                 userCard.prefWidth(700);
                 userCard.maxHeight(400);
-                userCard.setStyle("-fx-border-color: white; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2; -fx-background-color: white");
+                userCard.setStyle("-fx-border-color: white; -fx-border-radius: 5; -fx-background-radius: 5; -fx-border-width: 2; -fx-background-color: white");
                 Label usernameLabel = new Label(u.getUsername());
                 usernameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 15");
                 Text nameLabel = new Text(u.getName());
                 Text surnameLabel = new Text(u.getSurname());
                 Button addToFriend = new Button("Añadir a lista de amigos");
-                addToFriend.setStyle("-fx-background-color: #63c963; -fx-fill: white; -fx-text-fill: white; -fx-font-weight: bold");
+                //addToFriend.setStyle("-fx-background-color: #63c963; -fx-fill: white; -fx-text-fill: white; -fx-font-weight: bold");
+                addToFriend.getStyleClass().add("button");
                 userCard.getChildren().addAll(usernameLabel, nameLabel, surnameLabel);
                 cardContainer.getChildren().addAll(userCard, addToFriend);
                 cardContainer.setSpacing(20);
                 userCard.setSpacing(5);
                 userCard.setPadding(new Insets(5, 5, 5, 5));
                 container.getChildren().add(cardContainer);
+
+                //button event
+                addToFriend.setOnAction(event -> {
+                    String url1 = CONSTANT.URL.getUrl()+"/friend-request";
+                    ArrayList<String[]> params1 = new ArrayList<>();
+                    params1.add(new String[]{"emisor", me});
+                    params1.add(new String[]{"receptor", u.getUsername()});
+                    params1.add(new String[]{"token", tk.getToken()});
+                    try {
+                        OpenThread<String> t1 = new OpenThread<String>(url1, params1, "POST", String.class);
+                        t1.getResult();
+                        String toastMsg = "Petición enviada !!";
+                        int toastMsgTime = 2800; //3.5 seconds
+                        int fadeInTime = 500; //0.5 seconds
+                        int fadeOutTime= 500; //0.5 seconds
+                        Toast.makeText(mainStage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
+                    } catch (MalformedURLException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         }
     }
