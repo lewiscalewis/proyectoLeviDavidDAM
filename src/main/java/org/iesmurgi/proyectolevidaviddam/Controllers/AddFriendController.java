@@ -1,5 +1,6 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
@@ -60,13 +61,25 @@ public class AddFriendController {
     void filterByName(KeyEvent event) throws MalformedURLException, InterruptedException, ConnectException {
         //método que necesita la previa carga de datos de los usuarios de la aplicación que no sean tus amigos para desde un ArrayList
         //se cree una lista de sugerencias de posibles usuarios
-        loadUsers();
+        Platform.runLater(()->{
+            try {
+                loadUsers();
+            } catch (MalformedURLException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @FXML
     void search(ActionEvent event) throws MalformedURLException, InterruptedException, ConnectException {
         //recogemos todos los usuarios que coincidan con lo escrito en el textfield
-        loadUsers();
+        Platform.runLater(()->{
+            try {
+                loadUsers();
+            } catch (MalformedURLException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     void loadUsers() throws MalformedURLException, InterruptedException {
@@ -95,7 +108,7 @@ public class AddFriendController {
                 userCard.maxWidth(900);
                 userCard.prefWidth(700);
                 userCard.maxHeight(400);
-                userCard.setStyle("-fx-border-color: white; -fx-border-radius: 5; -fx-background-radius: 5; -fx-border-width: 2; -fx-background-color: white");
+                userCard.getStyleClass().add("userCard");
                 Label usernameLabel = new Label(u.getUsername());
                 usernameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 15");
                 Text nameLabel = new Text(u.getName());

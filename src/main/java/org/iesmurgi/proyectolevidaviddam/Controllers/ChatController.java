@@ -1,6 +1,7 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -12,6 +13,7 @@ import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
 import org.iesmurgi.proyectolevidaviddam.Middleware.ClientSocket;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class ChatController {
@@ -34,14 +36,20 @@ public class ChatController {
 
     @FXML
     void initialize() throws IOException, InterruptedException {
-        String url = CONSTANT.URL.getUrl()+"/chatID";
-        ArrayList<String[]> params = new ArrayList<>();
-        params.add(new String[]{"username1", "test"});
-        params.add(new String[]{"username2",  "elias"});
-        OpenThread<String> t = new OpenThread<>(url, params, "POST", String.class);
-        chat = t.getResult();
-        c.start();
-        c.setRoom(chat);
+        Platform.runLater(()->{
+            try{
+                String url = CONSTANT.URL.getUrl()+"/chatID";
+                ArrayList<String[]> params = new ArrayList<>();
+                params.add(new String[]{"username1", "test"});
+                params.add(new String[]{"username2",  "elias"});
+                OpenThread<String> t = new OpenThread<>(url, params, "POST", String.class);
+                chat = t.getResult();
+                c.start();
+                c.setRoom(chat);
+            }catch (MalformedURLException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @FXML

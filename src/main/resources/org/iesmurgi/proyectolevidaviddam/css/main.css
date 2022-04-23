@@ -69,6 +69,21 @@
     -fx-fill: black;
 }
 
+.userCard2 {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-fill: black;
+    -fx-border-width: 2;
+    -fx-border-color: white;
+    -fx-padding: 20;
+    -fx-border-radius: 15;
+}
+
+.userCard2:hover {
+    -fx-background-color: whitesmoke;
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
+}
+
 .userCard:hover{
     -fx-background-color: #39ddff;
 }

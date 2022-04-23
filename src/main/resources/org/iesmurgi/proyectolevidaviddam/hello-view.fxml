@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="720.0" minWidth="1200.0" stylesheets="@css/hellocss.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.HelloController">
+<VBox fx:id="mainContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="720.0" minWidth="1200.0" prefHeight="1080.0" prefWidth="1920.0" styleClass="container" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.HelloController">
    <HBox maxHeight="92.0" minHeight="79.0" prefHeight="92.0" prefWidth="1928.0" spacing="5.0" style="-fx-background-color: #0b1533;" stylesheets="@css/main.css">
       <children>
          <HBox maxWidth="740.0" spacing="5.0">
@@ -164,7 +164,7 @@
                            </Label>
                         </children>
                      </HBox>
-                     <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox alignment="CENTER_LEFT" onMouseClicked="#logout" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Label fx:id="tileSettings3" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Logout" textFill="WHITE">
                               <font>

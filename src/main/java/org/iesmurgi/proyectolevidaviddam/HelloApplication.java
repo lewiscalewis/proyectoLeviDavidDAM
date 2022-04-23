@@ -25,7 +25,7 @@ public class HelloApplication extends Application {
         mainStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("log_in.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Hello!");
+        stage.setTitle("BitStore");
         stage.setMaximized(true);
         stage.setMinWidth(1300);
         stage.setMinHeight(870);

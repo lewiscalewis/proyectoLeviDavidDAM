@@ -49,9 +49,6 @@ public class LogIn {
 
     public void initialize(){
 
-        btnRegistrarse.getStyleClass().setAll("btn", "btn-success");
-        btnIniciarSesion.getStyleClass().setAll("btn", "btn-primary");
-
         btnRegistrarse.setOnAction(actionEvent -> {
 
             try {
