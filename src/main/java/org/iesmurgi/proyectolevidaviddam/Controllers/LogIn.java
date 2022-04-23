@@ -1,6 +1,7 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
@@ -81,18 +83,20 @@ public class LogIn {
             }
 
             System.out.println("Respuesta: "+response);
-            if(response.equals("login_error") || response.equals("")){
-                Alert a = new Alert(Alert.AlertType.NONE);
-                a.setAlertType(Alert.AlertType.ERROR);
-                a.setTitle("Error de Autentificación");
-                a.setContentText("El usuario o la contraseña son incorrectos");
-                a.show();
-            }else{
-                //Llamamos al gestor del token para que guarde localmente el token
-                TokenManager tkm = new TokenManager();
-                tkm.tokenStorage(response);
-                System.out.println("Token de usuario: "+response);
-            }
+            if(response!=null){//////////////////////////////////////////////////////SALE SI LA RESPUESTA ES NULL
+                if(response.equals("login_error") || response.equals("")){
+                    Alert a = new Alert(Alert.AlertType.NONE);
+                    a.setAlertType(Alert.AlertType.ERROR);
+                    a.setTitle("Error de Autentificación");
+                    a.setContentText("El usuario o la contraseña son incorrectos");
+                    a.show();
+                }else{
+                    //Llamamos al gestor del token para que guarde localmente el token
+                    TokenManager tkm = new TokenManager();
+                    tkm.tokenStorage(response);
+                    System.out.println("Token de usuario: "+response);
+                }
+
 
 
             scene =btnIniciarSesion.getScene();
@@ -111,19 +115,38 @@ public class LogIn {
                 String username= gd.getUserFromToken();
 
 
-                Requester<User[]> userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user",Requester.Method.POST,User[].class);
-                userRequester.addParam("username",username);
-                helloController.loadUserData(userRequester.execute()[0]);
+                Platform.runLater(()->{
+                    Requester<User[]> userRequester = null;
+                    try {
+                        userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user",Requester.Method.POST, User[].class);
+                        userRequester.addParam("username",username);
+                        helloController.loadUserData(userRequester.execute()[0]);
 
-                Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight()-34, Color.BLACK);
-                stage.setScene(s);
-                stage.show();
+                        Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight()-34, Color.BLACK);
+                        stage.setScene(s);
+                        stage.show();
+
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });/*
+                Thread loginRequestThread= new Thread(()->{
+
+
+                });
+                loginRequestThread.setDaemon(true);
+                loginRequestThread.start();
+*/
+
+
             } catch (Exception e){
                 e.printStackTrace();
             }
         }
 
-
+                }
 /*
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("homepage.fxml"));
