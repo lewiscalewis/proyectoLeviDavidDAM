@@ -37,14 +37,18 @@
                   <Font size="14.0" />
                </font>
             </PasswordField>
-            <Button fx:id="btnIniciarSesion" mnemonicParsing="false" onAction="#login" text="Iniciar sesión">
+            <VBox alignment="CENTER" maxHeight="50.0" minHeight="50.0">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
+               <children>
+                  <Button fx:id="btnIniciarSesion" mnemonicParsing="false" onAction="#login" text="Iniciar sesión">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
             <Hyperlink text="¿Has olvidado tu contraseña?" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
