@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
 import org.iesmurgi.proyectolevidaviddam.Middleware.ClientSocket;
+import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -38,9 +39,10 @@ public class ChatController {
     void initialize() throws IOException, InterruptedException {
         Platform.runLater(()->{
             try{
+                TokenManager tk = new TokenManager();
                 String url = CONSTANT.URL.getUrl()+"/chatID";
                 ArrayList<String[]> params = new ArrayList<>();
-                params.add(new String[]{"username1", "test"});
+                params.add(new String[]{"username1", tk.getToken()});
                 params.add(new String[]{"username2",  "elias"});
                 OpenThread<String> t = new OpenThread<>(url, params, "POST", String.class);
                 chat = t.getResult();

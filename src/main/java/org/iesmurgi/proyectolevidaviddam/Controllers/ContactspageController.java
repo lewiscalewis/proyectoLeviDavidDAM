@@ -122,8 +122,8 @@ public class ContactspageController {
                                     r1.addParam("token", tk.getToken());
                                     r1.execute();
                                     petitionBox.getChildren().clear();
-                                    initialize();
-                                } catch (IOException | InterruptedException e) {
+                                    reload();
+                                } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             });
@@ -136,8 +136,8 @@ public class ContactspageController {
                                     r.addParam("token", tk.getToken());
                                     r.execute();
                                     petitionBox.getChildren().clear();
-                                    initialize();
-                                } catch (IOException | InterruptedException e) {
+                                    reload();
+                                } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             });
@@ -150,6 +150,20 @@ public class ContactspageController {
             }
         });
 
+    }
+
+    void reload(){
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("contactspage.fxml"));
+        baseRoot.getChildren().clear();
+        Pane root = null;
+        VBox pageRoot = (VBox) baseRoot.getParent();
+
+        try {
+            root = (fxmlLoader.load());
+            baseRoot.getChildren().add(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
