@@ -3,6 +3,7 @@ package org.iesmurgi.proyectolevidaviddam.Middleware;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import io.socket.global.*;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 
 import java.io.*;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class ClientSocket extends Thread {
+public class ClientSocket {
 
     Socket socket;
     Socket socketReceiver;
@@ -27,27 +28,16 @@ public class ClientSocket extends Thread {
 
     }
 
-    @Override
-    public void run() {
-        try {
-            init();
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-        super.run();
-    }
-
     public void init() throws IOException, URISyntaxException {
         IO.Options options = IO.Options.builder()
                 .setForceNew(false)
                 .build();
 
         socketReceiver = IO.socket(URI.create(CONSTANT.SOCKET.getUrl()), options);
-
         socketReceiver.emit("start-room", room);
 
         socketReceiver.on ("message", objetos ->
-                System.out.println ("cliente: recibió msg->" + Arrays.toString (objetos))
+                    System.out.println ("MENSAJE RECIBIDO->" + Arrays.toString (objetos))
         );
 
         socketReceiver.connect();

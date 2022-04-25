@@ -92,7 +92,7 @@
          </HBox>
       </children>
    </HBox>
-   <StackPane fx:id="baseRoot" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+   <StackPane fx:id="baseRoot" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
       <children>
          <GridPane fx:id="contentRoot" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="container" stylesheets="@css/main.css">
             <columnConstraints>

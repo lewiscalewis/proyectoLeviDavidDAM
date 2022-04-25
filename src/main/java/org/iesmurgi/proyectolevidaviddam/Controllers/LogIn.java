@@ -127,7 +127,7 @@ public class LogIn {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        });helloController.firstLoadHomePage();
+                        });
 
                     } catch (Exception e) {
                         e.printStackTrace();

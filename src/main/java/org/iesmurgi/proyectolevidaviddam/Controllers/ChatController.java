@@ -2,6 +2,9 @@ package org.iesmurgi.proyectolevidaviddam.Controllers;
 
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -9,9 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
-import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
-import org.iesmurgi.proyectolevidaviddam.Middleware.ClientSocket;
-import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.Middleware.*;
+import org.iesmurgi.proyectolevidaviddam.models.User;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -28,6 +30,11 @@ public class ChatController {
     @FXML
     private TextField textfieldMessages;
 
+    @FXML
+    private VBox chatBox;
+
+    User contact;
+
     ClientSocket c = new ClientSocket();
     //Cuando la clase chatview se lanza, el usuario logeado hace join en la sala de chat pasándole a socketio
     //su id de sala, para ello primero tiene que conseguirlo haciendo uso de la API donde habrá un escuchador
@@ -38,31 +45,36 @@ public class ChatController {
     @FXML
     void initialize() throws IOException, InterruptedException {
         Platform.runLater(()->{
-            try{
-                TokenManager tk = new TokenManager();
-                String url = CONSTANT.URL.getUrl()+"/chatID";
-                ArrayList<String[]> params = new ArrayList<>();
-                params.add(new String[]{"username1", tk.getToken()});
-                params.add(new String[]{"username2",  "elias"});
-                OpenThread<String> t = new OpenThread<>(url, params, "POST", String.class);
-                chat = t.getResult();
-                c.start();
-                c.setRoom(chat);
-            }catch (MalformedURLException | InterruptedException e) {
-                e.printStackTrace();
-            }
+            TokenManager tk = new TokenManager();
+            GeneralDecoder gd = new GeneralDecoder();
+            String url = CONSTANT.URL.getUrl()+"/chatID";
+            Platform.runLater(()->{
+                try {
+                    Requester<String> req = new Requester<>(url, Requester.Method.POST, String.class);
+                    req.addParam("token", tk.getToken());
+                    req.addParam("username1", gd.getUserFromToken());
+                    req.addParam("username2", contact.getUsername());
+                    chat = req.execute();
+                    c.setRoom(chat);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         });
+
+        chatBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+                chatContainer.getViewportBounds().getWidth(), chatContainer.viewportBoundsProperty()));
     }
 
     @FXML
     void scrollDown(MouseEvent event) {
-
+        chatContainer.setVvalue(0);
     }
 
     @FXML
     void sendMessage(MouseEvent event) {
         String mess = textfieldMessages.textProperty().get();
-        System.out.println(mess);
+        c.sendMessage(mess);
         textfieldMessages.clear();
     }
 
@@ -71,6 +83,10 @@ public class ChatController {
         String mess = textfieldMessages.textProperty().get();
         c.sendMessage(mess);
         textfieldMessages.clear();
+    }
+
+    public void setContactData(User contact){
+        this.contact = contact;
     }
 
 }

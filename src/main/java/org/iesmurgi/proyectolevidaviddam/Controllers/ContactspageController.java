@@ -1,5 +1,6 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -16,6 +17,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.Middleware.*;
@@ -238,6 +241,7 @@ public class ContactspageController {
                 container.setPadding(new Insets(10,10,10,10));
                 container.setVgap(40);
                 container.setHgap(200);
+                openChat(userCard, u);
             }
         }else {
             loadUsers();
@@ -278,8 +282,80 @@ public class ContactspageController {
             container.setPadding(new Insets(10,10,10,10));
             container.setVgap(40);
             container.setHgap(200);
+            openChat(userCard, u);
         }
 
+    }
+
+//    void openChat(VBox container, User contact){
+//        container.setOnMouseClicked((event)->{
+//            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("chat-view.fxml"));
+//            ChatController controlador = fxmlLoader.getController();
+//            controlador.setContactData(contact);
+//            baseRoot.getChildren().clear();
+//            Pane root = null;
+//            VBox pageRoot = (VBox) baseRoot.getParent();
+//            pageRoot.setAlignment(Pos.CENTER);
+//
+//            try {
+//                root = (fxmlLoader.load());
+//                baseRoot.getChildren().add(root);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
+
+    void openChat(VBox container, User contact){
+        container.setOnMouseClicked((event)->{
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(baseRoot);
+            baseRoot.setAlignment(Pos.CENTER);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide.setToX(6000);
+            slide.play();
+            slide.setOnFinished((ev -> {
+
+                baseRoot.setTranslateX(-6000);
+                TranslateTransition slide2 = new TranslateTransition();
+                slide2.setDuration(Duration.seconds(0.4));
+                slide2.setNode(baseRoot);
+                //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+                slide2.setToX(0);
+
+                try {
+                    baseRoot.setAlignment(Pos.CENTER);
+                    baseRoot.getChildren().clear();
+                    FXMLLoader rootFxmlLoader=new FXMLLoader(
+                            HelloApplication.class.getResource(
+                                    "chat-view.fxml"
+                            )
+                    );
+                    VBox pageRoot = (VBox) baseRoot.getParent();
+                    pageRoot.setAlignment(Pos.CENTER);
+                    Pane root = rootFxmlLoader.load();
+                    baseRoot.getChildren().add(root);
+
+                    ChatController controlador = rootFxmlLoader.getController();
+                    controlador.setContactData(contact);
+
+
+                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    ((Stage)root.getScene().getWindow()).setMinHeight(500);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                slide2.play();
+                slide2.setOnFinished((event2)->{
+                });
+            }));
+        });
     }
 
 }
