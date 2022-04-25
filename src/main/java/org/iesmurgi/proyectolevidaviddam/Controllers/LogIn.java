@@ -99,7 +99,6 @@ public class LogIn {
                         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
                         Parent helloView = fxmlLoader.load();
                         HelloController helloController = fxmlLoader.getController();
-                        helloController.loadHomePage(); //Loads Home page
 
 
                         GeneralDecoder gd = new GeneralDecoder();
@@ -111,6 +110,9 @@ public class LogIn {
                         Platform.runLater(() -> {
                             Requester<User[]> userRequester = null;
                             try {
+
+
+
                                 userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user", Requester.Method.POST, User[].class);
                                 userRequester.addParam("username", username);
                                 helloController.loadUserData(userRequester.execute()[0]);
@@ -118,13 +120,14 @@ public class LogIn {
                                 Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight() - 34, Color.BLACK);
                                 stage.setScene(s);
                                 stage.show();
+                                //Loads Home page
 
                             } catch (MalformedURLException e) {
                                 e.printStackTrace();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        });
+                        });helloController.firstLoadHomePage();
 
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 
 <VBox fx:id="mainContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="720.0" minWidth="1200.0" prefHeight="1080.0" prefWidth="1920.0" styleClass="container" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.HelloController">
-   <HBox maxHeight="92.0" minHeight="79.0" prefHeight="92.0" prefWidth="1928.0" spacing="5.0" style="-fx-background-color: #0b1533;" stylesheets="@css/main.css">
+   <HBox fx:id="hboxTopMenu" maxHeight="92.0" minHeight="79.0" prefHeight="92.0" prefWidth="1928.0" spacing="5.0" style="-fx-background-color: #0b1533;" stylesheets="@css/main.css">
       <children>
          <HBox maxWidth="740.0" spacing="5.0">
             <children>
