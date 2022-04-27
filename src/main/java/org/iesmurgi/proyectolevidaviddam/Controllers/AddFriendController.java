@@ -16,12 +16,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
-import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
-import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
-import org.iesmurgi.proyectolevidaviddam.Middleware.Toast;
-import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.Middleware.*;
+import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
@@ -126,19 +125,19 @@ public class AddFriendController {
                 //button event
                 addToFriend.setOnAction(event -> {
                     String url1 = CONSTANT.URL.getUrl()+"/friend-request";
-                    ArrayList<String[]> params1 = new ArrayList<>();
-                    params1.add(new String[]{"emisor", me});
-                    params1.add(new String[]{"receptor", u.getUsername()});
-                    params1.add(new String[]{"token", tk.getToken()});
                     try {
-                        OpenThread<String> t1 = new OpenThread<String>(url1, params1, "POST", String.class);
-                        t1.getResult();
+                        Requester<FriendRequest> requester = new Requester<>(url1, Requester.Method.POST, FriendRequest.class);
+                        requester.addParam("emisor", me);
+                        requester.addParam("receptor", u.getUsername());
+                        requester.addParam("token", tk.getToken());
+                        requester.execute();
                         String toastMsg = "Petición enviada !!";
                         int toastMsgTime = 2800; //3.5 seconds
                         int fadeInTime = 500; //0.5 seconds
                         int fadeOutTime= 500; //0.5 seconds
                         Toast.makeText(mainStage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
-                    } catch (MalformedURLException | InterruptedException e) {
+                        cardContainer.getChildren().clear();
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 });
