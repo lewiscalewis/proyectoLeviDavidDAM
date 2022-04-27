@@ -2,22 +2,23 @@ package org.iesmurgi.proyectolevidaviddam.Middleware;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-import io.socket.global.*;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
+import org.iesmurgi.proyectolevidaviddam.models.Message;
 
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class ClientSocket {
 
     Socket socket;
     Socket socketReceiver;
-    ArrayList<String> messages;
+    ArrayList<Message> messages;
+    Message message;
     String room;
 
     public ClientSocket(String room){
@@ -28,7 +29,7 @@ public class ClientSocket {
 
     }
 
-    public void init() throws IOException, URISyntaxException {
+    public Message init() throws IOException, URISyntaxException {
         IO.Options options = IO.Options.builder()
                 .setForceNew(false)
                 .build();
@@ -36,18 +37,30 @@ public class ClientSocket {
         socketReceiver = IO.socket(URI.create(CONSTANT.SOCKET.getUrl()), options);
         socketReceiver.emit("start-room", room);
 
-        socketReceiver.on ("message", objetos ->
-                    System.out.println ("MENSAJE RECIBIDO->" + Arrays.toString (objetos))
+
+        socketReceiver.on ("message", objetos -> {
+//                    for(Object o : objetos){
+//                        message = Message.class.cast(o);
+//                    }
+            //CONVERTIR TIPO CON GSON PARA PROBAR
+                    System.out.println("MENSAJE RECIBIDO->" + Arrays.toString(objetos));
+                }
         );
 
         socketReceiver.connect();
+        setMessages();
+        return message;
     }
 
-    public ArrayList<String> getMessagesAsArray(){
+    private void setMessages(){
+        messages.add(message);
+    }
+
+    public ArrayList<Message> getMessagesAsArray(){
         return messages;
     }
 
-    public void sendMessage(String message) {
+    public void sendMessage(Message message) {
         IO.Options options = IO.Options.builder()
                 //.setPath("/chat message")
                 .setForceNew(false)

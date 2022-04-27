@@ -228,9 +228,19 @@ public class ContactspageController {
                 userCard.prefWidth(250);
                 userCard.maxHeight(300);
                 userCard.getStyleClass().add("userCard2");
-                //userCard.setStyle("-fx-border-color: white; -fx-border-radius: 5; -fx-background-radius: 5; -fx-border-width: 2; -fx-background-color: white");
-                Label usernameLabel = new Label("Usuario: "+u.getUsername());
-                usernameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 15");
+                //.setStyle("" +
+//                        "-fx-border-color: white; " +
+//                        "-fx-border-radius: 5; " +
+//                        "-fx-background-radius: 5; " +
+//                        "-fx-border-width: 2; " +
+//                        "-fx-background-color: white;" +
+//                        "-fx-padding: 20");
+                Label usernameLabel = new Label(u.getUsername());
+                usernameLabel.setStyle("" +
+                        "-fx-text-fill: black; " +
+                        "-fx-fill: black; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-font-size: 15");
                 Text nameLabel = new Text("Nombre: "+u.getName());
                 Text surnameLabel = new Text("Apellidos: "+u.getSurname());
                 userCard.getChildren().addAll(usernameLabel, nameLabel, surnameLabel);
@@ -239,8 +249,6 @@ public class ContactspageController {
                 container.getChildren().add(userCard);
                 container.setAlignment(Pos.CENTER);
                 container.setPadding(new Insets(10,10,10,10));
-                container.setVgap(40);
-                container.setHgap(200);
                 openChat(userCard, u);
             }
         }else {
@@ -269,10 +277,20 @@ public class ContactspageController {
             userCard.prefWidth(250);
             userCard.maxHeight(300);
             userCard.getStyleClass().add("userCard2");
-            //userCard.setStyle("-fx-border-color: white; -fx-border-radius: 5; -fx-background-radius: 5; -fx-border-width: 2; -fx-background-color: white");
+//            userCard.setStyle("" +
+//                    "-fx-border-color: white; " +
+//                    "-fx-border-radius: 5; " +
+//                    "-fx-background-radius: 5; " +
+//                    "-fx-border-width: 2; " +
+//                    "-fx-background-color: white;" +
+//                    "-fx-padding: 20");
             Label usernameLabel = new Label("Usuario: "+u.getUsername());
-            usernameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 15");
-            Text nameLabel = new Text("Nombre: "+u.getName());
+            usernameLabel.setStyle("" +
+                    "-fx-text-fill: black; " +
+                    "-fx-fill: black; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-font-size: 15;");
+            Text nameLabel = new Text(u.getName());
             Text surnameLabel = new Text("Apellidos: "+u.getSurname());
             userCard.getChildren().addAll(usernameLabel, nameLabel, surnameLabel);
             userCard.setSpacing(5);
@@ -280,8 +298,6 @@ public class ContactspageController {
             container.getChildren().add(userCard);
             container.setAlignment(Pos.CENTER);
             container.setPadding(new Insets(10,10,10,10));
-            container.setVgap(40);
-            container.setHgap(200);
             openChat(userCard, u);
         }
 
