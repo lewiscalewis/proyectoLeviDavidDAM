@@ -1,7 +1,9 @@
 package org.iesmurgi.proyectolevidaviddam.Middleware;
 
+import com.google.gson.Gson;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import org.iesmurgi.proyectolevidaviddam.Controllers.ChatController;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.models.Message;
 
@@ -10,15 +12,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class ClientSocket {
 
     Socket socket;
     Socket socketReceiver;
-    ArrayList<Message> messages;
-    Message message;
+    ArrayList<Message> messages = new ArrayList<>();
+    Message[] message;
     String room;
 
     public ClientSocket(String room){
@@ -29,7 +30,11 @@ public class ClientSocket {
 
     }
 
-    public Message init() throws IOException, URISyntaxException {
+    public void init() throws IOException, URISyntaxException {
+
+        TokenManager tk = new TokenManager();
+        GeneralDecoder gd = new GeneralDecoder();
+
         IO.Options options = IO.Options.builder()
                 .setForceNew(false)
                 .build();
@@ -37,30 +42,30 @@ public class ClientSocket {
         socketReceiver = IO.socket(URI.create(CONSTANT.SOCKET.getUrl()), options);
         socketReceiver.emit("start-room", room);
 
-
         socketReceiver.on ("message", objetos -> {
-//                    for(Object o : objetos){
-//                        message = Message.class.cast(o);
-//                    }
             //CONVERTIR TIPO CON GSON PARA PROBAR
-                    System.out.println("MENSAJE RECIBIDO->" + Arrays.toString(objetos));
-                }
-        );
-
+            Gson gson = new Gson();
+            System.out.println("MENSAJE RECIBIDO->" + Arrays.toString(objetos));
+            message = gson.fromJson(Arrays.toString(objetos), Message[].class);
+            System.out.println("El valor para message es: "+message[0]);
+            setMessages(message[0]);
+            ChatController cc = new ChatController();
+            if(!message[0].getUsername().equals(gd.getUserFromToken())){
+                cc.printMessages(message[0]);
+            }
+        });
         socketReceiver.connect();
-        setMessages();
-        return message;
     }
 
-    private void setMessages(){
-        messages.add(message);
+    private void setMessages(Message message1){
+        messages.add(message1);
     }
 
     public ArrayList<Message> getMessagesAsArray(){
         return messages;
     }
 
-    public void sendMessage(Message message) {
+    public void sendMessage(String message) {
         IO.Options options = IO.Options.builder()
                 //.setPath("/chat message")
                 .setForceNew(false)

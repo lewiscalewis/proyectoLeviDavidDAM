@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class ChatController {
@@ -65,11 +66,7 @@ public class ChatController {
                     req.addParam("username2", contact.getUsername());
                     chat = req.execute();
                     c.setRoom(chat);
-                    Message m = c.init();
-                    messages.add(m);
-                    if(!m.getUsername().equals(gd.getUserFromToken())){
-                        printMessages(m);
-                    }
+                    c.init();
                 } catch (IOException | URISyntaxException e) {
                     e.printStackTrace();
                 }
@@ -88,18 +85,26 @@ public class ChatController {
     @FXML
     void sendMessage(MouseEvent event) {
         String mess = textfieldMessages.textProperty().get();
-        message = new Message(mess, gd.getUserFromToken(), new Date());
-        c.sendMessage(message);
+        Date date = new Date();
+        message = new Message(mess, gd.getUserFromToken(), date.toString());
+        message.setDatetime(date);
+        c.sendMessage(message.toString());
         textfieldMessages.clear();
+        messages = c.getMessagesAsArray();
+        System.out.println("Mensajes: "+messages);
         printMessages(message);
     }
 
     @FXML
     void sendMessagesByKey(ActionEvent event) {
         String mess = textfieldMessages.textProperty().get();
-        message = new Message(mess, gd.getUserFromToken(), new Date());
-        c.sendMessage(message);
+        Date date = new Date();
+        message = new Message(mess, gd.getUserFromToken(), date.toString());
+        message.setDatetime(date);
+        c.sendMessage(message.toString());
         textfieldMessages.clear();
+        messages = c.getMessagesAsArray();
+        System.out.println("Mensajes: "+messages);
         printMessages(message);
     }
 
@@ -107,7 +112,7 @@ public class ChatController {
         this.contact = contact;
     }
 
-    private void printMessages(Message message){
+    public void printMessages(Message message){
         VBox messageCard = new VBox();
         messageCard.setAlignment(Pos.CENTER);
         messageCard.maxWidth(300);
@@ -127,9 +132,16 @@ public class ChatController {
                 "-fx-font-weight: bold; " +
                 "-fx-font-size: 15;");
         Text bodyMessage = new Text(message.getMessage());
-        Text footDate = new Text(message.getDatetime().toString());
+        bodyMessage.setStyle("-fx-font-size: 14");
+        Text footDate = new Text(message.getDatetime());
+        footDate.setStyle("-fx-font-size: 9");
         messageCard.getChildren().addAll(usernameLabel, bodyMessage, footDate);
         messageCard.setSpacing(5);
+        if(!message.getUsername().equals(gd.getUserFromToken())){
+            messageCard.setStyle("-fx-background-color: whitesmoke");
+        }else{
+            messageCard.setStyle("-fx-background-color: #befabe");
+        }
         messageCard.setPadding(new Insets(5, 5, 5, 5));
         chatBox.getChildren().add(messageCard);
         chatBox.setAlignment(Pos.CENTER);
