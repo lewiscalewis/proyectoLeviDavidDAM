@@ -59,7 +59,7 @@ public class ClientSocket {
             System.out.println("El valor para message es: "+message[0]);
             setMessages(message[0]);
 
-            if(!message[0].getUsername().equals(gd.getUserFromToken())){
+            if(!message[0].getEmisor().equals(gd.getUserFromToken())){
                 controller.printMessages(message[0]);
             }
         });
