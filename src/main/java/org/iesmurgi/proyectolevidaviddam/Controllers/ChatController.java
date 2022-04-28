@@ -46,19 +46,21 @@ public class ChatController {
     TokenManager tk = new TokenManager();
     GeneralDecoder gd = new GeneralDecoder();
 
-    ClientSocket c = new ClientSocket();
     //Cuando la clase chatview se lanza, el usuario logeado hace join en la sala de chat pasándole a socketio
     //su id de sala, para ello primero tiene que conseguirlo haciendo uso de la API donde habrá un escuchador
     //que se encargue de conseguir el chat en cuestión a partir de los dos username (el propio y el del receptor)
     //y si no existe lo crea y devuelve el id de chat que será el room en socketio
     String chat;
     ArrayList<Message> messages = new ArrayList<>();
+    ClientSocket c;
 
     @FXML
     void initialize() throws IOException, InterruptedException {
         Platform.runLater(()->{
             String url = CONSTANT.URL.getUrl()+"/chatID";
+            Platform.setImplicitExit(false);
             Platform.runLater(()->{
+                c = new ClientSocket(this);
                 try {
                     Requester<String> req = new Requester<>(url, Requester.Method.POST, String.class);
                     req.addParam("token", tk.getToken());
@@ -113,11 +115,12 @@ public class ChatController {
     }
 
     public void printMessages(Message message){
-        VBox messageCard = new VBox();
-        messageCard.setAlignment(Pos.CENTER);
-        messageCard.maxWidth(300);
-        messageCard.maxHeight(300);
-        messageCard.getStyleClass().add("messageCard2");
+        Platform.runLater(()->{
+            VBox messageCard = new VBox();
+            messageCard.setAlignment(Pos.CENTER);
+            messageCard.maxWidth(300);
+            messageCard.maxHeight(300);
+            messageCard.getStyleClass().add("messageCard2");
 //            messageCard.setStyle("" +
 //                    "-fx-border-color: white; " +
 //                    "-fx-border-radius: 5; " +
@@ -125,27 +128,28 @@ public class ChatController {
 //                    "-fx-border-width: 2; " +
 //                    "-fx-background-color: white;" +
 //                    "-fx-padding: 20");
-        Label usernameLabel = new Label(message.getUsername());
-        usernameLabel.setStyle("" +
-                "-fx-text-fill: black; " +
-                "-fx-fill: black; " +
-                "-fx-font-weight: bold; " +
-                "-fx-font-size: 15;");
-        Text bodyMessage = new Text(message.getMessage());
-        bodyMessage.setStyle("-fx-font-size: 14");
-        Text footDate = new Text(message.getDatetime());
-        footDate.setStyle("-fx-font-size: 9");
-        messageCard.getChildren().addAll(usernameLabel, bodyMessage, footDate);
-        messageCard.setSpacing(5);
-        if(!message.getUsername().equals(gd.getUserFromToken())){
-            messageCard.setStyle("-fx-background-color: whitesmoke");
-        }else{
-            messageCard.setStyle("-fx-background-color: #befabe");
-        }
-        messageCard.setPadding(new Insets(5, 5, 5, 5));
-        chatBox.getChildren().add(messageCard);
-        chatBox.setAlignment(Pos.CENTER);
-        chatBox.setPadding(new Insets(10,10,10,10));
+            Label usernameLabel = new Label(message.getUsername());
+            usernameLabel.setStyle("" +
+                    "-fx-text-fill: black; " +
+                    "-fx-fill: black; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-font-size: 15;");
+            Text bodyMessage = new Text(message.getMessage());
+            bodyMessage.setStyle("-fx-font-size: 14");
+            Text footDate = new Text(message.getDatetime());
+            footDate.setStyle("-fx-font-size: 9");
+            messageCard.getChildren().addAll(usernameLabel, bodyMessage, footDate);
+            messageCard.setSpacing(5);
+            if(!message.getUsername().equals(gd.getUserFromToken())){
+                messageCard.setStyle("-fx-background-color: whitesmoke");
+            }else{
+                messageCard.setStyle("-fx-background-color: #befabe");
+            }
+            messageCard.setPadding(new Insets(5, 5, 5, 5));
+            chatBox.getChildren().add(messageCard);
+            chatBox.setAlignment(Pos.CENTER);
+            chatBox.setPadding(new Insets(10,10,10,10));
+        });
     }
 
 }

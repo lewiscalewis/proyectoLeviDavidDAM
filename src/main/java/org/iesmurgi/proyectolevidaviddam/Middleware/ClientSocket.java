@@ -3,8 +3,12 @@ package org.iesmurgi.proyectolevidaviddam.Middleware;
 import com.google.gson.Gson;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.Pane;
 import org.iesmurgi.proyectolevidaviddam.Controllers.ChatController;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
+import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.models.Message;
 
 import java.io.*;
@@ -21,6 +25,7 @@ public class ClientSocket {
     ArrayList<Message> messages = new ArrayList<>();
     Message[] message;
     String room;
+    ChatController controller;
 
     public ClientSocket(String room){
         this.room = room;
@@ -28,6 +33,10 @@ public class ClientSocket {
 
     public ClientSocket(){
 
+    }
+
+    public ClientSocket(ChatController controller){
+        this.controller = controller;
     }
 
     public void init() throws IOException, URISyntaxException {
@@ -49,12 +58,13 @@ public class ClientSocket {
             message = gson.fromJson(Arrays.toString(objetos), Message[].class);
             System.out.println("El valor para message es: "+message[0]);
             setMessages(message[0]);
-            ChatController cc = new ChatController();
+
             if(!message[0].getUsername().equals(gd.getUserFromToken())){
-                cc.printMessages(message[0]);
+                controller.printMessages(message[0]);
             }
         });
         socketReceiver.connect();
+
     }
 
     private void setMessages(Message message1){
