@@ -83,8 +83,8 @@ public class ChatController {
     }
 
     @FXML
-    void scrollDown(MouseEvent event) {
-        chatContainer.setVvalue(0);
+    void scrollDown() {
+        chatContainer.setVvalue(1);
     }
 
     @FXML
@@ -154,6 +154,7 @@ public class ChatController {
             chatBox.getChildren().add(messageCard);
             chatBox.setAlignment(Pos.CENTER);
             chatBox.setPadding(new Insets(10,10,10,10));
+            scrollDown();
         });
     }
 
