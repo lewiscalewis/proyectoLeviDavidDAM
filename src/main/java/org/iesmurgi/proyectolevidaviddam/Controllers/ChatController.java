@@ -141,7 +141,7 @@ public class ChatController {
             messageCard.getChildren().addAll(usernameLabel, bodyMessage, footDate);
             messageCard.setSpacing(5);
             if(!message.getUsername().equals(gd.getUserFromToken())){
-                messageCard.setStyle("-fx-background-color: whitesmoke");
+                messageCard.setStyle("-fx-background-color: #e8e8e8");
             }else{
                 messageCard.setStyle("-fx-background-color: #befabe");
             }
