@@ -61,7 +61,7 @@ public class Message  {
     @Override
     public String toString(){
         return  "{"
-                +"\"message\":\""+ body+ "\","
+                +"\"body\":\""+ body+ "\","
                 +"\"emisor\":\""+ emisor + "\","
                 +"\"receptor\":\""+ receptor + "\","
                 +"\"date\":\""+ date + "\""

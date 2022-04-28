@@ -290,7 +290,7 @@ public class ContactspageController {
                     "-fx-fill: black; " +
                     "-fx-font-weight: bold; " +
                     "-fx-font-size: 15;");
-            Text nameLabel = new Text(u.getName());
+            Text nameLabel = new Text("Nombre: "+u.getName());
             Text surnameLabel = new Text("Apellidos: "+u.getSurname());
             userCard.getChildren().addAll(usernameLabel, nameLabel, surnameLabel);
             userCard.setSpacing(5);
