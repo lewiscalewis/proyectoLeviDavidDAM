@@ -61,6 +61,8 @@ public class ClientSocket {
 
             if(!message[0].getEmisor().equals(gd.getUserFromToken())){
                 controller.printMessages(message[0]);
+                controller.chatContainer.layout();
+                controller.scrollDown();
             }
         });
         socketReceiver.connect();

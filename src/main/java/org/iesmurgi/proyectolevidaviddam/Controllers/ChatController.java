@@ -32,7 +32,7 @@ import java.util.Date;
 public class ChatController {
 
     @FXML
-    private ScrollPane chatContainer;
+    public ScrollPane chatContainer;
 
     @FXML
     private VBox vboxContainer;
@@ -72,6 +72,7 @@ public class ChatController {
                     c.setRoom(chat);
                     c.init();
                     getMessages();
+                    scrollDown();
                 } catch (IOException | URISyntaxException e) {
                     e.printStackTrace();
                 }
@@ -83,8 +84,8 @@ public class ChatController {
     }
 
     @FXML
-    void scrollDown() {
-        chatContainer.setVvalue(1);
+    public void scrollDown() {
+        chatContainer.setVvalue(1.0);
     }
 
     @FXML
@@ -99,6 +100,8 @@ public class ChatController {
         System.out.println("Mensajes: "+messages);
         printMessages(message);
         saveMessages(message);
+        chatContainer.layout();
+        scrollDown();
     }
 
     @FXML
@@ -113,6 +116,8 @@ public class ChatController {
         System.out.println("Mensajes: "+messages);
         printMessages(message);
         saveMessages(message);
+        chatContainer.layout();
+        scrollDown();
     }
 
     public void setContactData(User contact){
@@ -153,7 +158,9 @@ public class ChatController {
             messageCard.setPadding(new Insets(5, 5, 5, 5));
             chatBox.getChildren().add(messageCard);
             chatBox.setAlignment(Pos.CENTER);
-            chatBox.setPadding(new Insets(10,10,10,10));
+            chatBox.setPadding(new Insets(10,10,20,10));
+            chatBox.layout();
+            chatContainer.layout();
             scrollDown();
         });
     }
