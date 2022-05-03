@@ -12,55 +12,78 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
+import org.iesmurgi.proyectolevidaviddam.Middleware.FileGetter;
+import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HelloController {
 
 
     @FXML
-    private VBox pageRoot;
-    @FXML
-    private Hyperlink hyperlinkUser;                //HyperLink que se encuentra arriba a la derecha junto a la imagen del usuario
-    @FXML
     private StackPane baseRoot;
-    @FXML
-    private ColumnConstraints columnConstraints3;
-    @FXML
-    private GridPane contentRoot;
+
     @FXML
     private VBox chatSlider;
+
     @FXML
-    private VBox mainContainer;
+    private ColumnConstraints columnConstraints3;
+
+    @FXML
+    private GridPane contentRoot;
+
     @FXML
     private GridPane gridRoot;
-    @FXML
-    private ImageView imageviewProfileImage;
-    @FXML
-    private Label tileSettings;
-    @FXML
-    private Label tileSettings3;
-    @FXML
-    private Label tileSettings2;
-    @FXML
-    private Label tileSettings1;
-    @FXML
-    private Label labelTopMenu1;
-    @FXML
-    private Label labelTopMenu3;
-    @FXML
-    private Label labelTopMenu2;
+
     @FXML
     private HBox hboxTopMenu;
+
+    @FXML
+    private Hyperlink hyperlinkUser;
+
+    @FXML
+    private ImageView imageviewProfileImage;
+
+    @FXML
+    private Label labelTopMenu1;
+
+    @FXML
+    private Label labelTopMenu2;
+
+    @FXML
+    private Label labelTopMenu3;
+
+    @FXML
+    private VBox mainContainer;
+
+    @FXML
+    private VBox pageRoot;
+
+    @FXML
+    private Label tileSettings;
+
+    @FXML
+    private Label tileSettings1;
+
+    @FXML
+    private Label tileSettings2;
+
+    @FXML
+    private Label tileSettings3;
+
+    TokenManager tk = new TokenManager();
 
 
     public void initialize() throws IOException {
         chatSlider.setTranslateX(265);
-
-
     }
 
 
@@ -73,7 +96,24 @@ public class HelloController {
     }
     boolean chatOpen=true;
     @FXML
-    public void loadHomePage()  {
+    public void loadHomePage() throws IOException {
+
+//        try {
+//            // EJEMPLO
+//            Map<String, String> headers = new HashMap<>();
+//            headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
+//            FileGetter multipart = new FileGetter();
+//            multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/image", "utf-8", headers);
+//            // Add form field
+//            multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
+//            // Add file
+//            multipart.addFilePart("image", new File("C:\\Users\\lewis\\IdeaProjects\\proyectoLeviDavidDAM\\src\\main\\resources\\org\\iesmurgi\\proyectolevidaviddam\\images\\putin.jpg"));
+//            // Print result
+//            String response = multipart.finish();
+//            System.out.println(response);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));
@@ -200,7 +240,6 @@ public class HelloController {
 
     @FXML
     public void logout(Event e) throws IOException {
-        TokenManager tk = new TokenManager();
         tk.deleteToken();
         try {
             mainContainer.setAlignment(Pos.CENTER);
