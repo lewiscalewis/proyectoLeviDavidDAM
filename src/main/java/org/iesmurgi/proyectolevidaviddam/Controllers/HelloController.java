@@ -6,6 +6,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -55,11 +56,13 @@ public class HelloController {
     private Label labelTopMenu2;
     @FXML
     private HBox hboxTopMenu;
+    @FXML
+    private Button btnUpload;
 
 
     public void initialize() throws IOException {
         chatSlider.setTranslateX(265);
-
+        loadHomePage();
 
     }
 
@@ -197,6 +200,57 @@ public class HelloController {
         }));
 
     }
+
+    @FXML
+    public void loadUploadPage()  {
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(pageRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            pageRoot.setTranslateX(-6000);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(pageRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                pageRoot.setAlignment(Pos.TOP_LEFT);
+                pageRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "uploadpage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+                pageRoot.getChildren().add(root);
+
+
+                ((Stage)root.getScene().getWindow()).setMinWidth(900);
+                ((Stage)root.getScene().getWindow()).setMinHeight(500);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+
+            });
+
+        }));
+
+    }
+
 
     @FXML
     public void logout(Event e) throws IOException {
