@@ -151,7 +151,7 @@
                      </HBox>
                      <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings1" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Profile" textFill="WHITE">
+                           <Label fx:id="tileSettings1" onMouseClicked="#loadProfilePage" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Profile" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>

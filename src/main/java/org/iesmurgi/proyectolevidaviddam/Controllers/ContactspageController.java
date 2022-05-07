@@ -13,6 +13,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -25,6 +27,7 @@ import org.iesmurgi.proyectolevidaviddam.Middleware.*;
 import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -211,16 +214,22 @@ public class ContactspageController {
     private void loadUsersBySearch() throws IOException, InterruptedException {
         container.getChildren().clear();
         if(!textfieldBrowser.getText().equals("")){
+
             String url = CONSTANT.URL.getUrl()+"/get-contacts-filter";
-            ArrayList<String[]> params = new ArrayList<>();
-            params.add(new String[]{"username", me});
-            params.add((new String[]{"friend", textfieldBrowser.getText()}));
-            params.add(new String[]{"token", tk.getToken()});
-            OpenThread<User[]> t = new OpenThread<User[]>(url, params, "POST", User[].class);
+            Requester<User[]> r = new Requester(url, Requester.Method.POST, User[].class);
+            r.addParam("username", me);
+            r.addParam("friend", textfieldBrowser.getText());
+            r.addParam("token", tk.getToken());
             User[] users;
-            users = t.getResult();
-            System.out.println(Arrays.toString(users));
+            users = r.execute();
+
             for(User u: users){
+
+                String url1 = CONSTANT.URL.getUrl()+"/download-image";
+                FileGetter fileGetter = new FileGetter(url1);
+                fileGetter.addParam("username", u.getUsername());
+                fileGetter.addParam("token", tk.getToken());
+
                 System.out.println(u.toString());
                 VBox userCard = new VBox();
                 userCard.setAlignment(Pos.CENTER);
@@ -235,15 +244,18 @@ public class ContactspageController {
 //                        "-fx-border-width: 2; " +
 //                        "-fx-background-color: white;" +
 //                        "-fx-padding: 20");
-                Label usernameLabel = new Label(u.getUsername());
+                ImageView imgView = fileGetter.getImage();
+                imgView.setFitHeight(60);
+                imgView.setFitWidth(60);
+                Label usernameLabel = new Label("Usuario: "+u.getUsername());
                 usernameLabel.setStyle("" +
                         "-fx-text-fill: black; " +
                         "-fx-fill: black; " +
                         "-fx-font-weight: bold; " +
-                        "-fx-font-size: 15");
+                        "-fx-font-size: 15;");
                 Text nameLabel = new Text("Nombre: "+u.getName());
                 Text surnameLabel = new Text("Apellidos: "+u.getSurname());
-                userCard.getChildren().addAll(usernameLabel, nameLabel, surnameLabel);
+                userCard.getChildren().addAll(imgView, usernameLabel, nameLabel, surnameLabel);
                 userCard.setSpacing(5);
                 userCard.setPadding(new Insets(5, 5, 5, 5));
                 container.getChildren().add(userCard);
@@ -268,8 +280,15 @@ public class ContactspageController {
         r.addParam("token", tk.getToken());
         User[] users;
         users = r.execute();
+
         System.out.println("Ejecutando get contacts: ");
         for(User u: users){
+
+            String url1 = CONSTANT.URL.getUrl()+"/download-image";
+            FileGetter fileGetter = new FileGetter(url1);
+            fileGetter.addParam("username", u.getUsername());
+            fileGetter.addParam("token", tk.getToken());
+
             System.out.println(u.toString());
             VBox userCard = new VBox();
             userCard.setAlignment(Pos.CENTER);
@@ -284,6 +303,9 @@ public class ContactspageController {
 //                    "-fx-border-width: 2; " +
 //                    "-fx-background-color: white;" +
 //                    "-fx-padding: 20");
+            ImageView imgView = fileGetter.getImage();
+            imgView.setFitHeight(60);
+            imgView.setFitWidth(60);
             Label usernameLabel = new Label("Usuario: "+u.getUsername());
             usernameLabel.setStyle("" +
                     "-fx-text-fill: black; " +
@@ -292,7 +314,7 @@ public class ContactspageController {
                     "-fx-font-size: 15;");
             Text nameLabel = new Text("Nombre: "+u.getName());
             Text surnameLabel = new Text("Apellidos: "+u.getSurname());
-            userCard.getChildren().addAll(usernameLabel, nameLabel, surnameLabel);
+            userCard.getChildren().addAll(imgView, usernameLabel, nameLabel, surnameLabel);
             userCard.setSpacing(5);
             userCard.setPadding(new Insets(5, 5, 5, 5));
             container.getChildren().add(userCard);

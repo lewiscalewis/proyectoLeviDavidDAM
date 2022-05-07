@@ -80,7 +80,7 @@ public class HelloController {
 //            Map<String, String> headers = new HashMap<>();
 //            headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
 //            FileGetter multipart = new FileGetter();
-//            multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/image", "utf-8", headers);
+//            multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/upload-image", "utf-8", headers);
 //            // Add form field
 //            multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
 //            // Add file
