@@ -116,6 +116,7 @@ public class LogIn {
                                 userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user", Requester.Method.POST, User[].class);
                                 userRequester.addParam("username", username);
                                 helloController.loadUserData(userRequester.execute()[0]);
+                                helloController.loadHomePage();
 
                                 Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight() - 34, Color.BLACK);
                                 stage.setScene(s);

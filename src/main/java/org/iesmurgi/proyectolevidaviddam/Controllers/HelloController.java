@@ -8,15 +8,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
+import org.iesmurgi.proyectolevidaviddam.Middleware.FileGetter;
+import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HelloController {
 
@@ -72,25 +82,105 @@ public class HelloController {
 
     }
     boolean chatOpen=true;
+
+
+    InputStream requestProfileImage(String username) throws IOException {
+        String URL= "http://tux.iesmurgi.org:11230/download-image-test";
+        java.net.URL server = new java.net.URL(URL);
+        // Open a connection(?) on the URL(??) and cast the response(???)
+        HttpURLConnection connection = (HttpURLConnection) server.openConnection();
+
+
+
+
+
+
+
+
+
+        // Now it's "open", we can set the request method, headers etc.
+        connection.setRequestProperty("accept", "application/x-www-form-urlencoded");
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+
+        Map<String,String> params= new HashMap<>();
+        params.put("username", "elias");                  //La petición no llega al servidor cuando le pongo parámetros
+        params.put("token", new GeneralDecoder().decodeToken());
+        //ADD PARAMETERS
+        int i = 0;
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            //System.out.println(entry.getKey() + "/" + entry.getValue());
+
+            String urlParameters  = (i > 0 ? "&" : "") + entry.getKey()+"="+entry.getValue();
+            byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
+            int    postDataLength = postData.length;
+            System.out.println("Escribiendo parámetros: key -> "+entry.getKey()+"|| value -> "+entry.getValue());
+            connection.getOutputStream().write(postData, 0, postDataLength);
+            i++;
+        }
+
+
+
+
+
+        InputStream responseStream= connection.getInputStream();
+
+        return responseStream;
+
+
+    }
+
+
+
+    //Hace una petición y obtiene una imagen. NO MODIFICAR. ES DE EJEMPLO.
+    InputStream requestBinary() throws IOException {
+
+        String URL= "http://tux.iesmurgi.org:11230/download-image-test";
+        java.net.URL server = new java.net.URL(URL);
+        // Open a connection(?) on the URL(??) and cast the response(???)
+        HttpURLConnection connection = (HttpURLConnection) server.openConnection();
+
+        // Now it's "open", we can set the request method, headers etc.
+        connection.setRequestProperty("accept", "application/x-www-form-urlencoded");
+        connection.setRequestMethod("GET");
+        connection.setDoOutput(true);
+
+        InputStream responseStream = connection.getInputStream();
+
+
+        return responseStream;
+    }
+
+
+
+
+
+
     @FXML
     public void loadHomePage() throws IOException {
+/*
+        try {
+            // EJEMPLO
+            Map<String, String> headers = new HashMap<>();
+            headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
+            FileGetter multipart = new FileGetter();
+            multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/image", "utf-8", headers);
+            // Add form field
+            multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
+            // Add file
+            multipart.addFilePart("image", new File("C:\\Users\\whywo\\Pictures\\Screenshots\\Screenshot (3).png"));
+            // Print result
+            String response = multipart.finish();
+            System.out.println(response);
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
 
-//        try {
-//            // EJEMPLO
-//            Map<String, String> headers = new HashMap<>();
-//            headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
-//            FileGetter multipart = new FileGetter();
-//            multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/image", "utf-8", headers);
-//            // Add form field
-//            multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
-//            // Add file
-//            multipart.addFilePart("image", new File("C:\\Users\\lewis\\IdeaProjects\\proyectoLeviDavidDAM\\src\\main\\resources\\org\\iesmurgi\\proyectolevidaviddam\\images\\putin.jpg"));
-//            // Print result
-//            String response = multipart.finish();
-//            System.out.println(response);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
+*/
+        //requestBinary();
+        imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
+
 
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));
