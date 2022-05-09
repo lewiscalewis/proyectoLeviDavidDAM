@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
@@ -135,6 +136,32 @@ public class LogIn {
                 }
             }
         });
+    }
+
+    @FXML
+    void openPasswordRecovery(){
+        try {
+
+            // Cargo la vista
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("recovery-view.fxml"));
+
+            // Cargo la ventana
+            Parent root = loader.load();
+
+            // Creo el Scene
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Error");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     @FXML

@@ -49,7 +49,7 @@
                   </Button>
                </children>
             </VBox>
-            <Hyperlink text="¿Has olvidado tu contraseña?" />
+            <Hyperlink onMouseClicked="#openPasswordRecovery" text="¿Has olvidado tu contraseña?" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
                   <Label maxWidth="1.7976931348623157E308" text="¿No tienes una cuenta?" textFill="WHITE">
