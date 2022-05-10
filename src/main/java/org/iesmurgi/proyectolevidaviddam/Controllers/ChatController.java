@@ -79,8 +79,8 @@ public class ChatController {
             });
         });
 
-        chatBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
-                chatContainer.getViewportBounds().getWidth(), chatContainer.viewportBoundsProperty()));
+        //chatBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+        //        chatContainer.getViewportBounds().getWidth(), chatContainer.viewportBoundsProperty()));
     }
 
     @FXML

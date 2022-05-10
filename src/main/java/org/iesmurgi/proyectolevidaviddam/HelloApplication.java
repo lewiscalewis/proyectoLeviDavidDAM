@@ -27,8 +27,8 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("BitStore");
         stage.setMaximized(true);
-        stage.setMinWidth(1300);
-        stage.setMinHeight(870);
+        stage.setMinWidth(900);
+        stage.setMinHeight(850);
         stage.setScene(scene);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 

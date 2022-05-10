@@ -64,8 +64,8 @@ public class ContactspageController {
         ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
         ((AnchorPane)baseRoot   .getParent()).setBottomAnchor(baseRoot,0.0);
 
-        container.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
-                scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
+        //container.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+         //       scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
 
         hboxContainer.setSpacing(50);
 
@@ -384,7 +384,7 @@ public class ContactspageController {
 
 
                     ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                    ((Stage)root.getScene().getWindow()).setMinHeight(500);
+                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
                 } catch (IOException e) {
                     e.printStackTrace();

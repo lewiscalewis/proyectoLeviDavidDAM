@@ -84,7 +84,7 @@ public class ProfilepageController {
         ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
         ((AnchorPane)baseRoot .getParent()).setBottomAnchor(baseRoot,0.0);
 
-        if(!isFriend())labelUsername.setVisible(false);
+
 
 
     }

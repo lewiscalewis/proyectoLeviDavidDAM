@@ -14,12 +14,8 @@
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" prefHeight="36.0" prefWidth="1702.0" text="Contacts" textFill="#979797">
-               <font>
-                  <Font name="System Bold" size="25.0" />
-               </font>
-            </Label>
-            <Label maxWidth="1.7976931348623157E308" onMouseClicked="#addFriend" prefHeight="36.0" prefWidth="889.0" styleClass="add-friend" text="Añadir amigo" textFill="#8f8f8f">
+            <HBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+            <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" minWidth="200.0" onMouseClicked="#addFriend" prefHeight="36.0" prefWidth="889.0" styleClass="add-friend" text="Añadir amigo" textFill="#8f8f8f">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
@@ -29,32 +25,32 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="50.0">
+      <HBox alignment="CENTER" spacing="50.0">
          <VBox.margin>
             <Insets bottom="25.0" />
          </VBox.margin>
          <children>
-            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <VBox alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="56.0" prefWidth="840.0" spacing="50.0" styleClass="browser">
+                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="56.0" spacing="50.0" styleClass="browser">
                      <children>
                         <TextField fx:id="textfieldBrowser" onKeyTyped="#filterByName" prefHeight="35.0" prefWidth="333.0" />
                         <Button mnemonicParsing="false" onAction="#search" prefHeight="32.0" prefWidth="78.0" styleClass="browser-icon" />
                      </children>
                      <padding>
-                        <Insets bottom="5.0" top="5.0" />
+                        <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
                      </padding>
                      <VBox.margin>
                         <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox fx:id="hboxContainer" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1200.0" VBox.vgrow="ALWAYS">
+                  <HBox fx:id="hboxContainer" alignment="CENTER" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="900.0" spacing="50.0" styleClass="container" stylesheets="@css/main.css">
+                        <VBox alignment="CENTER" spacing="50.0" styleClass="container" stylesheets="@css/main.css">
                            <children>
-                              <ScrollPane fx:id="scrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="454.0" minWidth="860.0" VBox.vgrow="ALWAYS">
+                              <ScrollPane fx:id="scrollPane" minHeight="300.0" VBox.vgrow="ALWAYS">
                                  <content>
-                                    <FlowPane fx:id="container" alignment="CENTER" columnHalignment="CENTER" hgap="180.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="448.0" prefWidth="853.0" vgap="50.0">
+                                    <FlowPane fx:id="container" alignment="CENTER" columnHalignment="CENTER" hgap="180.0" maxHeight="1.7976931348623157E308" vgap="50.0">
                                        <padding>
                                           <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
                                        </padding></FlowPane>

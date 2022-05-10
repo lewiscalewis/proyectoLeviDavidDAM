@@ -211,7 +211,7 @@ public class HelloController {
 
 
                 ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                ((Stage)root.getScene().getWindow()).setMinHeight(500);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -245,7 +245,7 @@ public class HelloController {
 
 
             ((Stage)pageRoot.getScene().getWindow()).setMinWidth(900);
-            ((Stage)pageRoot.getScene().getWindow()).setMinHeight(500);
+            ((Stage)pageRoot.getScene().getWindow()).setMinHeight(850);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -289,7 +289,7 @@ public class HelloController {
                 //ProfilepageController profilepageController =rootFxmlLoader.getController();
                 //profilepageController.loadUserData();
                 ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                ((Stage)root.getScene().getWindow()).setMinHeight(500);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -304,6 +304,7 @@ public class HelloController {
 
     }
 
+    FXMLLoader rootFxmlLoader;
     @FXML
     public void loadUploadPage()  {
 
@@ -329,7 +330,7 @@ public class HelloController {
             try {
                 pageRoot.setAlignment(Pos.TOP_LEFT);
                 pageRoot.getChildren().clear();
-                FXMLLoader rootFxmlLoader=new FXMLLoader(
+               rootFxmlLoader=new FXMLLoader(
                         HelloApplication.class.getResource(
                                 "uploadpage.fxml"
                         )
@@ -338,8 +339,10 @@ public class HelloController {
                 pageRoot.getChildren().add(root);
 
 
+
+
                 ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                ((Stage)root.getScene().getWindow()).setMinHeight(500);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -347,7 +350,8 @@ public class HelloController {
 
             slide2.play();
             slide2.setOnFinished((event2)->{
-
+                //UploadpageController uploadpageController= rootFxmlLoader.getController();
+                //uploadpageController.openFileChooser();
             });
 
         }));
@@ -437,7 +441,7 @@ public class HelloController {
 
 
                 ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                ((Stage)root.getScene().getWindow()).setMinHeight(500);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
