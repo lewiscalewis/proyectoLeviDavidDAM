@@ -85,15 +85,10 @@ public class HelloController {
 
 
     InputStream requestProfileImage(String username) throws IOException {
-        String URL= "http://tux.iesmurgi.org:11230/download-image-test";
+        String URL= "http://tux.iesmurgi.org:11230/download-image";
         java.net.URL server = new java.net.URL(URL);
         // Open a connection(?) on the URL(??) and cast the response(???)
         HttpURLConnection connection = (HttpURLConnection) server.openConnection();
-
-
-
-
-
 
 
 
@@ -104,8 +99,8 @@ public class HelloController {
         connection.setDoOutput(true);
 
         Map<String,String> params= new HashMap<>();
-        params.put("username", "elias");                  //La petición no llega al servidor cuando le pongo parámetros
-        params.put("token", new GeneralDecoder().decodeToken());
+        params.put("username", new GeneralDecoder().getUserFromToken());                  //La petición no llega al servidor cuando le pongo parámetros
+        params.put("token", new TokenManager().getToken());
         //ADD PARAMETERS
         int i = 0;
         for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -135,7 +130,7 @@ public class HelloController {
     //Hace una petición y obtiene una imagen. NO MODIFICAR. ES DE EJEMPLO.
     InputStream requestBinary() throws IOException {
 
-        String URL= "http://tux.iesmurgi.org:11230/download-image-test";
+        String URL= "http://tux.iesmurgi.org:11230/download-image";
         java.net.URL server = new java.net.URL(URL);
         // Open a connection(?) on the URL(??) and cast the response(???)
         HttpURLConnection connection = (HttpURLConnection) server.openConnection();
@@ -180,7 +175,9 @@ public class HelloController {
 */
         //requestBinary();
         imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
-
+        imageviewProfileImage.setFitWidth(55);
+        imageviewProfileImage.setFitHeight(55);
+        imageviewProfileImage.setPreserveRatio(false);
 
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));
@@ -286,9 +283,11 @@ public class HelloController {
                         )
                 );
                 Pane root = rootFxmlLoader.load();
+
                 pageRoot.getChildren().add(root);
 
-
+                //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                //profilepageController.loadUserData();
                 ((Stage)root.getScene().getWindow()).setMinWidth(900);
                 ((Stage)root.getScene().getWindow()).setMinHeight(500);
 

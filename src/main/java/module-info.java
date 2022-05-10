@@ -4,11 +4,11 @@ module org.iesmurgi.proyectolevidaviddam {
     requires javafx.graphics;
     requires java.sql;
     requires java.desktop;
-    requires javaee.api;
     requires com.google.gson;
     requires org.kordamp.bootstrapfx.core;
     requires socket.io.client;
     requires engine.io.client;
+    requires javamail;
 
 
     opens org.iesmurgi.proyectolevidaviddam.models to com.google.gson;

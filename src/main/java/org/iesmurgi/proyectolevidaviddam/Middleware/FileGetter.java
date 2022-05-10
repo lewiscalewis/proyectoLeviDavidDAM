@@ -13,7 +13,6 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static com.sun.org.apache.xerces.internal.impl.io.UTF8Reader.DEFAULT_BUFFER_SIZE;
 
 public class FileGetter {
     private String boundary;
