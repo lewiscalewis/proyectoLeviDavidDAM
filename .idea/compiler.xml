@@ -15,7 +15,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="proyectoLeviDavidDAM" options="" />
+      <module name="proyectoLeviDavidDAM" options="--add-exports java.xml/com.sun.org.apache.xerces.internal.impl.io=org.iesmurgi.proyectolevidaviddam" />
     </option>
   </component>
 </project>

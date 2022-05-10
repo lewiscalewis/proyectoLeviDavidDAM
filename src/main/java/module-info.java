@@ -1,18 +1,14 @@
 module org.iesmurgi.proyectolevidaviddam {
     requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.web;
-
-    requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
+    requires javafx.graphics;
+    requires java.sql;
+    requires java.desktop;
+    requires javaee.api;
     requires com.google.gson;
-    requires org.json;
+    requires org.kordamp.bootstrapfx.core;
     requires socket.io.client;
     requires engine.io.client;
-    requires java.desktop;
 
 
     opens org.iesmurgi.proyectolevidaviddam.models to com.google.gson;

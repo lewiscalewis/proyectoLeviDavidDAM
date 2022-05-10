@@ -1,15 +1,19 @@
 package org.iesmurgi.proyectolevidaviddam.Middleware;
 
+import com.google.gson.Gson;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
+import static com.sun.org.apache.xerces.internal.impl.io.UTF8Reader.DEFAULT_BUFFER_SIZE;
 
 public class FileGetter {
     private String boundary;
@@ -18,9 +22,24 @@ public class FileGetter {
     private String charset;
     private OutputStream outputStream;
     private PrintWriter writer;
+    private Map<String, String> params;
+    private URL url;
+
+    public FileGetter() {
+        params = new HashMap<>();
+    }
 
     /**
-     * This constructor initializes a new HTTP POST request with content type
+     * Contructor with URL params for receive File from server
+     * @param url
+     */
+    public FileGetter(String url) throws MalformedURLException {
+        params = new HashMap<>();
+        this.url = new URL(url);
+    }
+
+    /**
+     * This method initializes a new HTTP POST request with content type
      * is set to multipart/form-data
      *
      * @param requestURL
@@ -121,5 +140,39 @@ public class FileGetter {
             throw new IOException("Server returned non-OK status: " + status);
         }
         return response;
+    }
+
+    public void addParam(String key, String value) {
+        params.put(key, value);
+    }
+
+    public ImageView getImage() throws IOException {
+        File file;
+        ImageView res = null;
+        HttpURLConnection connection = (HttpURLConnection) this.url.openConnection();
+        connection.setRequestProperty("accept", "application/x-www-form-urlencoded");
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+
+        //ADD PARAMETERS
+        int i = 0;
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            //System.out.println(entry.getKey() + "/" + entry.getValue());
+
+            String urlParameters = (i > 0 ? "&" : "") + entry.getKey() + "=" + entry.getValue();
+            byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+            int postDataLength = postData.length;
+            System.out.println("Escribiendo parámetros: key -> " + entry.getKey() + "|| value -> " + entry.getValue());
+            connection.getOutputStream().write(postData, 0, postDataLength);
+            i++;
+        }
+
+        if (!connection.getHeaderField("Content-Length").equals("0")) {
+            InputStream responseStream = connection.getInputStream();
+
+            Image image = new Image(responseStream);
+            res = new ImageView(image);
+        }
+        return res;
     }
 }
