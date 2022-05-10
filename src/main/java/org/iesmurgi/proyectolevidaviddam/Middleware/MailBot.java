@@ -7,6 +7,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -45,10 +46,11 @@ public class MailBot {
             Date date = new Date();
             long time = date.getTime();
             String newPassword = mail+time;
+            GeneralDecoder gd = new GeneralDecoder();
 
             Requester<String> r = new Requester<>(CONSTANT.URL.getUrl()+"/reset-password", Requester.Method.POST, String.class);
             r.addParam("email", mail);
-            r.addParam("password", newPassword);
+            r.addParam("password", gd.encodeMD5(newPassword));
             r.execute();
 
             message.setText("A continuación se le proporcionará una contraseña provisional para iniciar sesión, por favor sustitúyala por una nueva cuando inicie sesión, desde sus ajustes de usuario.\n" +
@@ -57,7 +59,7 @@ public class MailBot {
             Transport.send(message);
 
             System.out.println("Done");
-        } catch (MessagingException | IOException ex) {
+        } catch (MessagingException | IOException | NoSuchAlgorithmException ex) {
             ex.printStackTrace();
             /*Mostrar un dialog de error en la petición!!!*/
         }

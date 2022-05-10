@@ -96,10 +96,17 @@
             <version>20201115</version>
         </dependency>
         <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.7</version>
+            <groupId>org.lucee</groupId>
+            <artifactId>javamail</artifactId>
+            <version>1.6.2</version>
         </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>8.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
