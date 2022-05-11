@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
@@ -65,11 +67,13 @@ public class HelloController {
     private Label labelTopMenu2;
     @FXML
     private HBox hboxTopMenu;
+    @FXML
+    private VBox vboxPlayer;
 
 
     public void initialize() throws IOException {
         chatSlider.setTranslateX(265);
-
+        webView=new WebView();
 
     }
 
@@ -150,7 +154,8 @@ public class HelloController {
 
 
 
-
+    boolean first=true;
+    WebView webView;
     @FXML
     public void loadHomePage() throws IOException {
 /*
@@ -173,6 +178,13 @@ public class HelloController {
 
 
 */
+        if(first){
+            Label l = new Label("Loading...");
+            l.setFont(new Font("Arial",30));
+        vboxPlayer.setAlignment(Pos.TOP_CENTER);
+        vboxPlayer.getChildren().add(l);
+        first=false;}
+
         //requestBinary();
         imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
         imageviewProfileImage.setFitWidth(55);
@@ -208,6 +220,11 @@ public class HelloController {
                 );
                 Pane root = rootFxmlLoader.load();
                 pageRoot.getChildren().add(root);
+
+                HomepageController homepageController= rootFxmlLoader.getController();
+                homepageController.testHomepageController();
+
+                homepageController.playMusic(vboxPlayer,webView);
 
 
                 ((Stage)root.getScene().getWindow()).setMinWidth(900);
@@ -472,7 +489,7 @@ public class HelloController {
         slide.setDuration(Duration.seconds(0.4));
         slide.setNode((VBox) event.getTarget());
         //((HBox) event.getTarget()).setTranslateY(-6);
-        slide.setToX(0);
+        slide.setToX(10);
         slide.play();
     }
 

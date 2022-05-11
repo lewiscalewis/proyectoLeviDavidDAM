@@ -9,6 +9,7 @@ module org.iesmurgi.proyectolevidaviddam {
     requires socket.io.client;
     requires engine.io.client;
     requires javamail;
+    requires javafx.web;
 
 
     opens org.iesmurgi.proyectolevidaviddam.models to com.google.gson;

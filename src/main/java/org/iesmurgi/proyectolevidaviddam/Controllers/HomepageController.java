@@ -1,9 +1,11 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
+import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -11,41 +13,55 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.scene.web.WebEngine;
+import javafx.stage.Stage;
+import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
+import javafx.scene.web.WebView;
+import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
+import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 
 //Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
 public class HomepageController {
     @javafx.fxml.FXML
     private StackPane baseRoot;
 
-    boolean chatOpen=true;
+    boolean chatOpen = true;
     @javafx.fxml.FXML
     private VBox vboxMusic;
 
-    public void initialize() throws MalformedURLException, FileNotFoundException, URISyntaxException {
+    VBox vboxPlayer;
+    WebView webviewPlayer;
+
+    public void initialize() throws IOException, URISyntaxException {
 
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
         //es el AnchorPane del hello-view.fxml. con fxid pageRoot
-        ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
-        ((AnchorPane)baseRoot.getParent()).setTopAnchor(baseRoot,0.0);
-        ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
-        ((AnchorPane)baseRoot .getParent()).setBottomAnchor(baseRoot,0.0);
+        ((AnchorPane) baseRoot.getParent()).setLeftAnchor(baseRoot, 0.0);
+        ((AnchorPane) baseRoot.getParent()).setTopAnchor(baseRoot, 0.0);
+        ((AnchorPane) baseRoot.getParent()).setRightAnchor(baseRoot, 0.0);
+        ((AnchorPane) baseRoot.getParent()).setBottomAnchor(baseRoot, 0.0);
 
-        Button buttonGoToSettings =new Button("Go to Settings");
+        Button buttonGoToSettings = new Button("Go to Settings");
         buttonGoToSettings.setOnAction(actionEvent -> {
 
-            FXMLLoader fxmlLoader =new FXMLLoader(HelloApplication.class.getResource("profilepage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("profilepage.fxml"));
 
             //HomepageController homepageController = fxmlLoader.getController();
 
@@ -68,15 +84,79 @@ public class HomepageController {
         ///////////////////////7
 
 
-        vboxMusic.setPadding(new Insets(30,30,30,30));
+        vboxMusic.setPadding(new Insets(30, 30, 30, 30));
         vboxMusic.setSpacing(10);
 
-        vboxMusic.getChildren().addAll(getSong(),getSong(),getSong(),getSong(),getSong());
+        vboxMusic.getChildren().addAll(getSong(), getSong(), getSong());
         vboxMusic.setAlignment(Pos.CENTER);
 
 
+    }
+
+    WebEngine webEngine;
+    public void setWebViewPlayer(WebView webviewPlayer,WebEngine webEngine){
+        this.webviewPlayer=webviewPlayer;
+        this.webEngine=webEngine;
+    }
 
 
+    public void play(){
+
+        /*vboxPlayer.getChildren().clear();
+        this.vboxPlayer=vboxPlayer;
+        webviewPlayer=webView;
+        webEngine=webviewPlayer.getEngine();
+        //webEngine.setJavaScriptEnabled(true);
+        //webEngine.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
+*/
+        webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
+        //vboxPlayer.setMaxHeight(100);
+        //vboxPlayer.setMinHeight(100);
+        //vboxPlayer.getChildren().add(webviewPlayer);
+        webEngine.load(CONSTANT.URL.getUrl()+"/song-test");
+        //vboxPlayer.setAlignment(Pos.TOP_CENTER);
+
+
+        /*
+        webviewPlayer.setMaxWidth(500);
+        webviewPlayer.setMaxHeight(65);
+        webviewPlayer.setMinHeight(65);
+        webviewPlayer.setTranslateY(56);
+        webviewPlayer.setScaleX(2);
+        webviewPlayer.setScaleY(2);
+*/
+
+    }
+
+
+    public void playMusic(VBox vboxPlayer, WebView webView){
+
+        vboxPlayer.getChildren().clear();
+        this.vboxPlayer=vboxPlayer;
+        webviewPlayer=webView;
+        webEngine=webviewPlayer.getEngine();
+        //webEngine.setJavaScriptEnabled(true);
+        //webEngine.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
+
+        webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
+        vboxPlayer.setMaxHeight(100);
+        vboxPlayer.setMinHeight(100);
+        vboxPlayer.getChildren().add(webviewPlayer);
+        webEngine.load(CONSTANT.URL.getUrl()+"/song-test");
+        vboxPlayer.setAlignment(Pos.TOP_CENTER);
+
+        webviewPlayer.setMaxWidth(500);
+        webviewPlayer.setMaxHeight(65);
+        webviewPlayer.setMinHeight(65);
+        webviewPlayer.setTranslateY(56);
+        webviewPlayer.setScaleX(2);
+        webviewPlayer.setScaleY(2);
+
+
+    }
+
+    public void testHomepageController(){
+        System.out.println("TEST OK....");
     }
 
     //Devuelve el nodo de la interfaz de una interfaz nosotros le pasamos un objeto cancion de la base de datos.
@@ -122,11 +202,13 @@ public class HomepageController {
         imageView.setImage(portada);
 
 
+        Button buttonPlay;
+        buttonPlay=new Button("❤❤❤❤");
+        buttonPlay.setOnAction((event)->play());
 
 
 
-
-        song.getChildren().addAll(labelSongName,hyperlinkAuthor,imageView);
+        song.getChildren().addAll(labelSongName,hyperlinkAuthor,imageView,buttonPlay);
 
         hbox.getChildren().addAll(song,imageView);
 
