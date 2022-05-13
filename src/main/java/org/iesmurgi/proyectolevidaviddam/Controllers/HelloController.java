@@ -224,7 +224,7 @@ public class HelloController {
                 HomepageController homepageController= rootFxmlLoader.getController();
                 homepageController.testHomepageController();
 
-                homepageController.playMusic(vboxPlayer,webView);
+                homepageController.initializePlayer(vboxPlayer,webView);
 
 
                 ((Stage)root.getScene().getWindow()).setMinWidth(900);

@@ -114,6 +114,7 @@ public class HomepageController {
         //vboxPlayer.setMinHeight(100);
         //vboxPlayer.getChildren().add(webviewPlayer);
         webEngine.load(CONSTANT.URL.getUrl()+"/song-test");
+        vboxPlayer.getChildren().add(webviewPlayer);
         //vboxPlayer.setAlignment(Pos.TOP_CENTER);
 
 
@@ -129,7 +130,7 @@ public class HomepageController {
     }
 
 
-    public void playMusic(VBox vboxPlayer, WebView webView){
+    public void initializePlayer(VBox vboxPlayer, WebView webView){
 
         vboxPlayer.getChildren().clear();
         this.vboxPlayer=vboxPlayer;
@@ -141,8 +142,10 @@ public class HomepageController {
         webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
         vboxPlayer.setMaxHeight(100);
         vboxPlayer.setMinHeight(100);
-        vboxPlayer.getChildren().add(webviewPlayer);
-        webEngine.load(CONSTANT.URL.getUrl()+"/song-test");
+        vboxPlayer.setStyle("-fx-background-color:black;");
+        vboxPlayer.setTranslateZ(-1);
+        //vboxPlayer.getChildren().add(webviewPlayer);
+        //webEngine.load(CONSTANT.URL.getUrl()+"/song-test");
         vboxPlayer.setAlignment(Pos.TOP_CENTER);
 
         webviewPlayer.setMaxWidth(500);
