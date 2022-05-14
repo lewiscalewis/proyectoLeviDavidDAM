@@ -108,7 +108,20 @@
     -fx-background-color: #e7e7e7;
 }
 
+.button{
+    -fx-background-color: #63c963;
+    -fx-fill: white;
+    -fx-text-fill: white;
+    -fx-font-weight: bold
+}
 
+.button:hover{
+    -fx-background-color: white;
+    -fx-fill: #63c963;
+    -fx-text-fill: #63c963;
+    -fx-font-weight: bold;
+    -fx-font-size: 14
+}
 
 .decline-button{
     -fx-background-color: #ff0000;
@@ -121,7 +134,8 @@
     -fx-background-color: #ffffff;
     -fx-fill: #ff0000;
     -fx-text-fill: #ff0000;
-    -fx-font-weight: bold
+    -fx-font-weight: bold;
+    -fx-font-size: 14
 }
 
 .browser-icon {
