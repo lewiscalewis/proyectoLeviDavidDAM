@@ -25,9 +25,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
 public class ChatController {
 
@@ -79,8 +77,8 @@ public class ChatController {
             });
         });
 
-        //chatBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
-        //        chatContainer.getViewportBounds().getWidth(), chatContainer.viewportBoundsProperty()));
+        chatBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+               chatContainer.getViewportBounds().getWidth(), chatContainer.viewportBoundsProperty()));
     }
 
     @FXML
@@ -101,7 +99,12 @@ public class ChatController {
         printMessages(message);
         saveMessages(message);
         chatContainer.layout();
-        scrollDown();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                scrollDown();
+            }
+        }, 100);
     }
 
     @FXML
@@ -117,7 +120,12 @@ public class ChatController {
         printMessages(message);
         saveMessages(message);
         chatContainer.layout();
-        scrollDown();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                scrollDown();
+            }
+        }, 100);
     }
 
     public void setContactData(User contact){
@@ -128,9 +136,10 @@ public class ChatController {
         Platform.runLater(()->{
             VBox messageCard = new VBox();
             messageCard.setAlignment(Pos.CENTER);
-            messageCard.maxWidth(300);
+            messageCard.maxWidth(Double.MAX_VALUE);
+            messageCard.prefWidth(Double.MAX_VALUE);
+            messageCard.minWidth(Double.MAX_VALUE);
             messageCard.maxHeight(300);
-            messageCard.getStyleClass().add("messageCard2");
 //            messageCard.setStyle("" +
 //                    "-fx-border-color: white; " +
 //                    "-fx-border-radius: 5; " +
@@ -148,17 +157,24 @@ public class ChatController {
             bodyMessage.setStyle("-fx-font-size: 14");
             Text footDate = new Text(message.getDatetime());
             footDate.setStyle("-fx-font-size: 9");
-            messageCard.getChildren().addAll(usernameLabel, bodyMessage, footDate);
+            VBox slimMessageContainer = new VBox();
+            slimMessageContainer.getChildren().addAll(usernameLabel, bodyMessage, footDate);
+            slimMessageContainer.maxWidth(450);
+            slimMessageContainer.setPadding(new Insets(5, 5, 5,5));
+            slimMessageContainer.getStyleClass().add("messageCard");
+            messageCard.getChildren().addAll(slimMessageContainer);
             messageCard.setSpacing(5);
             if(!message.getEmisor().equals(gd.getUserFromToken())){
-                messageCard.setStyle("-fx-background-color: #e8e8e8");
+                slimMessageContainer.setStyle("-fx-background-color: #e8e8e8; -fx-max-width: 450px");
+                messageCard.setAlignment(Pos.TOP_LEFT);
             }else{
-                messageCard.setStyle("-fx-background-color: #befabe");
+                slimMessageContainer.setStyle("-fx-background-color: #befabe; -fx-max-width: 450px");
+                messageCard.setAlignment(Pos.CENTER_RIGHT);
             }
-            messageCard.setPadding(new Insets(5, 5, 5, 5));
+            messageCard.setPadding(new Insets(0, 10, 0, 10));
             chatBox.getChildren().add(messageCard);
             chatBox.setAlignment(Pos.CENTER);
-            chatBox.setPadding(new Insets(10,10,20,10));
+            //chatBox.setPadding(new Insets(10,10,20,10));
             chatBox.layout();
             chatContainer.layout();
             scrollDown();

@@ -97,12 +97,11 @@
 }
 
 .messageCard{
-    -fx-border-color: darkblue;
+    -fx-border-color: whitesmoke;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
     -fx-border-width: 2;
     -fx-background-color: white;
-    -fx-padding: 20;
 }
 
 .messageCard:hover{

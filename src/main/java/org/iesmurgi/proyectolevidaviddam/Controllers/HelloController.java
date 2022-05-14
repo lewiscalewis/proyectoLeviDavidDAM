@@ -72,6 +72,7 @@ public class HelloController {
 
 
     public void initialize() throws IOException {
+        pageRoot.setStyle("-fx-background-color: #0b1533");
         chatSlider.setTranslateX(265);
         webView=new WebView();
 
@@ -399,8 +400,9 @@ public class HelloController {
                 slide.setToY(-5000);
 
                 slide.setOnFinished((event)->{
+                    mainContainer.setStyle("-fx-background-color: #0b1533");
                     mainContainer.getChildren().clear();
-                    FXMLLoader rootFxmlLoader=new FXMLLoader(
+                    FXMLLoader rootFxmlLoader = new FXMLLoader(
                             HelloApplication.class.getResource(
                                     "log_in.fxml"
                             )
@@ -458,18 +460,23 @@ public class HelloController {
                         )
                 );
                 Pane root = rootFxmlLoader.load();
+
                 pageRoot.getChildren().add(root);
 
-
+                //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                //profilepageController.loadUserData();
                 ((Stage)root.getScene().getWindow()).setMinWidth(900);
                 ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             slide2.play();
             slide2.setOnFinished((event2)->{
+
             });
+
         }));
     }
 

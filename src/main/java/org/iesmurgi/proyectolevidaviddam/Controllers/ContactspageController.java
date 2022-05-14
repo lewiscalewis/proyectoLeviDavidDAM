@@ -38,7 +38,7 @@ import static org.iesmurgi.proyectolevidaviddam.HelloApplication.mainStage;
 public class ContactspageController {
 
     @FXML
-    private VBox baseRoot;
+    private StackPane baseRoot;
 
     @FXML
     private FlowPane container;
@@ -59,13 +59,13 @@ public class ContactspageController {
 
     @FXML
     void initialize() throws MalformedURLException, InterruptedException {
-        ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
-        ((AnchorPane)baseRoot.getParent()).setTopAnchor(baseRoot,0.0);
-        ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
-        ((AnchorPane)baseRoot   .getParent()).setBottomAnchor(baseRoot,0.0);
+//        ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
+//        ((AnchorPane)baseRoot.getParent()).setTopAnchor(baseRoot,0.0);
+//        ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
+//        ((AnchorPane)baseRoot.getParent()).setBottomAnchor(baseRoot,0.0);
 
-        //container.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
-         //       scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
+        container.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+                scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
 
         hboxContainer.setSpacing(50);
 
@@ -234,7 +234,7 @@ public class ContactspageController {
                 VBox userCard = new VBox();
                 userCard.setAlignment(Pos.CENTER);
                 userCard.maxWidth(300);
-                userCard.prefWidth(250);
+                userCard.prefWidth(300);
                 userCard.maxHeight(300);
                 userCard.getStyleClass().add("userCard2");
                 //.setStyle("" +
@@ -293,7 +293,7 @@ public class ContactspageController {
             VBox userCard = new VBox();
             userCard.setAlignment(Pos.CENTER);
             userCard.maxWidth(300);
-            userCard.prefWidth(250);
+            userCard.prefWidth(300);
             userCard.maxHeight(300);
             userCard.getStyleClass().add("userCard2");
 //            userCard.setStyle("" +
