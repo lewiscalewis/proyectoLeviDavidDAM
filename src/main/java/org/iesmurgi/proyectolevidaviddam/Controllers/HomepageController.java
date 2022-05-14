@@ -1,6 +1,5 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -13,7 +12,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
-import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -33,8 +31,8 @@ public class HomepageController {
     @javafx.fxml.FXML
     private VBox vboxMusic;
 
-    VBox vboxPlayer;
-    WebView webviewPlayer;
+
+
 
     public void initialize() throws IOException, URISyntaxException {
 
@@ -94,16 +92,19 @@ public class HomepageController {
 
 
     }
-
-    WebEngine webEngine;
-    public void setWebViewPlayer(WebView webviewPlayer,WebEngine webEngine){
+    static VBox vboxPlayer;
+    static WebView webviewPlayer;
+    static WebEngine webEngine;
+    public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1){
         this.webviewPlayer=webviewPlayer;
         this.webEngine=webEngine;
+        vboxPlayer=vboxPlayer1;
+
     }
 
 
-    public void play(String itemid){
-        vboxPlayer.getChildren().clear();
+    public static void play(String itemid){
+        //vboxPlayer.getChildren().clear();
         /*vboxPlayer.getChildren().clear();
         this.vboxPlayer=vboxPlayer;
         webviewPlayer=webView;
@@ -134,17 +135,16 @@ public class HomepageController {
     public boolean first=true;
     public void initializePlayer(VBox vboxPlayer, WebView webView){
 
-    first=false;
-    vboxPlayer.getChildren().clear();
+        if(first) {
+            vboxPlayer.getChildren().clear();
+            first=false;
+        }
 
+        //this.vboxPlayer=vboxPlayer;
+        //webviewPlayer=webView;
+        // webEngine=webviewPlayer.getEngine();
 
-        this.vboxPlayer=vboxPlayer;
-        webviewPlayer=webView;
-        webEngine=webviewPlayer.getEngine();
-        //webEngine.setJavaScriptEnabled(true);
-        //webEngine.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
-
-        //webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
+        ////////webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
         vboxPlayer.setMaxHeight(100);
         vboxPlayer.setMinHeight(100);
         vboxPlayer.setStyle("-fx-background-color:black;");

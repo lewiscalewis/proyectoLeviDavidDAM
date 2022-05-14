@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -72,9 +73,10 @@ public class HelloController {
 
 
     public void initialize() throws IOException {
-        pageRoot.setStyle("-fx-background-color: #0b1533");
         chatSlider.setTranslateX(265);
+
         webView=new WebView();
+        webEngine=webView.getEngine();
 
     }
 
@@ -157,6 +159,7 @@ public class HelloController {
 
     boolean first=true;
     WebView webView;
+    WebEngine webEngine;
     @FXML
     public void loadHomePage() throws IOException {
 /*
@@ -227,7 +230,8 @@ public class HelloController {
                     HomepageController homepageController= rootFxmlLoader.getController();
                     homepageController.testHomepageController();
                     if(first)
-                        homepageController.initializePlayer(vboxPlayer,webView);
+                        homepageController.setWebViewPlayer(webView,webEngine,vboxPlayer);
+                    homepageController.initializePlayer(vboxPlayer,webView);
 
 
 
@@ -352,7 +356,7 @@ public class HelloController {
             try {
                 pageRoot.setAlignment(Pos.TOP_LEFT);
                 pageRoot.getChildren().clear();
-               rootFxmlLoader=new FXMLLoader(
+                rootFxmlLoader=new FXMLLoader(
                         HelloApplication.class.getResource(
                                 "uploadpage.fxml"
                         )
@@ -400,9 +404,8 @@ public class HelloController {
                 slide.setToY(-5000);
 
                 slide.setOnFinished((event)->{
-                    mainContainer.setStyle("-fx-background-color: #0b1533");
                     mainContainer.getChildren().clear();
-                    FXMLLoader rootFxmlLoader = new FXMLLoader(
+                    FXMLLoader rootFxmlLoader=new FXMLLoader(
                             HelloApplication.class.getResource(
                                     "log_in.fxml"
                             )
@@ -460,23 +463,18 @@ public class HelloController {
                         )
                 );
                 Pane root = rootFxmlLoader.load();
-
                 pageRoot.getChildren().add(root);
 
-                //ProfilepageController profilepageController =rootFxmlLoader.getController();
-                //profilepageController.loadUserData();
+
                 ((Stage)root.getScene().getWindow()).setMinWidth(900);
                 ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             slide2.play();
             slide2.setOnFinished((event2)->{
-
             });
-
         }));
     }
 
