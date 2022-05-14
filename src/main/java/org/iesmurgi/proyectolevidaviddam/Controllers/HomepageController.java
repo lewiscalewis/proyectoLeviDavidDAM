@@ -1,11 +1,9 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
-import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -14,28 +12,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
-import javafx.stage.Stage;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import javafx.scene.web.WebView;
-import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
+import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.models.Item;
 
 //Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
 public class HomepageController {
@@ -57,7 +44,7 @@ public class HomepageController {
         ((AnchorPane) baseRoot.getParent()).setTopAnchor(baseRoot, 0.0);
         ((AnchorPane) baseRoot.getParent()).setRightAnchor(baseRoot, 0.0);
         ((AnchorPane) baseRoot.getParent()).setBottomAnchor(baseRoot, 0.0);
-
+/*
         Button buttonGoToSettings = new Button("Go to Settings");
         buttonGoToSettings.setOnAction(actionEvent -> {
 
@@ -79,15 +66,30 @@ public class HomepageController {
         });
 
         baseRoot.getChildren().add(buttonGoToSettings);
-
+*/
 
         ///////////////////////7
+
 
 
         vboxMusic.setPadding(new Insets(30, 30, 30, 30));
         vboxMusic.setSpacing(10);
 
-        vboxMusic.getChildren().addAll(getSong(), getSong(), getSong());
+
+        //get /all-items
+
+
+
+        Requester<Item[]> allItemsRequester = new Requester<>(CONSTANT.URL.getUrl()+"/all-items/", Requester.Method.POST,Item[].class );
+        allItemsRequester.addParam("token", new TokenManager().getToken());
+        Item[] allItems = allItemsRequester.execute();
+
+
+        for (int i=0;i<allItems.length;i++){
+            vboxMusic.getChildren().add(getSong(allItems[i]));
+        }
+
+        //vboxMusic.getChildren().addAll(getSong(), getSong(), getSong());
         vboxMusic.setAlignment(Pos.CENTER);
 
 
@@ -100,8 +102,8 @@ public class HomepageController {
     }
 
 
-    public void play(){
-
+    public void play(String itemid){
+        vboxPlayer.getChildren().clear();
         /*vboxPlayer.getChildren().clear();
         this.vboxPlayer=vboxPlayer;
         webviewPlayer=webView;
@@ -113,7 +115,7 @@ public class HomepageController {
         //vboxPlayer.setMaxHeight(100);
         //vboxPlayer.setMinHeight(100);
         //vboxPlayer.getChildren().add(webviewPlayer);
-        webEngine.load(CONSTANT.URL.getUrl()+"/song-test");
+        webEngine.load(CONSTANT.URL.getUrl()+"/download-item/"+itemid);
         vboxPlayer.getChildren().add(webviewPlayer);
         //vboxPlayer.setAlignment(Pos.TOP_CENTER);
 
@@ -129,17 +131,20 @@ public class HomepageController {
 
     }
 
-
+    public boolean first=true;
     public void initializePlayer(VBox vboxPlayer, WebView webView){
 
-        vboxPlayer.getChildren().clear();
+    first=false;
+    vboxPlayer.getChildren().clear();
+
+
         this.vboxPlayer=vboxPlayer;
         webviewPlayer=webView;
         webEngine=webviewPlayer.getEngine();
         //webEngine.setJavaScriptEnabled(true);
         //webEngine.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
 
-        webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
+        //webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
         vboxPlayer.setMaxHeight(100);
         vboxPlayer.setMinHeight(100);
         vboxPlayer.setStyle("-fx-background-color:black;");
@@ -163,10 +168,10 @@ public class HomepageController {
     }
 
     //Devuelve el nodo de la interfaz de una interfaz nosotros le pasamos un objeto cancion de la base de datos.
-    Node getSong() throws MalformedURLException, FileNotFoundException, URISyntaxException {
+    Node getSong(Item item) throws IOException, URISyntaxException {
 
-        String songName="*sONG NAME*";
-        String author="ldubi01";
+        String songName=item.name;
+        String author=item.username;
         Image portada=new Image(new URL("https://images.ecestaticos.com/9Sfa715zzc8Efc_taTLIbLkKeJ4=/0x0:2272x1501/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F38a%2F667%2Fee7%2F38a667ee7dbc85c2f8935eeff36be807.jpg").toURI().toURL().toExternalForm());;
 
 
@@ -207,7 +212,14 @@ public class HomepageController {
 
         Button buttonPlay;
         buttonPlay=new Button("❤❤❤❤");
-        buttonPlay.setOnAction((event)->play());
+
+
+
+        System.out.println(item.id);
+        //Item item =(Item)allItemsRequester.execute();
+        //System.out.println(item.username +"xddddd");
+
+        buttonPlay.setOnAction((event)->play(String.valueOf(item.id)));
 
 
 

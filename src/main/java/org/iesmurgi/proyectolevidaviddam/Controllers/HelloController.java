@@ -178,12 +178,7 @@ public class HelloController {
 
 
 */
-        if(first){
-            Label l = new Label("Loading...");
-            l.setFont(new Font("Arial",30));
-        vboxPlayer.setAlignment(Pos.TOP_CENTER);
-        vboxPlayer.getChildren().add(l);
-        first=false;}
+
 
         //requestBinary();
         imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
@@ -221,12 +216,21 @@ public class HelloController {
                 Pane root = rootFxmlLoader.load();
                 pageRoot.getChildren().add(root);
 
-                HomepageController homepageController= rootFxmlLoader.getController();
-                homepageController.testHomepageController();
+                if(first){
+                    Label l = new Label("Loading...");
+                    l.setFont(new Font("Arial",30));
+                    vboxPlayer.setAlignment(Pos.TOP_CENTER);
+                    vboxPlayer.getChildren().add(l);
 
-                homepageController.initializePlayer(vboxPlayer,webView);
+
+                    HomepageController homepageController= rootFxmlLoader.getController();
+                    homepageController.testHomepageController();
+                    if(first)
+                        homepageController.initializePlayer(vboxPlayer,webView);
 
 
+
+                    first=false;}
                 ((Stage)root.getScene().getWindow()).setMinWidth(900);
                 ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
