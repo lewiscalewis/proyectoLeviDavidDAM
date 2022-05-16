@@ -165,7 +165,7 @@
                            </Label>
                         </children>
                      </HBox>
-                     <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox fx:id="settingsButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Label fx:id="tileSettings2" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Settings" textFill="WHITE">
                               <font>

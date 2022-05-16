@@ -112,7 +112,8 @@
     -fx-background-color: #63c963;
     -fx-fill: white;
     -fx-text-fill: white;
-    -fx-font-weight: bold
+    -fx-font-weight: bold;
+    -fx-font-size: 14
 }
 
 .button:hover{

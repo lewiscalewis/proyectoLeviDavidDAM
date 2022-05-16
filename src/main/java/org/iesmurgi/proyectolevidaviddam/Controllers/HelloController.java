@@ -70,6 +70,8 @@ public class HelloController {
     private HBox hboxTopMenu;
     @FXML
     private VBox vboxPlayer;
+    @FXML
+    private HBox settingsButton;
 
 
     public void initialize() throws IOException {
@@ -77,6 +79,55 @@ public class HelloController {
 
         webView=new WebView();
         webEngine=webView.getEngine();
+
+        settingsButton.setOnMouseClicked(Event ->{
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(pageRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide.setToX(6000);
+            slide.play();
+            slide.setOnFinished((event -> {
+
+                pageRoot.setTranslateX(-6000);
+                TranslateTransition slide2 = new TranslateTransition();
+                slide2.setDuration(Duration.seconds(0.4));
+                slide2.setNode(pageRoot);
+                //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+                slide2.setToX(0);
+
+                try {
+                    pageRoot.setAlignment(Pos.CENTER);
+                    pageRoot.getChildren().clear();
+                    FXMLLoader rootFxmlLoader=new FXMLLoader(
+                            HelloApplication.class.getResource(
+                                    "settings-view.fxml"
+                            )
+                    );
+                    Pane root = rootFxmlLoader.load();
+
+                    pageRoot.getChildren().add(root);
+
+                    //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                    //profilepageController.loadUserData();
+                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                slide2.play();
+                slide2.setOnFinished((event2)->{
+
+                });
+
+            }));
+        });
 
     }
 
