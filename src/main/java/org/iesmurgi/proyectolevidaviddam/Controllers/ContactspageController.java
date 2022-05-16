@@ -59,10 +59,14 @@ public class ContactspageController {
 
     @FXML
     void initialize() throws MalformedURLException, InterruptedException {
-//        ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
-//        ((AnchorPane)baseRoot.getParent()).setTopAnchor(baseRoot,0.0);
-//        ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
-//        ((AnchorPane)baseRoot.getParent()).setBottomAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setTopAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setRightAnchor(baseRoot,0.0);
+        ((AnchorPane)baseRoot.getParent()).setBottomAnchor(baseRoot,0.0);
+
+        baseRoot.setTranslateZ(-10);
+        baseRoot.setAlignment(Pos.CENTER);
+
 
         container.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
                 scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
@@ -383,8 +387,8 @@ public class ContactspageController {
                     controlador.setContactData(contact);
 
 
-                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                    //((Stage)root.getScene().getWindow()).setMinWidth(900);
+                   // ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
                 } catch (IOException e) {
                     e.printStackTrace();

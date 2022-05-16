@@ -549,7 +549,7 @@ public class HelloController {
         slide.setDuration(Duration.seconds(0.1));
         slide.setNode((HBox) event.getTarget());
 
-        slide.setToY(5);
+        slide.setToY(0);
         //slide.setToX(2);
         slide.play();
 
