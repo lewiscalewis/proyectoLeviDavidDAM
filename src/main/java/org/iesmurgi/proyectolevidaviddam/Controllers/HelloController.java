@@ -101,7 +101,7 @@ public class HelloController {
                 slide2.setToX(0);
 
                 try {
-                    pageRoot.setAlignment(Pos.CENTER);
+                    pageRoot.setAlignment(Pos.TOP_CENTER);
                     pageRoot.getChildren().clear();
                     FXMLLoader rootFxmlLoader=new FXMLLoader(
                             HelloApplication.class.getResource(

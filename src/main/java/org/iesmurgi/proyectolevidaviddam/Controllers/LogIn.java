@@ -112,10 +112,9 @@ public class LogIn {
                             Requester<User[]> userRequester = null;
                             try {
 
-
-
                                 userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user", Requester.Method.POST, User[].class);
                                 userRequester.addParam("username", username);
+                                userRequester.addParam("token", tkm.getToken());
                                 helloController.loadUserData(userRequester.execute()[0]);
                                 helloController.loadHomePage();
 

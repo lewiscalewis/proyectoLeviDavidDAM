@@ -1,8 +1,6 @@
 package org.iesmurgi.proyectolevidaviddam.models;
 
 
-
-
 public class User {
 
     String name;
@@ -40,6 +38,7 @@ public class User {
                 ", email='" + email + '\'' +
                 '}';
     }
+
 
     public void setEmail(String email) {
         this.email = email;

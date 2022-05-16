@@ -54,6 +54,15 @@
     -fx-background:  #1c3787;
 }
 
+.profileImage {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+}
+
+.profileImage:hover {
+    -fx-background-color: white;
+}
+
 .add-friend {
     -fx-font-size: 25;
     -fx-font-weight: bold;
