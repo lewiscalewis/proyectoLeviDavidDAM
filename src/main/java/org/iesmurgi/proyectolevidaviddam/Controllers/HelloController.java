@@ -108,7 +108,10 @@ public class HelloController {
                                     "settings-view.fxml"
                             )
                     );
+
                     Pane root = rootFxmlLoader.load();
+                    SettingsController sc = rootFxmlLoader.getController();
+                    sc.loadImageView(this);
 
                     pageRoot.getChildren().add(root);
 
@@ -132,8 +135,12 @@ public class HelloController {
     }
 
 
-    public void loadUserData(User user){
+    public void loadUserData(User user) throws IOException {
         hyperlinkUser.setText(user.getName());
+        imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
+        imageviewProfileImage.setFitWidth(55);
+        imageviewProfileImage.setFitHeight(55);
+        imageviewProfileImage.setPreserveRatio(false);
         hyperlinkUser.setOnAction(event->{
 
         });
@@ -236,10 +243,7 @@ public class HelloController {
 
 
         //requestBinary();
-        imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
-        imageviewProfileImage.setFitWidth(55);
-        imageviewProfileImage.setFitHeight(55);
-        imageviewProfileImage.setPreserveRatio(false);
+
 
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));
