@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -43,7 +44,7 @@ public class AddFriendController {
     TokenManager tk = new TokenManager();
 
     @FXML
-    void initialize() throws MalformedURLException, InterruptedException {
+    void initialize() throws IOException, InterruptedException {
         ((AnchorPane)container.getParent()).setLeftAnchor(container,0.0);
         ((AnchorPane)container.getParent()).setTopAnchor(container,0.0);
         ((AnchorPane)container.getParent()).setRightAnchor(container,0.0);
@@ -64,7 +65,7 @@ public class AddFriendController {
         Platform.runLater(()->{
             try {
                 loadUsersBySearch();
-            } catch (MalformedURLException | InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         });
@@ -76,13 +77,13 @@ public class AddFriendController {
         Platform.runLater(()->{
             try {
                 loadUsersBySearch();
-            } catch (MalformedURLException | InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    void loadUsers() throws MalformedURLException, InterruptedException {
+    void loadUsers() throws IOException, InterruptedException {
         GeneralDecoder d = new GeneralDecoder();
         String me = d.getUserFromToken();
 
@@ -95,13 +96,24 @@ public class AddFriendController {
         System.out.println("Obteniendo usuarios ...");
     }
 
-    private void getUsers(String me, String url, ArrayList<String[]> params) throws MalformedURLException, InterruptedException {
+    private void getUsers(String me, String url, ArrayList<String[]> params) throws IOException, InterruptedException {
         params.add(new String[]{"token", tk.getToken()});
         OpenThread<User[]> t = new OpenThread<User[]>(url, params, "POST", User[].class);
         User[] users;
         users = t.getResult();
         System.out.println(Arrays.toString(users));
+
         for(User u: users){
+
+            String url1 = CONSTANT.URL.getUrl()+"/download-image";
+            FileGetter fileGetter = new FileGetter(url1);
+            fileGetter.addParam("username", u.getUsername());
+            fileGetter.addParam("token", tk.getToken());
+
+            ImageView imgView = fileGetter.getImage();
+            imgView.setFitHeight(60);
+            imgView.setFitWidth(60);
+
             VBox cardContainer = new VBox();
             cardContainer.setAlignment(Pos.CENTER);
             cardContainer.maxWidth(900);
@@ -120,7 +132,7 @@ public class AddFriendController {
             Button addToFriend = new Button("Añadir a lista de amigos");
             //addToFriend.setStyle("-fx-background-color: #63c963; -fx-fill: white; -fx-text-fill: white; -fx-font-weight: bold");
             addToFriend.getStyleClass().add("button");
-            userCard.getChildren().addAll(usernameLabel, nameLabel, surnameLabel);
+            userCard.getChildren().addAll(imgView, usernameLabel, nameLabel, surnameLabel);
             cardContainer.getChildren().addAll(userCard, addToFriend);
             cardContainer.setSpacing(20);
             userCard.setSpacing(5);
@@ -129,9 +141,9 @@ public class AddFriendController {
 
             //button event
             addToFriend.setOnAction(event -> {
-                String url1 = CONSTANT.URL.getUrl()+"/friend-request";
+                String url2 = CONSTANT.URL.getUrl()+"/friend-request";
                 try {
-                    Requester<FriendRequest> requester = new Requester<>(url1, Requester.Method.POST, FriendRequest.class);
+                    Requester<FriendRequest> requester = new Requester<>(url2, Requester.Method.POST, FriendRequest.class);
                     requester.addParam("emisor", me);
                     requester.addParam("receptor", u.getUsername());
                     requester.addParam("token", tk.getToken());
@@ -149,7 +161,7 @@ public class AddFriendController {
         }
     }
 
-    void loadUsersBySearch() throws MalformedURLException, InterruptedException {
+    void loadUsersBySearch() throws IOException, InterruptedException {
         GeneralDecoder d = new GeneralDecoder();
         String me = d.getUserFromToken();
 

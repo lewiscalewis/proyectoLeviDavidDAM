@@ -140,6 +140,8 @@ public class HelloController {
         imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
         imageviewProfileImage.setFitWidth(55);
         imageviewProfileImage.setFitHeight(55);
+        imageviewProfileImage.maxWidth(55);
+        imageviewProfileImage.maxHeight(55);
         imageviewProfileImage.setPreserveRatio(false);
         hyperlinkUser.setOnAction(event->{
 

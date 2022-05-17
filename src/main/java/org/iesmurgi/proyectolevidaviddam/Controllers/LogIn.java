@@ -123,8 +123,6 @@ public class LogIn {
                                 stage.show();
                                 //Loads Home page
 
-                            } catch (MalformedURLException e) {
-                                e.printStackTrace();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
