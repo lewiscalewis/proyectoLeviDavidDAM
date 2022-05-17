@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
@@ -75,6 +76,7 @@ public class HelloController {
 
 
     public void initialize() throws IOException {
+
         chatSlider.setTranslateX(265);
 
         webView=new WebView();

@@ -172,6 +172,8 @@ public class ChatController {
                 messageCard.setAlignment(Pos.CENTER_RIGHT);
             }
             messageCard.setPadding(new Insets(0, 10, 0, 10));
+            chatBox.setSpacing(6);
+            chatBox.setStyle("-fx-background-color: #1c3787");
             chatBox.getChildren().add(messageCard);
             chatBox.setAlignment(Pos.CENTER);
             //chatBox.setPadding(new Insets(10,10,20,10));
