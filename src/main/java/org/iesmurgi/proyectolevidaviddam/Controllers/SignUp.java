@@ -1,5 +1,6 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,16 +10,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
-import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
-import org.iesmurgi.proyectolevidaviddam.Middleware.OpenThread;
-import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
-import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.Middleware.*;
+import org.iesmurgi.proyectolevidaviddam.models.User;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -74,6 +75,9 @@ public class SignUp {
 
     boolean mail = false;
     boolean username = false;
+
+    Stage stage;
+    Scene scene;
 
     @FXML
     void initialize(){
@@ -140,19 +144,8 @@ public class SignUp {
                     t.getResult();
 
 //                requester.execute();
-                    Node node = (Node) event.getSource();
-                    Stage stage = (Stage) node.getScene().getWindow();
-                    stage.close();
-                    try {
-                        Stage stage1 = new Stage();
-                        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Homepage.fxml")));
-                        Scene scene = new Scene(root);
-                        stage1 = new Stage(StageStyle.DECORATED);
-                        stage1.setScene(scene);
-                        stage1.show();
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
+                    //Llamamos al gestor del token para que guarde localmente el token
+                    new Auth().logIn(textFieldNick.getText(), pwdContraseña.getText(), btnRegistrarse);
                 }
             }else{
                 Alert a = new Alert(Alert.AlertType.NONE);
@@ -168,7 +161,6 @@ public class SignUp {
                 textFieldNick.getStyleClass().add("text-field-error");
             }
         }
-
     }
 
     private synchronized boolean checkMail() throws IOException, InterruptedException {

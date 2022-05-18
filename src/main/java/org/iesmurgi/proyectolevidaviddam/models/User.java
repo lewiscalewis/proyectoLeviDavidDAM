@@ -9,14 +9,16 @@ public class User {
     String password;
     String profileimage;
     String email;
+    String state;
 
-    public User(String name, String surname, String username, String password, String email, String profileimage){
+    public User(String name, String surname, String username, String password, String email, String profileimage, String state){
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.password = password;
         this.email = email;
         this.profileimage = profileimage;
+        this.state = state;
     }
 
     public User(){
@@ -39,6 +41,13 @@ public class User {
                 '}';
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public void setEmail(String email) {
         this.email = email;

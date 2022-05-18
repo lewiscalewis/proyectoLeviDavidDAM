@@ -227,8 +227,15 @@ public class ContactspageController {
             User[] users;
             users = r.execute();
 
-            for(User u: users){
+            iterateUsers(users);
+        }else {
+            loadUsers();
+        }
+    }
 
+    private void iterateUsers(User[] users) throws IOException {
+        for(User u: users){
+            if(!u.getUsername().equals(new GeneralDecoder().getUserFromToken())){
                 String url1 = CONSTANT.URL.getUrl()+"/download-image";
                 FileGetter fileGetter = new FileGetter(url1);
                 fileGetter.addParam("username", u.getUsername());
@@ -259,7 +266,8 @@ public class ContactspageController {
                         "-fx-font-size: 15;");
                 Text nameLabel = new Text("Nombre: "+u.getName());
                 Text surnameLabel = new Text("Apellidos: "+u.getSurname());
-                userCard.getChildren().addAll(imgView, usernameLabel, nameLabel, surnameLabel);
+                Text state = new Text("Estado: "+u.getState());
+                userCard.getChildren().addAll(imgView, usernameLabel, nameLabel, surnameLabel, state);
                 userCard.setSpacing(5);
                 userCard.setPadding(new Insets(5, 5, 5, 5));
                 container.getChildren().add(userCard);
@@ -267,8 +275,6 @@ public class ContactspageController {
                 container.setPadding(new Insets(10,10,10,10));
                 openChat(userCard, u);
             }
-        }else {
-            loadUsers();
         }
     }
 
@@ -286,46 +292,7 @@ public class ContactspageController {
         users = r.execute();
 
         System.out.println("Ejecutando get contacts: ");
-        for(User u: users){
-
-            String url1 = CONSTANT.URL.getUrl()+"/download-image";
-            FileGetter fileGetter = new FileGetter(url1);
-            fileGetter.addParam("username", u.getUsername());
-            fileGetter.addParam("token", tk.getToken());
-
-            System.out.println(u.toString());
-            VBox userCard = new VBox();
-            userCard.setAlignment(Pos.CENTER);
-            userCard.maxWidth(300);
-            userCard.prefWidth(300);
-            userCard.maxHeight(300);
-            userCard.getStyleClass().add("userCard2");
-//            userCard.setStyle("" +
-//                    "-fx-border-color: white; " +
-//                    "-fx-border-radius: 5; " +
-//                    "-fx-background-radius: 5; " +
-//                    "-fx-border-width: 2; " +
-//                    "-fx-background-color: white;" +
-//                    "-fx-padding: 20");
-            ImageView imgView = fileGetter.getImage();
-            imgView.setFitHeight(60);
-            imgView.setFitWidth(60);
-            Label usernameLabel = new Label("Usuario: "+u.getUsername());
-            usernameLabel.setStyle("" +
-                    "-fx-text-fill: black; " +
-                    "-fx-fill: black; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-font-size: 15;");
-            Text nameLabel = new Text("Nombre: "+u.getName());
-            Text surnameLabel = new Text("Apellidos: "+u.getSurname());
-            userCard.getChildren().addAll(imgView, usernameLabel, nameLabel, surnameLabel);
-            userCard.setSpacing(5);
-            userCard.setPadding(new Insets(5, 5, 5, 5));
-            container.getChildren().add(userCard);
-            container.setAlignment(Pos.CENTER);
-            container.setPadding(new Insets(10,10,10,10));
-            openChat(userCard, u);
-        }
+        iterateUsers(users);
 
     }
 

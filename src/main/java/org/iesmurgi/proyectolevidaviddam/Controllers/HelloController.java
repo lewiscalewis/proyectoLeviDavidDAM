@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
@@ -75,6 +76,7 @@ public class HelloController {
 
 
     public void initialize() throws IOException {
+
         chatSlider.setTranslateX(265);
 
         webView=new WebView();
@@ -108,7 +110,10 @@ public class HelloController {
                                     "settings-view.fxml"
                             )
                     );
+
                     Pane root = rootFxmlLoader.load();
+                    SettingsController sc = rootFxmlLoader.getController();
+                    sc.loadImageView(this);
 
                     pageRoot.getChildren().add(root);
 
@@ -132,8 +137,14 @@ public class HelloController {
     }
 
 
-    public void loadUserData(User user){
+    public void loadUserData(User user) throws IOException {
         hyperlinkUser.setText(user.getName());
+        imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
+        imageviewProfileImage.setFitWidth(55);
+        imageviewProfileImage.setFitHeight(55);
+        imageviewProfileImage.maxWidth(55);
+        imageviewProfileImage.maxHeight(55);
+        imageviewProfileImage.setPreserveRatio(false);
         hyperlinkUser.setOnAction(event->{
 
         });
@@ -236,10 +247,7 @@ public class HelloController {
 
 
         //requestBinary();
-        imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
-        imageviewProfileImage.setFitWidth(55);
-        imageviewProfileImage.setFitHeight(55);
-        imageviewProfileImage.setPreserveRatio(false);
+
 
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));

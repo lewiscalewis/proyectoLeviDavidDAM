@@ -73,6 +73,8 @@ public class ProfilepageController {
         imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
         imageviewProfileImage.setFitWidth(150);
         imageviewProfileImage.setFitHeight(150);
+        imageviewProfileImage.maxHeight(150);
+        imageviewProfileImage.maxWidth(150);
         imageviewProfileImage.setPreserveRatio(false);
 
         labelUsername.setText(new GeneralDecoder().getUserFromToken());
