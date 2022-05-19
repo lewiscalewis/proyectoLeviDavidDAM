@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -37,7 +36,7 @@
                      </Label>
                   </children>
                </HBox>
-               <HBox alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadProfilePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
+               <HBox fx:id="topProfileButton" alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadProfilePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
                      <Label fx:id="labelTopMenu2" text="Profile" textFill="WHITE">
                         <font>
@@ -68,18 +67,7 @@
          </HBox>
          <HBox alignment="TOP_RIGHT" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="81.0" prefWidth="1176.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
             <children>
-               <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                  <children>
-                     <Button mnemonicParsing="false" onMouseClicked="#loadUploadPage" text="Upload">
-                        <font>
-                           <Font size="18.0" />
-                        </font>
-                        <HBox.margin>
-                           <Insets left="100.0" />
-                        </HBox.margin>
-                     </Button>
-                  </children>
-               </HBox>
+               <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" />
                <Pane minWidth="305.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="79.0" prefWidth="305.0" style="-fx-background-color: white;">
                   <children>
                      <HBox alignment="CENTER" layoutX="9.0" layoutY="6.0" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="288.0" spacing="30.0">
@@ -141,7 +129,7 @@
                      <Insets bottom="25.0" />
                   </padding>
                   <children>
-                     <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox fx:id="uploadButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Label fx:id="tileSettings" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Uploads" textFill="WHITE">
                               <font>
@@ -153,9 +141,9 @@
                            </Label>
                         </children>
                      </HBox>
-                     <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox fx:id="profileButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings1" onMouseClicked="#loadProfilePage" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Profile" textFill="WHITE">
+                           <Label fx:id="tileSettings1" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Profile" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>

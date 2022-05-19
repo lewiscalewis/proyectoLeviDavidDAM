@@ -73,6 +73,7 @@
 }
 
 .userCard {
+    -fx-padding: 10;
     -fx-background-color: white;
     -fx-text-fill: black;
     -fx-fill: black;
@@ -102,7 +103,7 @@
 }
 
 .userCard:hover{
-    -fx-background-color: #39ddff;
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
 }
 
 .messageCard{
