@@ -2,7 +2,6 @@ package org.iesmurgi.proyectolevidaviddam.Controllers;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -22,7 +21,6 @@ import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -58,9 +56,7 @@ public class AddFriendController {
         Platform.runLater(()->{
             try {
                 loadUsers();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         });
@@ -92,96 +88,104 @@ public class AddFriendController {
     }
 
     void loadUsers() throws IOException, InterruptedException {
-        GeneralDecoder d = new GeneralDecoder();
-        String me = d.getUserFromToken();
 
         container.getChildren().clear();
 
         String url = CONSTANT.URL.getUrl()+"/get-noFriends";
-        ArrayList<String[]> params = new ArrayList<>();
-        params.add(new String[]{"username", me});
-        getUsers(me, url, params);
+        Requester<User[]> requester = new Requester<>(url, Requester.Method.POST, User[].class);
+        requester.addParam("token", tk.getToken());
+        requester.addParam("username", textfieldBrowser.getText());
+        getUsers(requester.execute());
         System.out.println("Obteniendo usuarios ...");
     }
 
-    private void getUsers(String me, String url, ArrayList<String[]> params) throws IOException, InterruptedException {
-        Requester<User[]> t = new Requester<User[]>(url, Requester.Method.POST, User[].class);
-        t.addParam("token", tk.getToken());
-        User[] users;
-        users = t.execute();
+    private void getUsers(User[] users) throws IOException, InterruptedException {
+        GeneralDecoder d = new GeneralDecoder();
+        String me = d.getUserFromToken();
+
         System.out.println(Arrays.toString(users));
 
         for(User u: users){
 
-            String url1 = CONSTANT.URL.getUrl()+"/download-image";
-            FileGetter fileGetter = new FileGetter(url1);
-            fileGetter.addParam("username", u.getUsername());
-            fileGetter.addParam("token", tk.getToken());
+            if(!u.getUsername().equals(me)){
+                String url1 = CONSTANT.URL.getUrl()+"/download-image";
+                FileGetter fileGetter = new FileGetter(url1);
+                fileGetter.addParam("username", u.getUsername());
+                fileGetter.addParam("token", tk.getToken());
 
-            ImageView imgView = fileGetter.getImage();
-            imgView.setFitHeight(60);
-            imgView.setFitWidth(60);
+                ImageView imgView = fileGetter.getImage();
+                imgView.setFitHeight(60);
+                imgView.setFitWidth(60);
 
-            VBox cardContainer = new VBox();
-            cardContainer.setAlignment(Pos.CENTER);
-            cardContainer.maxWidth(900);
-            cardContainer.prefWidth(700);
-            cardContainer.maxHeight(400);
-            VBox userCard = new VBox();
-            userCard.setAlignment(Pos.CENTER);
-            userCard.maxWidth(900);
-            userCard.prefWidth(700);
-            userCard.maxHeight(400);
-            userCard.getStyleClass().add("userCard");
-            Label usernameLabel = new Label(u.getUsername());
-            usernameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 15");
-            Text nameLabel = new Text(u.getName());
-            Text surnameLabel = new Text(u.getSurname());
-            Button addToFriend = new Button("Añadir a lista de amigos");
-            //addToFriend.setStyle("-fx-background-color: #63c963; -fx-fill: white; -fx-text-fill: white; -fx-font-weight: bold");
-            addToFriend.getStyleClass().add("button");
-            userCard.getChildren().addAll(imgView, usernameLabel, nameLabel, surnameLabel);
-            cardContainer.getChildren().addAll(userCard, addToFriend);
-            cardContainer.setSpacing(20);
-            userCard.setSpacing(5);
-            userCard.setPadding(new Insets(5, 5, 5, 5));
-            container.getChildren().add(cardContainer);
+                VBox cardContainer = new VBox();
+                cardContainer.setAlignment(Pos.CENTER);
+                cardContainer.maxWidth(900);
+                cardContainer.prefWidth(700);
+                cardContainer.maxHeight(400);
+                VBox userCard = new VBox();
+                userCard.setAlignment(Pos.CENTER);
+                userCard.maxWidth(900);
+                userCard.prefWidth(700);
+                userCard.maxHeight(400);
+                userCard.getStyleClass().add("userCard");
+                Label usernameLabel = new Label(u.getUsername());
+                usernameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 15");
+                Text nameLabel = new Text(u.getName());
+                Text surnameLabel = new Text(u.getSurname());
+                Button addToFriend = new Button("Añadir a lista de amigos");
+                //addToFriend.setStyle("-fx-background-color: #63c963; -fx-fill: white; -fx-text-fill: white; -fx-font-weight: bold");
+                addToFriend.getStyleClass().add("button");
+                userCard.getChildren().addAll(imgView, usernameLabel, nameLabel, surnameLabel);
+                cardContainer.getChildren().addAll(userCard, addToFriend);
+                cardContainer.setSpacing(20);
+                userCard.setSpacing(5);
+                userCard.setPadding(new Insets(5, 5, 5, 5));
+                container.getChildren().add(cardContainer);
 
-            //button event
-            addToFriend.setOnAction(event -> {
-                String url2 = CONSTANT.URL.getUrl()+"/friend-request";
-                try {
-                    Requester<FriendRequest> requester = new Requester<>(url2, Requester.Method.POST, FriendRequest.class);
-                    requester.addParam("emisor", me);
-                    requester.addParam("receptor", u.getUsername());
-                    requester.addParam("token", tk.getToken());
-                    requester.execute();
-                    String toastMsg = "Petición enviada !!";
-                    int toastMsgTime = 2800; //3.5 seconds
-                    int fadeInTime = 500; //0.5 seconds
-                    int fadeOutTime= 500; //0.5 seconds
-                    Toast.makeText(mainStage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
-                    cardContainer.getChildren().clear();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+                //button event
+                addToFriend.setOnAction(event -> {
+                    String url2 = CONSTANT.URL.getUrl()+"/friend-request";
+                    try {
+                        Requester<FriendRequest> requester = new Requester<>(url2, Requester.Method.POST, FriendRequest.class);
+                        requester.addParam("emisor", me);
+                        requester.addParam("receptor", u.getUsername());
+                        requester.addParam("token", tk.getToken());
+                        requester.execute();
+                        String toastMsg = "Petición enviada !!";
+                        int toastMsgTime = 2800; //3.5 seconds
+                        int fadeInTime = 500; //0.5 seconds
+                        int fadeOutTime= 500; //0.5 seconds
+                        Toast.makeText(mainStage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
+                        cardContainer.getChildren().clear();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
         }
     }
 
     void loadUsersBySearch() throws IOException, InterruptedException {
+
         GeneralDecoder d = new GeneralDecoder();
         String me = d.getUserFromToken();
 
         container.getChildren().clear();
         if(!textfieldBrowser.getText().equals("")){
             String url = CONSTANT.URL.getUrl()+"/find-users";
-            ArrayList<String[]> params = new ArrayList<>();
-            params.add(new String[]{"username", textfieldBrowser.getText()});
-            params.add(new String[]{"me", me});
-            getUsers(me, url, params);
+            Requester<User[]> requester = new Requester<>(url, Requester.Method.POST, User[].class);
+            requester.addParam("username", textfieldBrowser.getText());
+            requester.addParam("me", me);
+            requester.addParam("token", tk.getToken());
+            getUsers(requester.execute());
         }else{
-            loadUsers();
+            Platform.runLater(()->{
+                try {
+                    loadUsers();
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 
