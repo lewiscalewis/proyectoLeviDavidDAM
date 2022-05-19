@@ -9,9 +9,10 @@ public class Item {
     public String description;
     public String image;
     public String genere;
-    public boolean copyright;
+    public int copyright;       //1 si   0 no
+    public String uploadDate;
 
-    public Item(String username, int id, String name, String item, String description, String image, String genere, boolean copyright) {
+    public Item(String username, int id, String name, String item, String description, String image, String genere, int copyright, String uploadDate) {
         this.username = username;
         this.id = id;
         this.name = name;
@@ -20,6 +21,7 @@ public class Item {
         this.image = image;
         this.genere = genere;
         this.copyright = copyright;
+        this.uploadDate=uploadDate;
     }
 
     public String getDescription() {
@@ -46,11 +48,11 @@ public class Item {
         this.genere = genere;
     }
 
-    public boolean isCopyright() {
+    public int isCopyright() {
         return copyright;
     }
 
-    public void setCopyright(boolean copyright) {
+    public void setCopyright(int copyright) {
         this.copyright = copyright;
     }
 
@@ -88,5 +90,13 @@ public class Item {
 
     public void setItem(String item) {
         this.item = item;
+    }
+
+    public String getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(String uploadDate) {
+        this.uploadDate = uploadDate;
     }
 }

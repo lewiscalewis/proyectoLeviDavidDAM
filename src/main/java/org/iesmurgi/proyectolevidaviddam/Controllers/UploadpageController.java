@@ -27,6 +27,8 @@ public class UploadpageController {
     private TextArea textareaDescription;
     @javafx.fxml.FXML
     private ImageView imageviewSongCover;
+    @javafx.fxml.FXML
+    private ChoiceBox choiceboxGenere;
 
     public void initialize(){
         fileChooser=new FileChooser();
