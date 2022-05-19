@@ -30,13 +30,11 @@ public class Auth {
         String url = CONSTANT.URL.getUrl() + "/login";
 
         try {
-            ArrayList<String[]> params = new ArrayList<>();
-            params.add(new String[]{"username", username});
-            params.add(new String[]{"password", md5.encodeMD5(password)});
-            OpenThread<String> t = new OpenThread<>(url, params, "POST", String.class);
-            response = t.getResult();
-
-        } catch (IOException | InterruptedException | NoSuchAlgorithmException e) {
+            Requester<String> t = new Requester<String>(url,  Requester.Method.POST, String.class);
+            t.addParam("username", username);
+            t.addParam("password", md5.encodeMD5(password));
+            response = t.execute();
+        } catch (NoSuchAlgorithmException | IOException e) {
             e.printStackTrace();
         }
 

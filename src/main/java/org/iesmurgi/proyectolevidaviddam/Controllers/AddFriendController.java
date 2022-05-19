@@ -55,7 +55,15 @@ public class AddFriendController {
                 scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
 //        container.minHeightProperty().bind(Bindings.createDoubleBinding(() ->
 //                scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
-        loadUsers();
+        Platform.runLater(()->{
+            try {
+                loadUsers();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @FXML
@@ -97,10 +105,10 @@ public class AddFriendController {
     }
 
     private void getUsers(String me, String url, ArrayList<String[]> params) throws IOException, InterruptedException {
-        params.add(new String[]{"token", tk.getToken()});
-        OpenThread<User[]> t = new OpenThread<User[]>(url, params, "POST", User[].class);
+        Requester<User[]> t = new Requester<User[]>(url, Requester.Method.POST, User[].class);
+        t.addParam("token", tk.getToken());
         User[] users;
-        users = t.getResult();
+        users = t.execute();
         System.out.println(Arrays.toString(users));
 
         for(User u: users){

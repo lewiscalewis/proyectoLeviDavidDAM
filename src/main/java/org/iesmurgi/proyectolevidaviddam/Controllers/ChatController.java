@@ -58,7 +58,7 @@ public class ChatController {
     void initialize() throws IOException, InterruptedException {
         Platform.runLater(()->{
             String url = CONSTANT.URL.getUrl()+"/chatID";
-            Platform.setImplicitExit(false);
+            Platform.setImplicitExit(true);
             Platform.runLater(()->{
                 c = new ClientSocket(this);
                 try {

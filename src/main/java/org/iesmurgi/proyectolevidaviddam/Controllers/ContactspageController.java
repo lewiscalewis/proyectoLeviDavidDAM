@@ -73,17 +73,19 @@ public class ContactspageController {
 
         hboxContainer.setSpacing(50);
 
+        Platform.setImplicitExit(true);
         Platform.runLater(() -> {
             try {
                 loadUsers();
                 String url = CONSTANT.URL.getUrl()+"/get-friend-requests";
                 ArrayList<String[]> params = new ArrayList<>();
-                params.add(new String[]{"username", me});
+
                 TokenManager tk = new TokenManager();
-                params.add(new String[]{"token", tk.getToken()});
-                OpenThread<FriendRequest[]> t = new OpenThread<FriendRequest[]>(url, params, "POST", FriendRequest[].class);
+                Requester<FriendRequest[]> t = new Requester<>(url, Requester.Method.POST, FriendRequest[].class);
+                t.addParam("username", me);
+                t.addParam("token", tk.getToken());
                 FriendRequest[] petitions;
-                petitions = t.getResult();
+                petitions = t.execute();
 
                 if(petitions.length > 0) {
                     ScrollPane petitionBar = new ScrollPane();
