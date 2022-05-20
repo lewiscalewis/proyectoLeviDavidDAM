@@ -105,19 +105,16 @@ public class HomepageController {
     //Devuelve el nodo de la interfaz de una interfaz nosotros le pasamos un objeto cancion de la base de datos.
     Node getSong(Item item) throws IOException, URISyntaxException {
 
-        String songName=item.name;
-        String author=item.username;
-        Image portada=new Image(new URL("https://images.ecestaticos.com/9Sfa715zzc8Efc_taTLIbLkKeJ4=/0x0:2272x1501/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F38a%2F667%2Fee7%2F38a667ee7dbc85c2f8935eeff36be807.jpg").toURI().toURL().toExternalForm());;
+        String songName = item.getName();
+        String author = item.getUsername();
+        Image portada = new Image(new URL("https://images.ecestaticos.com/9Sfa715zzc8Efc_taTLIbLkKeJ4=/0x0:2272x1501/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F38a%2F667%2Fee7%2F38a667ee7dbc85c2f8935eeff36be807.jpg").toURI().toURL().toExternalForm());;
 
 
-        HBox hbox= new HBox();
+        HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER);
 
 
-
-
-        VBox song=new VBox();
-        song.setStyle("-fx-background-color: white;");
+        VBox song = new VBox();
         song.setAlignment(Pos.TOP_LEFT);
         song.setPrefWidth(600);
         song.setMaxWidth(600);
@@ -127,12 +124,15 @@ public class HomepageController {
         //Label del título
         Label labelSongName = new Label();
         labelSongName.setMaxWidth(Double.MAX_VALUE);
-        labelSongName.setText(songName);
-        labelSongName.setFont(new Font(50d));
+        labelSongName.setStyle( "-fx-font-weight: bold; " +
+                                "-fx-text-fill: black;" +
+                                "-fx-fill: black;" +
+                                "-fx-font-size: 16");
 
         //Hyperlink del autor
         Hyperlink hyperlinkAuthor = new Hyperlink();
         hyperlinkAuthor.setText(author);
+        labelSongName.setText(songName);
         //hyperlinkAuthor.setMaxWidth(Double.MAX_VALUE);
         hyperlinkAuthor.setAlignment(Pos.TOP_LEFT);
 
@@ -146,18 +146,15 @@ public class HomepageController {
 
 
         Button buttonPlay;
-        buttonPlay=new Button("❤❤❤❤");
+        buttonPlay = new Button("❤❤❤❤");
 
 
+        System.out.println(item.getId());
 
-        System.out.println(item.id);
-
-        buttonPlay.setOnAction((event)->play(String.valueOf(item.id)));
-
+        buttonPlay.setOnAction((event)->play(String.valueOf(item.getId())));
 
 
         song.getChildren().addAll(labelSongName,hyperlinkAuthor,imageView,buttonPlay);
-
         hbox.getChildren().addAll(song,imageView);
 
 
@@ -175,16 +172,16 @@ public class HomepageController {
                 items = req.execute();
 
                 if(items.length > 0) {
-                    ScrollPane petitionBar = new ScrollPane();
+                    ScrollPane itemBar = new ScrollPane();
                     VBox petitionBox = new VBox();
-                    petitionBar.setContent(petitionBox);
-                    petitionBox.setSpacing(10);
-                    petitionBar.setMinWidth(300);
+                    itemBar.setContent(petitionBox);
+                    petitionBox.setSpacing(30);
+                    itemBar.setMinWidth(300);
                     petitionBox.setPadding(new Insets(10, 10, 10, 10));
                     petitionBox.setAlignment(Pos.CENTER);
 
                     petitionBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
-                            petitionBar.getViewportBounds().getWidth(), petitionBar.viewportBoundsProperty()));
+                            itemBar.getViewportBounds().getWidth(), itemBar.viewportBoundsProperty()));
 
 
                     for (Item item : items) {
@@ -200,7 +197,7 @@ public class HomepageController {
                         petitionBox.getChildren().add(vb);
                         //Aquí iría el código para pasar los datos del usuario a la vista perfil
                     }
-                    container.getChildren().add(petitionBar);
+                    container.getChildren().add(itemBar);
                 }
             } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
