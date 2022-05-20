@@ -558,10 +558,12 @@ public class HelloController {
 
     @FXML
     public void logout(Event e) throws IOException {
+        webEngine.load(null);
         TokenManager tk = new TokenManager();
         tk.deleteToken();
         try {
             mainContainer.setAlignment(Pos.CENTER);
+
 
 
             //ANIMACION DE TRANSICION DE VENTANA
@@ -764,4 +766,7 @@ public class HelloController {
     }
 
 
+    @FXML
+    public void loadProfilePage(Event event) {
+    }
 }
