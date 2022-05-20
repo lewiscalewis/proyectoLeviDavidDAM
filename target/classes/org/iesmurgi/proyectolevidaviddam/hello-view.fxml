@@ -186,5 +186,5 @@
          </GridPane>
       </children>
    </StackPane>
-   <VBox fx:id="vboxPlayer" maxHeight="65.0" minHeight="65.0" prefHeight="65.0" style="-fx-background-color: black;" />
+   <VBox fx:id="vboxPlayer" maxHeight="65.0" minHeight="65.0" prefHeight="65.0" style="-fx-background-color: white;" />
 </VBox>

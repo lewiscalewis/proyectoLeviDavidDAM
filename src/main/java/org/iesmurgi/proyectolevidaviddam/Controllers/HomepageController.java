@@ -1,11 +1,15 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -16,101 +20,58 @@ import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javafx.scene.web.WebView;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
 import org.iesmurgi.proyectolevidaviddam.models.Item;
 
 //Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
 public class HomepageController {
+
     @javafx.fxml.FXML
     private StackPane baseRoot;
 
-    boolean chatOpen = true;
-    @javafx.fxml.FXML
-    private VBox vboxMusic;
+    @FXML
+    private FlowPane container;
 
+    @FXML
+    private ScrollPane scrollPane;
 
+    static VBox vboxPlayer;
+    static WebView webviewPlayer;
+    static WebEngine webEngine;
 
 
     public void initialize() throws IOException, URISyntaxException {
 
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
         //es el AnchorPane del hello-view.fxml. con fxid pageRoot
-        //((AnchorPane) baseRoot.getParent()).setLeftAnchor(baseRoot, 0.0);
-        //((AnchorPane) baseRoot.getParent()).setTopAnchor(baseRoot, 0.0);
-        //((AnchorPane) baseRoot.getParent()).setRightAnchor(baseRoot, 0.0);
-        //((AnchorPane) baseRoot.getParent()).setBottomAnchor(baseRoot, 0.0);
-/*
-        Button buttonGoToSettings = new Button("Go to Settings");
-        buttonGoToSettings.setOnAction(actionEvent -> {
+        ((AnchorPane) baseRoot.getParent()).setLeftAnchor(baseRoot, 0.0);
+        ((AnchorPane) baseRoot.getParent()).setTopAnchor(baseRoot, 0.0);
+        ((AnchorPane) baseRoot.getParent()).setRightAnchor(baseRoot, 0.0);
+        ((AnchorPane) baseRoot.getParent()).setBottomAnchor(baseRoot, 0.0);
 
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("profilepage.fxml"));
+        container.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+                scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
 
-            //HomepageController homepageController = fxmlLoader.getController();
-
-            baseRoot.getChildren().clear();
-            Pane root = null;
-            try {
-                root = (fxmlLoader.load());
-
-
-                baseRoot.getChildren().add(root);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        });
-
-        baseRoot.getChildren().add(buttonGoToSettings);
-*/
-
-        ///////////////////////7
-
-
-
-        vboxMusic.setPadding(new Insets(400, 30, 30, 30));
-        vboxMusic.setSpacing(10);
-
-
-        //get /all-items
-
-
-
-        Requester<Item[]> allItemsRequester = new Requester<>(CONSTANT.URL.getUrl()+"/all-items/", Requester.Method.POST,Item[].class );
-        allItemsRequester.addParam("token", new TokenManager().getToken());
-        Item[] allItems = allItemsRequester.execute();
-
-
-        for (int i=0;i<allItems.length;i++){
-            vboxMusic.getChildren().add(getSong(allItems[i]));
-        }
-
-        //vboxMusic.getChildren().addAll(getSong(), getSong(), getSong());
-        vboxMusic.setAlignment(Pos.CENTER);
-
+        loadItems();
 
     }
-    static VBox vboxPlayer;
-    static WebView webviewPlayer;
-    static WebEngine webEngine;
-    public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1){
-        this.webviewPlayer=webviewPlayer;
-        this.webEngine=webEngine;
-        vboxPlayer=vboxPlayer1;
 
+    public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1){
+        HomepageController.webviewPlayer =webviewPlayer;
+        HomepageController.webEngine =webEngine;
+        vboxPlayer=vboxPlayer1;
     }
 
 
     public static void play(String itemid){
-
         webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
         webEngine.load(CONSTANT.URL.getUrl()+"/download-item/"+itemid);
         vboxPlayer.getChildren().add(webviewPlayer);
-        //vboxPlayer.setAlignment(Pos.TOP_CENTER);
-
-
     }
 
     public boolean first=true;
@@ -121,17 +82,10 @@ public class HomepageController {
             first=false;
         }
 
-        //this.vboxPlayer=vboxPlayer;
-        //webviewPlayer=webView;
-        // webEngine=webviewPlayer.getEngine();
-
-        ////////webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
-        vboxPlayer.setMaxHeight(65);
-        vboxPlayer.setMinHeight(65);
-        //vboxPlayer.setStyle("-fx-background-color:black;");
+        vboxPlayer.setMaxHeight(100);
+        vboxPlayer.setMinHeight(100);
+        vboxPlayer.setStyle("-fx-background-color:black;");
         vboxPlayer.setTranslateZ(-1);
-        //vboxPlayer.getChildren().add(webviewPlayer);
-        //webEngine.load(CONSTANT.URL.getUrl()+"/song-test");
         vboxPlayer.setAlignment(Pos.TOP_CENTER);
 
         webviewPlayer.setMaxWidth(500);
@@ -197,8 +151,6 @@ public class HomepageController {
 
 
         System.out.println(item.id);
-        //Item item =(Item)allItemsRequester.execute();
-        //System.out.println(item.username +"xddddd");
 
         buttonPlay.setOnAction((event)->play(String.valueOf(item.id)));
 
@@ -210,6 +162,50 @@ public class HomepageController {
 
 
         return hbox;
+    }
+
+    private void loadItems(){
+        Platform.setImplicitExit(true);
+        Platform.runLater(() -> {
+            try {
+                String url = CONSTANT.URL.getUrl()+"/all-items";
+                Requester<Item[]> req = new Requester<>(url, Requester.Method.POST, Item[].class);
+                req.addParam("token", new TokenManager().getToken());
+                Item[] items;
+                items = req.execute();
+
+                if(items.length > 0) {
+                    ScrollPane petitionBar = new ScrollPane();
+                    VBox petitionBox = new VBox();
+                    petitionBar.setContent(petitionBox);
+                    petitionBox.setSpacing(10);
+                    petitionBar.setMinWidth(300);
+                    petitionBox.setPadding(new Insets(10, 10, 10, 10));
+                    petitionBox.setAlignment(Pos.CENTER);
+
+                    petitionBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+                            petitionBar.getViewportBounds().getWidth(), petitionBar.viewportBoundsProperty()));
+
+
+                    for (Item item : items) {
+                        VBox vb = new VBox();
+                        vb.setSpacing(10);
+                        vb.setAlignment(Pos.CENTER);
+                        vb.setPadding(new Insets(10, 10, 5, 10));
+                        vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
+                        Label song_name = new Label(item.getName());
+                        song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
+                        vb.getStyleClass().add("item-card");
+                        vb.getChildren().addAll(song_name, getSong(item));
+                        petitionBox.getChildren().add(vb);
+                        //Aquí iría el código para pasar los datos del usuario a la vista perfil
+                    }
+                    container.getChildren().add(petitionBar);
+                }
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 
