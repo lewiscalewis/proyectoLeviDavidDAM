@@ -36,7 +36,7 @@
                      </Label>
                   </children>
                </HBox>
-               <HBox fx:id="topProfileButton" alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadProfilePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
+               <HBox fx:id="topProfileButton" alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
                      <Label fx:id="labelTopMenu2" text="Profile" textFill="WHITE">
                         <font>
