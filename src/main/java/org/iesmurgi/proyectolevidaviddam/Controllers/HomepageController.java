@@ -18,11 +18,16 @@ import javafx.scene.web.WebEngine;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.scene.web.WebView;
+import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
@@ -61,9 +66,13 @@ public class HomepageController {
 
     }
 
-    public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1){
+    public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1, Label labelSongNamePlayer, ImageView imageViewPlayer, Hyperlink hyperlinkUsernamePlayer){///////////////////////////////////////////
+        this.labelSongNamePlayer=labelSongNamePlayer;
+        this.hyperlinkUsernamePlayer=hyperlinkUsernamePlayer;
+        this.imageviewPlayer=imageViewPlayer;
         HomepageController.webviewPlayer =webviewPlayer;
         HomepageController.webEngine =webEngine;
+
         vboxPlayer=vboxPlayer1;
     }
 
@@ -71,6 +80,7 @@ public class HomepageController {
     public static void play(String itemid){
         webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
         webEngine.load(CONSTANT.URL.getUrl()+"/download-item/"+itemid);
+        vboxPlayer.getChildren().clear();
         vboxPlayer.getChildren().add(webviewPlayer);
     }
 
@@ -84,20 +94,26 @@ public class HomepageController {
 
         vboxPlayer.setMaxHeight(100);
         vboxPlayer.setMinHeight(100);
-        vboxPlayer.setStyle("-fx-background-color:black;");
-        vboxPlayer.setTranslateZ(-1);
-        vboxPlayer.setAlignment(Pos.TOP_CENTER);
+        //vboxPlayer.setStyle("-fx-background-color:black;");
 
-        webviewPlayer.setMaxWidth(500);
-        webviewPlayer.setMaxHeight(65);
-        webviewPlayer.setMinHeight(65);
-        webviewPlayer.setTranslateY(56);
+        //vboxPlayer.setTranslateZ(-1);
+        vboxPlayer.setAlignment(Pos.TOP_RIGHT);
+        webviewPlayer.setTranslateX(-100);
+        //webviewPlayer.setMaxWidth(1000);
+        webviewPlayer.setMaxHeight(100);
+        webviewPlayer.setMinHeight(100);
+        webviewPlayer.setMinWidth(340);
+        webviewPlayer.setMaxWidth(340);
+        webviewPlayer.setTranslateY(46);
         webviewPlayer.setScaleX(2);
         webviewPlayer.setScaleY(2);
+        webviewPlayer.setTranslateX(-40);
 
 
     }
-
+    Label labelSongNamePlayer;
+    Hyperlink hyperlinkUsernamePlayer;
+    ImageView imageviewPlayer;
     public void testHomepageController(){
         System.out.println("TEST OK....");
     }
@@ -112,7 +128,7 @@ public class HomepageController {
 
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER);
-
+        hbox.setStyle("-fx-background-color: #e45926;");
 
         VBox song = new VBox();
         song.setAlignment(Pos.TOP_LEFT);
@@ -123,12 +139,12 @@ public class HomepageController {
 
         //Label del título
         Label labelSongName = new Label();
-        labelSongName.setMaxWidth(Double.MAX_VALUE);
+        labelSongName.setMaxWidth(500);
         labelSongName.setStyle( "-fx-font-weight: bold; " +
                                 "-fx-text-fill: black;" +
                                 "-fx-fill: black;" +
-                                "-fx-font-size: 16");
-
+                                "-fx-font-size: 16; -fx-background-color: #ffffff;");
+        labelSongName.setMinWidth(100);
         //Hyperlink del autor
         Hyperlink hyperlinkAuthor = new Hyperlink();
         hyperlinkAuthor.setText(author);
@@ -146,12 +162,28 @@ public class HomepageController {
 
 
         Button buttonPlay;
-        buttonPlay = new Button("❤❤❤❤");
+        buttonPlay = new Button("▶");
+        buttonPlay.setFont(new Font(35));
 
 
         System.out.println(item.getId());
 
-        buttonPlay.setOnAction((event)->play(String.valueOf(item.getId())));
+        buttonPlay.setOnAction((event)->{
+            play(String.valueOf(item.getId()));
+            labelSongNamePlayer.setText(item.getName());
+
+            //Hyperlink del autor
+            Hyperlink hyperlinkAuthorPlayer = new Hyperlink();
+            hyperlinkUsernamePlayer.setText(item.getUsername());
+            try {
+                imageviewPlayer.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
+                //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
+                //HAY QUE CREAR UN REQUESTCOVER(itemid)
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            labelSongName.setText(songName);
+        });
 
 
         song.getChildren().addAll(labelSongName,hyperlinkAuthor,imageView,buttonPlay);
@@ -161,6 +193,47 @@ public class HomepageController {
         return hbox;
     }
 
+
+    InputStream requestProfileImage(String username) throws IOException {
+        String URL= "http://tux.iesmurgi.org:11230/download-image";
+        java.net.URL server = new java.net.URL(URL);
+        // Open a connection(?) on the URL(??) and cast the response(???)
+        HttpURLConnection connection = (HttpURLConnection) server.openConnection();
+
+
+
+
+        // Now it's "open", we can set the request method, headers etc.
+        connection.setRequestProperty("accept", "application/x-www-form-urlencoded");
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+
+        Map<String,String> params= new HashMap<>();
+        params.put("username", new GeneralDecoder().getUserFromToken());                  //La petición no llega al servidor cuando le pongo parámetros
+        params.put("token", new TokenManager().getToken());
+        //ADD PARAMETERS
+        int i = 0;
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            //System.out.println(entry.getKey() + "/" + entry.getValue());
+
+            String urlParameters  = (i > 0 ? "&" : "") + entry.getKey()+"="+entry.getValue();
+            byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
+            int    postDataLength = postData.length;
+            System.out.println("Escribiendo parámetros: key -> "+entry.getKey()+"|| value -> "+entry.getValue());
+            connection.getOutputStream().write(postData, 0, postDataLength);
+            i++;
+        }
+
+
+
+
+
+        InputStream responseStream= connection.getInputStream();
+
+        return responseStream;
+
+
+    }
     private void loadItems(){
         Platform.setImplicitExit(true);
         Platform.runLater(() -> {
