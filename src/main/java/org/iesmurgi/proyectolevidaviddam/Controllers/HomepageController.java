@@ -38,10 +38,10 @@ public class HomepageController {
 
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
         //es el AnchorPane del hello-view.fxml. con fxid pageRoot
-        ((AnchorPane) baseRoot.getParent()).setLeftAnchor(baseRoot, 0.0);
-        ((AnchorPane) baseRoot.getParent()).setTopAnchor(baseRoot, 0.0);
-        ((AnchorPane) baseRoot.getParent()).setRightAnchor(baseRoot, 0.0);
-        ((AnchorPane) baseRoot.getParent()).setBottomAnchor(baseRoot, 0.0);
+        //((AnchorPane) baseRoot.getParent()).setLeftAnchor(baseRoot, 0.0);
+        //((AnchorPane) baseRoot.getParent()).setTopAnchor(baseRoot, 0.0);
+        //((AnchorPane) baseRoot.getParent()).setRightAnchor(baseRoot, 0.0);
+        //((AnchorPane) baseRoot.getParent()).setBottomAnchor(baseRoot, 0.0);
 /*
         Button buttonGoToSettings = new Button("Go to Settings");
         buttonGoToSettings.setOnAction(actionEvent -> {
@@ -70,7 +70,7 @@ public class HomepageController {
 
 
 
-        vboxMusic.setPadding(new Insets(30, 30, 30, 30));
+        vboxMusic.setPadding(new Insets(400, 30, 30, 30));
         vboxMusic.setSpacing(10);
 
 
@@ -104,31 +104,12 @@ public class HomepageController {
 
 
     public static void play(String itemid){
-        //vboxPlayer.getChildren().clear();
-        /*vboxPlayer.getChildren().clear();
-        this.vboxPlayer=vboxPlayer;
-        webviewPlayer=webView;
-        webEngine=webviewPlayer.getEngine();
-        //webEngine.setJavaScriptEnabled(true);
-        //webEngine.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
-*/
+
         webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
-        //vboxPlayer.setMaxHeight(100);
-        //vboxPlayer.setMinHeight(100);
-        //vboxPlayer.getChildren().add(webviewPlayer);
         webEngine.load(CONSTANT.URL.getUrl()+"/download-item/"+itemid);
         vboxPlayer.getChildren().add(webviewPlayer);
         //vboxPlayer.setAlignment(Pos.TOP_CENTER);
 
-
-        /*
-        webviewPlayer.setMaxWidth(500);
-        webviewPlayer.setMaxHeight(65);
-        webviewPlayer.setMinHeight(65);
-        webviewPlayer.setTranslateY(56);
-        webviewPlayer.setScaleX(2);
-        webviewPlayer.setScaleY(2);
-*/
 
     }
 
@@ -145,9 +126,9 @@ public class HomepageController {
         // webEngine=webviewPlayer.getEngine();
 
         ////////webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
-        vboxPlayer.setMaxHeight(100);
-        vboxPlayer.setMinHeight(100);
-        vboxPlayer.setStyle("-fx-background-color:black;");
+        vboxPlayer.setMaxHeight(65);
+        vboxPlayer.setMinHeight(65);
+        //vboxPlayer.setStyle("-fx-background-color:black;");
         vboxPlayer.setTranslateZ(-1);
         //vboxPlayer.getChildren().add(webviewPlayer);
         //webEngine.load(CONSTANT.URL.getUrl()+"/song-test");
