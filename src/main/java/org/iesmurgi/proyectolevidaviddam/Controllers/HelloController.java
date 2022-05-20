@@ -50,8 +50,6 @@ public class HelloController {
     @FXML
     private VBox mainContainer;
     @FXML
-    private GridPane gridRoot;
-    @FXML
     private ImageView imageviewProfileImage;
     @FXML
     private Label tileSettings;
@@ -79,6 +77,12 @@ public class HelloController {
     private HBox topProfileButton;
     @FXML
     private HBox uploadButton;
+    @FXML
+    private Label labelSongNamePlayer;
+    @FXML
+    private Hyperlink hyperlinkUsernamePlayer;
+    @FXML
+    private ImageView imageviewPlayer;
 
 
     public void initialize() throws IOException {
@@ -234,7 +238,7 @@ public class HelloController {
 
                 //ProfilepageController profilepageController =rootFxmlLoader.getController();
                 //profilepageController.loadUserData();
-                ((Stage)root.getScene().getWindow()).setMinWidth(900);
+                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
                 ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
@@ -401,13 +405,13 @@ public class HelloController {
                     HomepageController homepageController= rootFxmlLoader.getController();
                     homepageController.testHomepageController();
                     if(first)
-                        homepageController.setWebViewPlayer(webView,webEngine,vboxPlayer);
+                        homepageController.setWebViewPlayer(webView,webEngine,vboxPlayer,labelSongNamePlayer, imageviewPlayer, hyperlinkUsernamePlayer);
                     homepageController.initializePlayer(vboxPlayer,webView);
 
 
 
                     first=false;}
-                ((Stage)root.getScene().getWindow()).setMinWidth(900);
+                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
                 ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
@@ -441,7 +445,7 @@ public class HelloController {
             pageRoot.getChildren().add(root);
 
 
-            ((Stage)pageRoot.getScene().getWindow()).setMinWidth(900);
+            ((Stage)pageRoot.getScene().getWindow()).setMinWidth(1000);
             ((Stage)pageRoot.getScene().getWindow()).setMinHeight(850);
 
         } catch (IOException e) {
@@ -639,7 +643,7 @@ public class HelloController {
                 pageRoot.getChildren().add(root);
 
 
-                ((Stage)root.getScene().getWindow()).setMinWidth(900);
+                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
                 ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
@@ -766,7 +770,7 @@ public class HelloController {
     }
 
 
-    @FXML
+    @Deprecated
     public void loadProfilePage(Event event) {
     }
 }
