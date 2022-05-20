@@ -15,7 +15,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="76.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" minWidth="133.0" prefHeight="36.0" prefWidth="133.0" styleClass="add-friend" text="Homepage" textFill="#979797">
+                  <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" minWidth="133.0" prefHeight="36.0" prefWidth="133.0" text="Homepage" textFill="#979797">
                      <font>
                         <Font name="System Bold" size="25.0" />
                      </font>
