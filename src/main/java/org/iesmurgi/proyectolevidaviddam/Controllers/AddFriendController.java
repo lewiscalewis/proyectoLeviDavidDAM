@@ -146,7 +146,7 @@ public class AddFriendController {
                 addToFriend.setOnAction(event -> {
                     String url2 = CONSTANT.URL.getUrl()+"/friend-request";
                     try {
-                        Requester<FriendRequest[]> requester = new Requester<>(url2, Requester.Method.POST, FriendRequest[].class);
+                        Requester<FriendRequest> requester = new Requester<>(url2, Requester.Method.POST, FriendRequest.class);
                         requester.addParam("emisor", me);
                         requester.addParam("receptor", u.getUsername());
                         requester.addParam("token", tk.getToken());

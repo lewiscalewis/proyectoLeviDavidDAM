@@ -1,20 +1,21 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
+import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 
 import java.io.*;
@@ -48,21 +49,38 @@ public class HomepageController {
     static VBox vboxPlayer;
     static WebView webviewPlayer;
     static WebEngine webEngine;
+    @FXML
+    private TextField textfieldBrowser;
+    @FXML
+    private HBox hboxContainer;
+    @FXML
+    private ComboBox comboboxGenero;
 
 
     public void initialize() throws IOException, URISyntaxException {
-
+        loadItems();
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
         //es el AnchorPane del hello-view.fxml. con fxid pageRoot
-        ((AnchorPane) baseRoot.getParent()).setLeftAnchor(baseRoot, 0.0);
-        ((AnchorPane) baseRoot.getParent()).setTopAnchor(baseRoot, 0.0);
-        ((AnchorPane) baseRoot.getParent()).setRightAnchor(baseRoot, 0.0);
-        ((AnchorPane) baseRoot.getParent()).setBottomAnchor(baseRoot, 0.0);
+        //((AnchorPane) baseRoot.getParent()).setLeftAnchor(baseRoot, 0.0);
+        //((AnchorPane) baseRoot.getParent()).setTopAnchor(baseRoot, 0.0);
+        //((AnchorPane) baseRoot.getParent()).setRightAnchor(baseRoot, 0.0);
+        //((AnchorPane) baseRoot.getParent()).setBottomAnchor(baseRoot, 0.0);
 
         container.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
                 scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
 
-        loadItems();
+        comboboxGenero.getItems().addAll(
+                "Rap",
+                "Trap",
+                "Pop",
+                "Drill",
+                "Rock",
+                "Metal",
+                "Reggaeton",
+                "Drum and bass",
+                "Reggae"
+        );
+
 
     }
 
@@ -127,8 +145,9 @@ public class HomepageController {
 
 
         HBox hbox = new HBox();
+
         hbox.setAlignment(Pos.CENTER);
-        hbox.setStyle("-fx-background-color: #e45926;");
+        //hbox.setStyle("-fx-background-color: #e45926;");
 
         VBox song = new VBox();
         song.setAlignment(Pos.TOP_LEFT);
@@ -162,8 +181,9 @@ public class HomepageController {
 
 
         Button buttonPlay;
-        buttonPlay = new Button("▶");
-        buttonPlay.setFont(new Font(35));
+        buttonPlay = new Button();
+        buttonPlay.setFont(new Font(100));
+        buttonPlay.setText("▶");
 
 
         System.out.println(item.getId());
@@ -186,8 +206,8 @@ public class HomepageController {
         });
 
 
-        song.getChildren().addAll(labelSongName,hyperlinkAuthor,imageView,buttonPlay);
-        hbox.getChildren().addAll(song,imageView);
+        song.getChildren().addAll(labelSongName,hyperlinkAuthor,imageView);
+        hbox.getChildren().addAll(song,buttonPlay,imageView);
 
 
         return hbox;
@@ -267,6 +287,23 @@ public class HomepageController {
                         song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
                         vb.getStyleClass().add("item-card");
                         vb.getChildren().addAll(song_name, getSong(item));
+                        vb.setOnMouseEntered((event -> {
+                            vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);");
+
+                            TranslateTransition t = new TranslateTransition();
+                            t.setNode(vb);
+                            t.setDuration(new Duration(60));
+                            t.setToX(10);
+                            t.play();
+                        }));
+                        vb.setOnMouseExited((event -> {
+                            vb.setStyle("-fx-effect: dropshadow(three-pass-box, white,0, 0, 0, 0);");
+                            TranslateTransition t = new TranslateTransition();
+                            t.setNode(vb);
+                            t.setDuration(new Duration(60));
+                            t.setToX(0);
+                            t.play();
+                        }));
                         petitionBox.getChildren().add(vb);
                         //Aquí iría el código para pasar los datos del usuario a la vista perfil
                     }
@@ -279,6 +316,11 @@ public class HomepageController {
     }
 
 
+    @FXML
+    public void search(ActionEvent actionEvent) {
+    }
 
-
+    @FXML
+    public void filterByName(Event event) {
+    }
 }
