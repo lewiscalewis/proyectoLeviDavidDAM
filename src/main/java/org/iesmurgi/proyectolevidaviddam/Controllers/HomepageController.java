@@ -84,10 +84,10 @@ public class HomepageController {
 
     }
 
-    public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1, Label labelSongNamePlayer, ImageView imageViewPlayer, Hyperlink hyperlinkUsernamePlayer){///////////////////////////////////////////
-        this.labelSongNamePlayer=labelSongNamePlayer;
-        this.hyperlinkUsernamePlayer=hyperlinkUsernamePlayer;
-        this.imageviewPlayer=imageViewPlayer;
+    public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1, Label labelSongNamePlayer2, ImageView imageViewPlayer2, Hyperlink hyperlinkUsernamePlayer2){///////////////////////////////////////////
+        labelSongNamePlayer=labelSongNamePlayer2;
+        hyperlinkUsernamePlayer=hyperlinkUsernamePlayer2;
+        imageviewPlayer=imageViewPlayer2;
         HomepageController.webviewPlayer =webviewPlayer;
         HomepageController.webEngine =webEngine;
 
@@ -129,9 +129,9 @@ public class HomepageController {
 
 
     }
-    Label labelSongNamePlayer;
-    Hyperlink hyperlinkUsernamePlayer;
-    ImageView imageviewPlayer;
+    static Label labelSongNamePlayer;
+    static Hyperlink hyperlinkUsernamePlayer;
+    static ImageView imageviewPlayer;
     public void testHomepageController(){
         System.out.println("TEST OK....");
     }
