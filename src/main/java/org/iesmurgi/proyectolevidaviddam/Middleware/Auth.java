@@ -55,15 +55,7 @@ public class Auth {
                 Requester<User[]> userRequester = null;
                 try {
 
-                    userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user", Requester.Method.POST, User[].class);
-                    userRequester.addParam("username", username);
-                    userRequester.addParam("token", tkm.getToken());
-                    helloController.loadUserData(userRequester.execute()[0]);
-                    helloController.loadHomePage();
-
-                    Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight() - 34, Color.BLACK);
-                    stage.setScene(s);
-                    stage.show();
+                    userRequestLogin(username, tkm, helloView, helloController, scene, stage);
                     //Loads Home page
 
                 } catch (MalformedURLException e) {
@@ -75,5 +67,26 @@ public class Auth {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void userRequestLogin(String username, TokenManager tkm, Parent helloView, HelloController helloController, Scene scene, Stage stage) throws IOException {
+        Requester<User[]> userRequester;
+        userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user", Requester.Method.POST, User[].class);
+        userRequester.addParam("username", username);
+        userRequester.addParam("token", tkm.getToken());
+        User[] user = userRequester.execute();
+        user[0].setOnline(1);
+        helloController.loadUserData(user[0]);
+        helloController.loadHomePage();
+
+        Requester<String> set_online = new Requester<>("http://tux.iesmurgi.org:11230/set-online", Requester.Method.POST, String.class);
+        set_online.addParam("token", tkm.getToken());
+        set_online.addParam("online", "true");
+        set_online.addParam("username", username);
+        set_online.execute();
+
+        Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight() - 34, Color.BLACK);
+        stage.setScene(s);
+        stage.show();
     }
 }

@@ -10,8 +10,10 @@ import org.iesmurgi.proyectolevidaviddam.Controllers.ChatController;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.models.Message;
+import org.iesmurgi.proyectolevidaviddam.models.User;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ public class ClientSocket {
     Message[] message;
     String room;
     ChatController controller;
+    User receptor;
+    int contador_notificaciones = 0;
 
     public ClientSocket(String room){
         this.room = room;
@@ -37,6 +41,14 @@ public class ClientSocket {
 
     public ClientSocket(ChatController controller){
         this.controller = controller;
+    }
+
+    public void load_receptor_data(User receptor){
+        this.receptor = receptor;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 
     public void init() throws IOException, URISyntaxException {
@@ -77,7 +89,7 @@ public class ClientSocket {
         return messages;
     }
 
-    public void sendMessage(String message) {
+    public void sendMessage(Message message) throws IOException {
         IO.Options options = IO.Options.builder()
                 //.setPath("/chat message")
                 .setForceNew(false)
@@ -87,9 +99,5 @@ public class ClientSocket {
         socket.emit("message", message);
 
         socket.connect();
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
     }
 }

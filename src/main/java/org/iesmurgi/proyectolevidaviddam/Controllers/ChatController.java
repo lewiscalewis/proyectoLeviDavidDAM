@@ -17,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
+import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.Middleware.*;
 import org.iesmurgi.proyectolevidaviddam.models.Message;
 import org.iesmurgi.proyectolevidaviddam.models.User;
@@ -70,6 +71,7 @@ public class ChatController {
                     c.setRoom(chat);
                     c.init();
                     getMessages();
+                    c.load_receptor_data(contact);
                     scrollDown();
                 } catch (IOException | URISyntaxException e) {
                     e.printStackTrace();
@@ -88,32 +90,20 @@ public class ChatController {
 
     @FXML
     void sendMessage(MouseEvent event) throws IOException {
-        String mess = textfieldMessages.textProperty().get();
-        Date date = new Date();
-        String formatedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(date);
-        message = new Message(mess, gd.getUserFromToken(), contact.getUsername(), formatedDate);
-        c.sendMessage(message.toString());
-        textfieldMessages.clear();
-        messages = c.getMessagesAsArray();
-        System.out.println("Mensajes: "+messages);
-        printMessages(message);
-        saveMessages(message);
-        chatContainer.layout();
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                scrollDown();
-            }
-        }, 100);
+        createMessage();
     }
 
     @FXML
     void sendMessagesByKey(ActionEvent event) throws IOException {
+        createMessage();
+    }
+
+    private void createMessage() throws IOException {
         String mess = textfieldMessages.textProperty().get();
         Date date = new Date();
         String formatedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(date);
         message = new Message(mess, gd.getUserFromToken(), contact.getUsername(), formatedDate);
-        c.sendMessage(message.toString());
+        c.sendMessage(message);
         textfieldMessages.clear();
         messages = c.getMessagesAsArray();
         System.out.println("Mensajes: "+messages);

@@ -17,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
+import org.iesmurgi.proyectolevidaviddam.Middleware.Auth;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
@@ -110,15 +111,7 @@ public class LogIn {
                                 Requester<User[]> userRequester = null;
                                 try {
 
-                                    userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user", Requester.Method.POST, User[].class);
-                                    userRequester.addParam("username", username);
-                                    userRequester.addParam("token", tkm.getToken());
-                                    helloController.loadUserData(userRequester.execute()[0]);
-                                    helloController.loadHomePage();
-
-                                    Scene s = new Scene(helloView, scene.getWidth(), stage.getHeight() - 34, Color.BLACK);
-                                    stage.setScene(s);
-                                    stage.show();
+                                    Auth.userRequestLogin(username, tkm, helloView, helloController, scene, stage);
                                     //Loads Home page
 
                                 } catch (IOException e) {

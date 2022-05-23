@@ -21,6 +21,7 @@ import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.Middleware.FileGetter;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
+import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
@@ -40,31 +41,11 @@ public class HelloController {
     @FXML
     private Hyperlink hyperlinkUser;                //HyperLink que se encuentra arriba a la derecha junto a la imagen del usuario
     @FXML
-    private StackPane baseRoot;
-    @FXML
-    private ColumnConstraints columnConstraints3;
-    @FXML
-    private GridPane contentRoot;
-    @FXML
     private VBox chatSlider;
     @FXML
     private VBox mainContainer;
     @FXML
     private ImageView imageviewProfileImage;
-    @FXML
-    private Label tileSettings;
-    @FXML
-    private Label tileSettings3;
-    @FXML
-    private Label tileSettings2;
-    @FXML
-    private Label tileSettings1;
-    @FXML
-    private Label labelTopMenu1;
-    @FXML
-    private Label labelTopMenu3;
-    @FXML
-    private Label labelTopMenu2;
     @FXML
     private HBox hboxTopMenu;
     @FXML
@@ -84,9 +65,13 @@ public class HelloController {
     @FXML
     private ImageView imageviewPlayer;
 
+    public static String log_out_username;
+    public static String log_out_token = new TokenManager().getToken();
 
     public void initialize() throws IOException {
 
+
+        HelloApplication.session_started = true;
         chatSlider.setTranslateX(265);
 
         webView=new WebView();
@@ -151,6 +136,7 @@ public class HelloController {
         });
 
         settingsButton.setOnMouseClicked(Event ->{
+
             TranslateTransition slide = new TranslateTransition();
             slide.setDuration(Duration.seconds(0.4));
             slide.setNode(pageRoot);
@@ -205,6 +191,7 @@ public class HelloController {
     }
 
     private void loadProfile(){
+
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));
         slide.setNode(pageRoot);
@@ -453,115 +440,21 @@ public class HelloController {
         }
     }
 
-//    @FXML
-//    public void loadProfilePage()  {
-//
-//        TranslateTransition slide = new TranslateTransition();
-//        slide.setDuration(Duration.seconds(0.4));
-//        slide.setNode(pageRoot);
-//        //((HBox) event.getTarget()).setTranslateY(-6);
-//
-//
-//        slide.setToX(6000);
-//        slide.play();
-//        slide.setOnFinished((event -> {
-//
-//            pageRoot.setTranslateX(-6000);
-//            TranslateTransition slide2 = new TranslateTransition();
-//            slide2.setDuration(Duration.seconds(0.4));
-//            slide2.setNode(pageRoot);
-//            //((HBox) event.getTarget()).setTranslateY(-6);
-//
-//
-//            slide2.setToX(0);
-//
-//            try {
-//                pageRoot.setAlignment(Pos.TOP_LEFT);
-//                pageRoot.getChildren().clear();
-//                FXMLLoader rootFxmlLoader=new FXMLLoader(
-//                        HelloApplication.class.getResource(
-//                                "profilepage.fxml"
-//                        )
-//                );
-//                Pane root = rootFxmlLoader.load();
-//
-//                pageRoot.getChildren().add(root);
-//
-//                //ProfilepageController profilepageController =rootFxmlLoader.getController();
-//                //profilepageController.loadUserData();
-//                ((Stage)root.getScene().getWindow()).setMinWidth(900);
-//                ((Stage)root.getScene().getWindow()).setMinHeight(850);
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            slide2.play();
-//            slide2.setOnFinished((event2)->{
-//
-//            });
-//
-//        }));
-//
-//    }
-
     FXMLLoader rootFxmlLoader;
-//    @FXML
-//    public void loadUploadPage()  {
-//
-//        TranslateTransition slide = new TranslateTransition();
-//        slide.setDuration(Duration.seconds(0.4));
-//        slide.setNode(pageRoot);
-//        //((HBox) event.getTarget()).setTranslateY(-6);
-//
-//
-//        slide.setToX(6000);
-//        slide.play();
-//        slide.setOnFinished((event -> {
-//
-//            pageRoot.setTranslateX(-6000);
-//            TranslateTransition slide2 = new TranslateTransition();
-//            slide2.setDuration(Duration.seconds(0.4));
-//            slide2.setNode(pageRoot);
-//            //((HBox) event.getTarget()).setTranslateY(-6);
-//
-//
-//            slide2.setToX(0);
-//
-//            try {
-//                pageRoot.setAlignment(Pos.TOP_LEFT);
-//                pageRoot.getChildren().clear();
-//                rootFxmlLoader=new FXMLLoader(
-//                        HelloApplication.class.getResource(
-//                                "uploadpage.fxml"
-//                        )
-//                );
-//                Pane root = rootFxmlLoader.load();
-//                pageRoot.getChildren().add(root);
-//
-//
-//
-//
-//                ((Stage)root.getScene().getWindow()).setMinWidth(900);
-//                ((Stage)root.getScene().getWindow()).setMinHeight(850);
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            slide2.play();
-//            slide2.setOnFinished((event2)->{
-//                //UploadpageController uploadpageController= rootFxmlLoader.getController();
-//                //uploadpageController.openFileChooser();
-//            });
-//
-//        }));
-//
-//    }
-
 
     @FXML
     public void logout(Event e) throws IOException {
+        Requester<String> set_online = null;
+        try {
+            set_online = new Requester<>("http://tux.iesmurgi.org:11230/set-online", Requester.Method.POST, String.class);
+            set_online.addParam("token", new TokenManager().getToken());
+            set_online.addParam("online", "false");
+            set_online.addParam("username", new GeneralDecoder().getUserFromToken());
+            set_online.execute();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
         webEngine.load(null);
         TokenManager tk = new TokenManager();
         tk.deleteToken();
