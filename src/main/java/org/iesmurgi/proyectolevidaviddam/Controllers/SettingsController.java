@@ -105,23 +105,19 @@ public class SettingsController {
         File selectedFile = fileChooser.showOpenDialog(stage);
 
         if(selectedFile.exists()){
-            try {
-                // EJEMPLO
-                Map<String, String> headers = new HashMap<>();
-                headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
-                FileGetter multipart = new FileGetter();
-                multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/upload-image", "utf-8", headers);
-                // Add form field
-                multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
-                multipart.addFormField("token", new TokenManager().getToken());
-                // Add file
-                multipart.addFilePart("image", selectedFile);
-                // Print result
-                String response = multipart.finish();
-                System.out.println(response);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            // EJEMPLO
+            Map<String, String> headers = new HashMap<>();
+            headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
+            FileGetter multipart = new FileGetter();
+            multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/upload-image-on-item", "utf-8", headers);
+            // Add form field
+            multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
+            multipart.addFormField("token", new TokenManager().getToken());
+            // Add file
+            multipart.addFilePart("image", selectedFile);
+            // Print result
+            String response = multipart.finish();
+            System.out.println(response);
         }
 
         initialize();

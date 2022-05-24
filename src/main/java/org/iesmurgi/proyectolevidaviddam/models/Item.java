@@ -8,18 +8,18 @@ public class Item {
     public String item;
     public String description;
     public String image;
-    public String genere;
+    public String genre;
     public int copyright;       //1 si   0 no
     public String uploadDate;
 
-    public Item(String username, int id, String name, String item, String description, String image, String genere, int copyright, String uploadDate) {
+    public Item(String username, int id, String name, String item, String description, String image, String genre, int copyright, String uploadDate) {
         this.username = username;
         this.id = id;
         this.name = name;
         this.item = item;
         this.description = description;
         this.image = image;
-        this.genere = genere;
+        this.genre = genre;
         this.copyright = copyright;
         this.uploadDate=uploadDate;
     }
@@ -40,12 +40,12 @@ public class Item {
         this.image = image;
     }
 
-    public String getGenere() {
-        return genere;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setGenere(String genere) {
-        this.genere = genere;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public int isCopyright() {
