@@ -147,7 +147,7 @@ public class ProfilepageController {
     }
 
     //Devuelve el nodo de la interfaz de una interfaz nosotros le pasamos un objeto cancion de la base de datos.
-    Node getSong(Item item) throws IOException, URISyntaxException {
+    /*Node getSong(Item item) throws IOException, URISyntaxException {
 
         String songName = item.getName();
         String author = item.getUsername();
@@ -170,15 +170,23 @@ public class ProfilepageController {
         Label labelSongName = new Label();
         labelSongName.setMaxWidth(500);
         labelSongName.setStyle( "-fx-font-weight: bold; " +
-                                "-fx-text-fill: black;" +
-                                "-fx-fill: black;" +
-                                "-fx-font-size: 16; -fx-background-color: #ffffff;");
+                "-fx-text-fill: black;" +
+                "-fx-fill: black;" +
+                "-fx-font-size: 16; -fx-background-color: #ffffff;");
+
         labelSongName.setMinWidth(100);
         //Hyperlink del autor
         Hyperlink hyperlinkAuthor = new Hyperlink();
+        Label labelDescription = new Label();
+
         hyperlinkAuthor.setText(author);
         labelSongName.setText(songName);
+        labelDescription.setText(item.description);
+        labelDescription.setText("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        labelDescription.setStyle(
+                "-fx-text-fill: black; -fx-fill: black;");
         //hyperlinkAuthor.setMaxWidth(Double.MAX_VALUE);
+
         hyperlinkAuthor.setAlignment(Pos.TOP_LEFT);
 
 
@@ -205,6 +213,7 @@ public class ProfilepageController {
             //Hyperlink del autor
             Hyperlink hyperlinkAuthorPlayer = new Hyperlink();
             hyperlinkUsernamePlayer.setText(item.getUsername());
+
             try {
                 imageviewPlayer.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
                 //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
@@ -215,14 +224,26 @@ public class ProfilepageController {
             labelSongName.setText(songName);
         });
 
+        Label labelCopyright = new Label();
+        labelCopyright.setText("Free use.");
+        labelCopyright.setStyle(
+                "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #44bb44;");
 
-        song.getChildren().addAll(labelSongName,hyperlinkAuthor,imageView);
+        if(item.copyright==1){
+            System.out.println("Tiene copyright");
+            labelCopyright.setText("® All rights reserved.");
+            labelCopyright.setStyle(
+                    "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #bb4444;");
+        }
+
+        labelDescription.setPadding(new Insets(20,0,0,0));
+        song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright,imageView);
         hbox.getChildren().addAll(song,buttonPlay,imageView);
 
 
         return hbox;
     }
-
+*/
 
     InputStream requestProfileImage(String username) throws IOException {
         String URL= "http://tux.iesmurgi.org:11230/download-image";
@@ -298,7 +319,7 @@ public class ProfilepageController {
                         Label song_name = new Label(item.getName());
                         song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
                         vb.getStyleClass().add("item-card");
-                        vb.getChildren().addAll(song_name, getSong(item));
+                        vb.getChildren().addAll(song_name, HomepageController.getSong(item));
                         vb.setOnMouseEntered((event -> {
                             vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);");
 
