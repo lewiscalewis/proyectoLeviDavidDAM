@@ -1,9 +1,11 @@
 package org.iesmurgi.proyectolevidaviddam.Middleware;
 
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
-import org.iesmurgi.proyectolevidaviddam.models.Message;
 
-import javax.mail.*;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -11,10 +13,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Properties;
 
-
 public class MailBot {
     final String username = "javafxuserDAM@gmail.com";
-    final String password = "javafxuserDAM00";
+    final String password = "mocednmnpuxlqlyr";
 
     public void sendMail(String mail){
         Properties prop = new Properties();
@@ -22,17 +23,13 @@ public class MailBot {
         prop.put("mail.smtp.port", "587");
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.starttls.enable", "true"); //TLS
-
         Session session = Session.getInstance(prop,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(username, password);
                     }
                 });
-
-
         javax.mail.Message message = new MimeMessage(session);
-
         try {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(
@@ -41,8 +38,8 @@ public class MailBot {
             );
             message.setSubject("Password recovery");
             /*Aquí vamos a enviar una petición para actualizar la contraseña a una aleatoria que se enviará por email
-            * una vez que el usuario abra su email, podrá iniciar sesión con la contraseña proporcionada y posteriormente
-            * cambiarla desde su perfil*/
+             * una vez que el usuario abra su email, podrá iniciar sesión con la contraseña proporcionada y posteriormente
+             * cambiarla desde su perfil*/
             Date date = new Date();
             long time = date.getTime();
             String newPassword = mail+time;
@@ -55,7 +52,6 @@ public class MailBot {
 
             message.setText("A continuación se le proporcionará una contraseña provisional para iniciar sesión, por favor sustitúyala por una nueva cuando inicie sesión, desde sus ajustes de usuario.\n" +
                     "La contraseña es: "+newPassword);
-
             Transport.send(message);
 
             System.out.println("Done");
@@ -64,6 +60,4 @@ public class MailBot {
             /*Mostrar un dialog de error en la petición!!!*/
         }
     }
-
-
 }
