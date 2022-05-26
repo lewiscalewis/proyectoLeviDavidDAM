@@ -20,6 +20,7 @@ import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -54,11 +55,16 @@ public class HomepageController {
     @FXML
     private HBox hboxContainer;
     @FXML
-    private ComboBox comboboxGenero;
+    private ComboBox<String> comboboxGenero;
 
 
     public void initialize() throws IOException, URISyntaxException {
-        loadItems();
+        String url = CONSTANT.URL.getUrl()+"/all-items";
+        Requester<Item[]> req = new Requester<>(url, Requester.Method.POST, Item[].class);
+        req.addParam("token", new TokenManager().getToken());
+        Item[] items;
+        items = req.execute();
+        loadItems(items);
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
         //es el AnchorPane del hello-view.fxml. con fxid pageRoot
         //((AnchorPane) baseRoot.getParent()).setLeftAnchor(baseRoot, 0.0);
@@ -78,8 +84,10 @@ public class HomepageController {
                 "Metal",
                 "Reggaeton",
                 "Drum and bass",
-                "Reggae"
+                "Reggae",
+                "Todos los géneros"
         );
+        comboboxGenero.setValue("Todos los géneros");
 
 
     }
@@ -254,16 +262,11 @@ public class HomepageController {
 
 
     }
-    private void loadItems(){
+    private void loadItems(Item[] items){
+        container.getChildren().clear();
         Platform.setImplicitExit(true);
         Platform.runLater(() -> {
             try {
-                String url = CONSTANT.URL.getUrl()+"/all-items";
-                Requester<Item[]> req = new Requester<>(url, Requester.Method.POST, Item[].class);
-                req.addParam("token", new TokenManager().getToken());
-                Item[] items;
-                items = req.execute();
-
                 if(items.length > 0) {
                     ScrollPane itemBar = new ScrollPane();
                     VBox petitionBox = new VBox();
@@ -317,10 +320,27 @@ public class HomepageController {
 
 
     @FXML
-    public void search(ActionEvent actionEvent) {
+    public void search(ActionEvent actionEvent) throws IOException, URISyntaxException {
+        if(!textfieldBrowser.getText().equals("")){
+            Requester<Item[]> req = new Requester(CONSTANT.URL.getUrl()+"/items-search", Requester.Method.POST, Item[].class);
+            req.addParam("token", new TokenManager().getToken());
+            req.addParam("item", textfieldBrowser.getText());
+            req.addParam("genre", comboboxGenero.getValue().equals("Todos los géneros") ? "all" : comboboxGenero.getValue());
+            Item[] items = req.execute();
+            loadItems(items);
+        }else{
+            Requester<Item[]> req = new Requester(CONSTANT.URL.getUrl()+"/items-search-genre", Requester.Method.POST, Item[].class);
+            req.addParam("token", new TokenManager().getToken());
+            req.addParam("genre", comboboxGenero.getValue().equals("Todos los géneros") ? "all" : comboboxGenero.getValue());
+            Item[] items = req.execute();
+            loadItems(items);
+        }
+
     }
 
     @FXML
-    public void filterByName(Event event) {
+    public void filterByName(Event event) throws IOException, URISyntaxException {
+       ActionEvent e = null;
+       search(e);
     }
 }
