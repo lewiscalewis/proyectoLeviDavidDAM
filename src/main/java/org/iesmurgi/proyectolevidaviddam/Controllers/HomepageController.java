@@ -149,7 +149,7 @@ public class HomepageController {
 
         String songName = item.getName();
         String author = item.getUsername();
-        Image portada = new Image(new URL("https://images.ecestaticos.com/9Sfa715zzc8Efc_taTLIbLkKeJ4=/0x0:2272x1501/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F38a%2F667%2Fee7%2F38a667ee7dbc85c2f8935eeff36be807.jpg").toURI().toURL().toExternalForm());;
+        Image portada = new Image(new URL("https://cdn-icons-png.flaticon.com/512/13/13510.png").toURI().toURL().toExternalForm());
 
 
         HBox hbox = new HBox();
