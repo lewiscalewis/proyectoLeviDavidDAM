@@ -145,8 +145,7 @@ public class HomepageController {
     }
 
     //Devuelve el nodo de la interfaz de una interfaz nosotros le pasamos un objeto cancion de la base de datos.
-    Node getSong(Item item) throws IOException, URISyntaxException {
-
+    static Node getSong(Item item) throws IOException, URISyntaxException {
         String songName = item.getName();
         String author = item.getUsername();
         Image portada = new Image(new URL("https://cdn-icons-png.flaticon.com/512/13/13510.png").toURI().toURL().toExternalForm());
@@ -154,8 +153,8 @@ public class HomepageController {
 
         HBox hbox = new HBox();
 
-        hbox.setAlignment(Pos.CENTER);
-        //hbox.setStyle("-fx-background-color: #e45926;");
+        hbox.setAlignment(Pos.TOP_LEFT);
+        hbox.setStyle("-fx-background-color: #e45926;");
 
         VBox song = new VBox();
         song.setAlignment(Pos.TOP_LEFT);
@@ -168,29 +167,42 @@ public class HomepageController {
         Label labelSongName = new Label();
         labelSongName.setMaxWidth(500);
         labelSongName.setStyle( "-fx-font-weight: bold; " +
-                                "-fx-text-fill: black;" +
-                                "-fx-fill: black;" +
-                                "-fx-font-size: 16; -fx-background-color: #ffffff;");
+                "-fx-text-fill: black;" +
+                "-fx-fill: black;" +
+                "-fx-font-size: 44; -fx-background-color: #ffffff;");
+
         labelSongName.setMinWidth(100);
         //Hyperlink del autor
         Hyperlink hyperlinkAuthor = new Hyperlink();
+        Label labelDescription = new Label();
+
+
+
+        hyperlinkAuthor.setFont(new Font(30));
+
+
         hyperlinkAuthor.setText(author);
         labelSongName.setText(songName);
+        labelDescription.setText(item.description);
+        labelDescription.setText("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        labelDescription.setStyle(
+                "-fx-text-fill: black; -fx-fill: black;");
         //hyperlinkAuthor.setMaxWidth(Double.MAX_VALUE);
+
         hyperlinkAuthor.setAlignment(Pos.TOP_LEFT);
 
 
         //Imagen
         ImageView imageView = new ImageView();
-        imageView.setFitHeight(100);
-        imageView.setFitWidth(100);
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(200);
 
         imageView.setImage(portada);
 
 
         Button buttonPlay;
         buttonPlay = new Button();
-        buttonPlay.setFont(new Font(100));
+        //buttonPlay.setFont(new Font(100));
         buttonPlay.setText("▶");
 
 
@@ -203,6 +215,7 @@ public class HomepageController {
             //Hyperlink del autor
             Hyperlink hyperlinkAuthorPlayer = new Hyperlink();
             hyperlinkUsernamePlayer.setText(item.getUsername());
+
             try {
                 imageviewPlayer.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
                 //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
@@ -210,11 +223,23 @@ public class HomepageController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            labelSongName.setText(songName);
+
         });
 
+        Label labelCopyright = new Label();
+        labelCopyright.setText("Free use.");
+        labelCopyright.setStyle(
+                "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #44bb44;");
 
-        song.getChildren().addAll(labelSongName,hyperlinkAuthor,imageView);
+        if(item.copyright==1){
+            System.out.println("Tiene copyright");
+            labelCopyright.setText("® All rights reserved.");
+            labelCopyright.setStyle(
+                    "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #bb4444;");
+        }
+
+        labelDescription.setPadding(new Insets(0,0,0,0));
+        song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright,imageView);
         hbox.getChildren().addAll(song,buttonPlay,imageView);
 
 
@@ -222,7 +247,7 @@ public class HomepageController {
     }
 
 
-    InputStream requestProfileImage(String username) throws IOException {
+    static InputStream requestProfileImage(String username) throws IOException {
         String URL= "http://tux.iesmurgi.org:11230/download-image";
         java.net.URL server = new java.net.URL(URL);
         // Open a connection(?) on the URL(??) and cast the response(???)
@@ -273,7 +298,7 @@ public class HomepageController {
                     itemBar.setContent(petitionBox);
                     petitionBox.setSpacing(30);
                     itemBar.setMinWidth(300);
-                    petitionBox.setPadding(new Insets(10, 10, 10, 10));
+                    petitionBox.setPadding(new Insets(0, 0, 0, 0));
                     petitionBox.setAlignment(Pos.CENTER);
 
                     petitionBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
@@ -282,9 +307,9 @@ public class HomepageController {
 
                     for (Item item : items) {
                         VBox vb = new VBox();
-                        vb.setSpacing(10);
-                        vb.setAlignment(Pos.CENTER);
-                        vb.setPadding(new Insets(10, 10, 5, 10));
+                        vb.setSpacing(0);
+                        vb.setAlignment(Pos.TOP_LEFT);
+                        vb.setPadding(new Insets(0, 0, 0, 0));
                         vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
                         Label song_name = new Label(item.getName());
                         song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
