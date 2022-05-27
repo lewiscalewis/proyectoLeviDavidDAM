@@ -105,7 +105,7 @@ public class UploadpageController {
     @FXML
     private void upload_music() {
 
-        if(choosed_music && choosed_image && !textfieldNombre.getText().equals("") && !textareaDescription.getText().equals("") && !choiceboxGenere.getValue().toString().equals("") && !choiceboxLicenseType.getValue().toString().equals("")){
+        if(choosed_music && !textfieldNombre.getText().equals("") && !textareaDescription.getText().equals("") && !choiceboxGenere.getValue().toString().equals("") && !choiceboxLicenseType.getValue().toString().equals("")){
             try{
                 // EJEMPLO
                 Map<String, String> headers = new HashMap<>();
@@ -120,7 +120,11 @@ public class UploadpageController {
                 multipart.addFormField("token", new TokenManager().getToken());
                 multipart.addFormField("description", textareaDescription.getText());
                 multipart.addFormField("copyright", String.valueOf(choiceboxLicenseType.getValue().equals("Todos los derechos reservados") ? "1" : "0"));
-                multipart.addFilePart("multiple-files", selected_image);
+                if(choosed_image){
+                    multipart.addFilePart("multiple-files", selected_image);
+                }else{
+                    multipart.addFilePart("multiple-files", default_image);
+                }
                 // Print result
                 String response = multipart.finish();
                 System.out.println(response);

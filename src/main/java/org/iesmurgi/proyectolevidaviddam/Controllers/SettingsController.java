@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -42,10 +43,10 @@ public class SettingsController {
     private ImageView profileImage;
 
     @FXML
-    private TextField changepdw;
+    private PasswordField changepdw;
 
     @FXML
-    private TextField rechangepwd;
+    private PasswordField rechangepwd;
 
     @FXML
     private TextField state;
