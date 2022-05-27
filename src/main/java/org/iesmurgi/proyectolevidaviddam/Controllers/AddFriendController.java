@@ -94,7 +94,7 @@ public class AddFriendController {
         String url = CONSTANT.URL.getUrl()+"/get-noFriends";
         Requester<User[]> requester = new Requester<>(url, Requester.Method.POST, User[].class);
         requester.addParam("token", tk.getToken());
-        requester.addParam("username", textfieldBrowser.getText());
+        requester.addParam("username", new GeneralDecoder().getUserFromToken());
         getUsers(requester.execute());
         System.out.println("Obteniendo usuarios ...");
     }

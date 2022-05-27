@@ -1,5 +1,6 @@
 package org.iesmurgi.proyectolevidaviddam.Middleware;
 
+import javafx.scene.control.Alert;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 
 import javax.mail.MessagingException;
@@ -55,6 +56,11 @@ public class MailBot {
             Transport.send(message);
 
             System.out.println("Done");
+            Alert a = new Alert(Alert.AlertType.NONE);
+            a.setAlertType(Alert.AlertType.INFORMATION);
+            a.setTitle("Correo enviado!");
+            a.setContentText("Se le ha enviado un correo con las instrucciones");
+            a.show();
         } catch (MessagingException | IOException | NoSuchAlgorithmException ex) {
             ex.printStackTrace();
             /*Mostrar un dialog de error en la petición!!!*/
