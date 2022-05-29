@@ -360,11 +360,11 @@ public class HomepageController {
 
                     for (Item item : items) {
                         VBox vb = new VBox();
-
+                        vb.setStyle("-fx-background-color: blue;");
                         vb.setSpacing(0);
                         vb.setAlignment(Pos.TOP_LEFT);
                         vb.setPadding(new Insets(0, 0, 0, 0));
-                        vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
+                        //vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
                         //Label song_name = new Label(item.getName());
                         //song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
                         vb.getStyleClass().add("item-card");
