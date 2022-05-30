@@ -26,6 +26,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -357,20 +358,23 @@ public class HomepageController {
 
                 Arrays.stream(items).forEach(item ->{
                     VBox vb = new VBox();
+                    vb.setStyle("-fx-background-color: blue;");
                     vb.setSpacing(0);
                     vb.setAlignment(Pos.TOP_LEFT);
                     vb.setPadding(new Insets(0, 0, 0, 0));
-                    vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
-                    Label song_name = new Label(item.getName());
-                    song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
+                    //vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
+                    //Label song_name = new Label(item.getName());
+                    //song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
                     vb.getStyleClass().add("item-card");
                     try {
-                        vb.getChildren().addAll(song_name, getSong(item));
-                    } catch (IOException | URISyntaxException e) {
+                        vb.getChildren().addAll(getSong(item));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (URISyntaxException e) {
                         e.printStackTrace();
                     }
                     vb.setOnMouseEntered((event -> {
-                        vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);");
+                        vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);-fx-background-color:blue;");
 
                         TranslateTransition t = new TranslateTransition();
                         t.setNode(vb);
@@ -379,7 +383,7 @@ public class HomepageController {
                         t.play();
                     }));
                     vb.setOnMouseExited((event -> {
-                        vb.setStyle("-fx-effect: dropshadow(three-pass-box, white,0, 0, 0, 0);");
+                        vb.setStyle("-fx-effect: dropshadow(three-pass-box, white,0, 0, 0, 0);-fx-background-color:blue;");
                         TranslateTransition t = new TranslateTransition();
                         t.setNode(vb);
                         t.setDuration(new Duration(60));
@@ -387,7 +391,6 @@ public class HomepageController {
                         t.play();
                     }));
                     petitionBox.getChildren().add(vb);
-                    //Aquí iría el código para pasar los datos del usuario a la vista perfil
                 });
 
                 container.getChildren().add(itemBar);
