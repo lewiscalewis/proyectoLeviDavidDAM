@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
@@ -112,8 +113,10 @@ public class AddFriendController {
                     fileGetter.addParam("token", tk.getToken());
 
                     ImageView imgView = fileGetter.getImage();
-                    imgView.setFitHeight(70);
-                    imgView.setFitWidth(70);
+                    imgView.setFitHeight(160);
+                    imgView.setFitWidth(160);
+
+                    HBox image_and_data_container = new HBox();
 
                     VBox cardContainer = new VBox();
                     cardContainer.setAlignment(Pos.CENTER);
@@ -125,16 +128,31 @@ public class AddFriendController {
                     userCard.maxWidth(900);
                     userCard.prefWidth(700);
                     userCard.maxHeight(400);
-                    userCard.getStyleClass().add("userCard");
-                    Label usernameLabel = new Label("Usuario:\t"+u.getUsername());
+                    Label usernameLabel = new Label("Usuario");
+                    Text usernameText = new Text(u.getUsername());
                     usernameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 15");
-                    Text nameLabel = new Text("Nombre:\t"+u.getName());
-                    Text surnameLabel = new Text("Apellidos:\t"+u.getSurname());
+                    Label nameLabel = new Label("Nombre");
+                    nameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 13");
+                    Text nametext = new Text(u.getName());
+                    Label surnameLabel = new Label("Apellidos");
+                    surnameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 13");
+                    Text surnameText = new Text(u.getSurname());
                     Button addToFriend = new Button("Añadir a lista de amigos");
                     //addToFriend.setStyle("-fx-background-color: #63c963; -fx-fill: white; -fx-text-fill: white; -fx-font-weight: bold");
                     addToFriend.getStyleClass().add("button");
-                    userCard.getChildren().addAll(imgView, usernameLabel, nameLabel, surnameLabel);
-                    cardContainer.getChildren().addAll(userCard, addToFriend);
+                    userCard.getChildren().addAll(usernameLabel, usernameText, nameLabel, nametext, surnameLabel, surnameText);
+
+                    userCard.minWidth(Double.MAX_VALUE);
+                    userCard.maxWidth(Double.MAX_VALUE);
+
+                    image_and_data_container.getChildren().addAll(imgView, userCard);
+                    image_and_data_container.setSpacing(100);
+                    image_and_data_container.getStyleClass().add("userCard");
+                    image_and_data_container.setAlignment(Pos.CENTER);
+                    image_and_data_container.minWidth(Double.MAX_VALUE);
+                    image_and_data_container.setStyle("-fx-border-color: white");
+
+                    cardContainer.getChildren().addAll(image_and_data_container, addToFriend);
                     cardContainer.setSpacing(20);
                     userCard.setSpacing(8);
                     userCard.setPadding(new Insets(5, 5, 5, 5));

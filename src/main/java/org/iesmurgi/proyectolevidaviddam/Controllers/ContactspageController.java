@@ -29,6 +29,7 @@ import org.iesmurgi.proyectolevidaviddam.models.User;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ContactspageController {
@@ -149,7 +150,7 @@ public class ContactspageController {
 
     private void iterateUsers(User[] users) throws IOException {
         Platform.runLater(()->{
-            Arrays.stream(users).filter(user -> user.getUsername() != new GeneralDecoder().getUserFromToken()).forEach((u)->{
+            Arrays.stream(users).filter(user -> !Objects.equals(user.getUsername(), new GeneralDecoder().getUserFromToken())).forEach((u)->{
                 String url1 = CONSTANT.URL.getUrl()+"/download-image";
                 FileGetter fileGetter = null;
                 try {

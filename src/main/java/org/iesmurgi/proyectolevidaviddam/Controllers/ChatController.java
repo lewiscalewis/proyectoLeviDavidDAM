@@ -115,7 +115,8 @@ public class ChatController {
             public void run() {
                 scrollDown();
             }
-        }, 100);
+        }, 200);
+        scrollDown();
     }
 
     public void setContactData(User contact){
