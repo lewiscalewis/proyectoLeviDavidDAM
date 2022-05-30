@@ -1,20 +1,37 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
+import org.iesmurgi.proyectolevidaviddam.Middleware.FileGetter;
+import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
+import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
+import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HelloController {
 
@@ -24,250 +41,525 @@ public class HelloController {
     @FXML
     private Hyperlink hyperlinkUser;                //HyperLink que se encuentra arriba a la derecha junto a la imagen del usuario
     @FXML
-    private StackPane baseRoot;
-    @FXML
-    private ColumnConstraints columnConstraints3;
-    @FXML
-    private GridPane contentRoot;
-    @FXML
     private VBox chatSlider;
     @FXML
-    private GridPane gridRoot;
+    private VBox mainContainer;
     @FXML
     private ImageView imageviewProfileImage;
     @FXML
-    private Label tileSettings;
+    private HBox hboxTopMenu;
     @FXML
-    private Label tileSettings3;
+    private VBox vboxPlayer;
     @FXML
-    private Label tileSettings2;
+    private HBox settingsButton;
     @FXML
-    private Label tileSettings1;
+    private HBox profileButton;
     @FXML
-    private Label labelTopMenu1;
+    private HBox topProfileButton;
     @FXML
-    private Label labelTopMenu3;
+    private HBox uploadButton;
     @FXML
-    private Label labelTopMenu2;
+    private Label labelSongNamePlayer;
+    @FXML
+    private Hyperlink hyperlinkUsernamePlayer;
+    @FXML
+    private ImageView imageviewPlayer;
 
+    public static String log_out_username;
+    public static String log_out_token = new TokenManager().getToken();
 
     public void initialize() throws IOException {
+
+
+        HelloApplication.session_started = true;
         chatSlider.setTranslateX(265);
 
-        /*chatSlider.setOnMouseClicked(actionEvent->{
-            if(chatOpen) {
-                TranslateTransition slide = new TranslateTransition();
-                slide.setDuration(Duration.seconds(0.4));
-                slide.setNode(chatSlider);
+        webView=new WebView();
+        webEngine=webView.getEngine();
 
-                slide.setToX(180);
-                slide.play();
+        uploadButton.setOnMouseClicked(Event->{
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(pageRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
 
-                chatSlider.setTranslateX(+176);
-                chatOpen=false;
-            }else{
-                TranslateTransition slide = new TranslateTransition();
-                slide.setDuration(Duration.seconds(0.4));
-                slide.setNode(chatSlider);
 
-                slide.setToX(0);
-                slide.play();
+            slide.setToX(6000);
+            slide.play();
+            slide.setOnFinished((event -> {
 
-                chatSlider.setTranslateX(+176);
-                chatOpen=true;
-            }
-            /*slide.setOnFinished((ActionEvent e)-> {
-                Menu.setVisible(false);
-                MenuClose.setVisible(true);
-            });
-        });*/
+                pageRoot.setTranslateX(-6000);
+                TranslateTransition slide2 = new TranslateTransition();
+                slide2.setDuration(Duration.seconds(0.4));
+                slide2.setNode(pageRoot);
+                //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+                slide2.setToX(0);
+
+                try {
+                    pageRoot.setAlignment(Pos.TOP_LEFT);
+                    pageRoot.getChildren().clear();
+                    rootFxmlLoader=new FXMLLoader(
+                            HelloApplication.class.getResource(
+                                    "uploadpage.fxml"
+                            )
+                    );
+                    Pane root = rootFxmlLoader.load();
+                    pageRoot.getChildren().add(root);
+
+
+
+
+                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                slide2.play();
+                slide2.setOnFinished((event2)->{
+                    //UploadpageController uploadpageController= rootFxmlLoader.getController();
+                    //uploadpageController.openFileChooser();
+                });
+
+            }));
+        });
+
+        topProfileButton.setOnMouseClicked(Event->{
+            loadProfile();
+        });
+
+        profileButton.setOnMouseClicked(Event->{
+            loadProfile();
+        });
+
+        settingsButton.setOnMouseClicked(Event ->{
+
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(pageRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide.setToX(6000);
+            slide.play();
+            slide.setOnFinished((event -> {
+
+                pageRoot.setTranslateX(-6000);
+                TranslateTransition slide2 = new TranslateTransition();
+                slide2.setDuration(Duration.seconds(0.4));
+                slide2.setNode(pageRoot);
+                //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+                slide2.setToX(0);
+
+                try {
+                    pageRoot.setAlignment(Pos.TOP_CENTER);
+                    pageRoot.getChildren().clear();
+                    FXMLLoader rootFxmlLoader=new FXMLLoader(
+                            HelloApplication.class.getResource(
+                                    "settings-view.fxml"
+                            )
+                    );
+
+                    Pane root = rootFxmlLoader.load();
+                    SettingsController sc = rootFxmlLoader.getController();
+                    sc.loadImageView(this);
+
+                    pageRoot.getChildren().add(root);
+
+                    //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                    //profilepageController.loadUserData();
+                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                slide2.play();
+                slide2.setOnFinished((event2)->{
+
+                });
+
+            }));
+        });
 
     }
 
+    private void loadProfile(){
 
-    public void loadUserData(User user){
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(pageRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            pageRoot.setTranslateX(-6000);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(pageRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                pageRoot.setAlignment(Pos.TOP_LEFT);
+                pageRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "profilepage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+
+                pageRoot.getChildren().add(root);
+
+                //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                //profilepageController.loadUserData();
+                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+
+            });
+
+        }));
+    }
+
+    public void loadUserData(User user) throws IOException {
         hyperlinkUser.setText(user.getName());
+        imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
+        imageviewProfileImage.setFitWidth(55);
+        imageviewProfileImage.setFitHeight(55);
+        imageviewProfileImage.maxWidth(55);
+        imageviewProfileImage.maxHeight(55);
+        imageviewProfileImage.setPreserveRatio(false);
         hyperlinkUser.setOnAction(event->{
 
         });
 
-
-        //FOR TESTING:
-        //INSERT IMAGE STRING INTO DATABASE.
-
-
-
-
-        ///////////////////////////////////////////////////////////
-
-
-
-
-
-
-        //char[] arrayImage = user.getProfileImage().toCharArray();
-        //System.out.println(user.getProfileImage());
-        //Crea una imagen a partir del String de la base de datos.
-        /*Image profileimage= new Image(new ByteArrayInputStream(
-                user.getProfileImage().getBytes(StandardCharsets.UTF_8)
-        ),30,30,true,true
-        );
-        //Image profileimage= new Image(user.getProfileImage());
-
-        imageviewProfileImage.setImage(profileimage);}}*/
     }
     boolean chatOpen=true;
-    @FXML
-    public void loadHomePage()  {
 
-        try {
-            pageRoot.setAlignment(Pos.TOP_LEFT);
-            pageRoot.getChildren().clear();
-            FXMLLoader fxmlLoader =new FXMLLoader(HelloApplication.class.getResource("homepage.fxml"));
 
-            //HomepageController homepageController = fxmlLoader.getController();
+    InputStream requestProfileImage(String username) throws IOException {
+        String URL= "http://tux.iesmurgi.org:11230/download-image";
+        java.net.URL server = new java.net.URL(URL);
+        // Open a connection(?) on the URL(??) and cast the response(???)
+        HttpURLConnection connection = (HttpURLConnection) server.openConnection();
 
 
 
 
-            Pane root = (fxmlLoader.load());
+        // Now it's "open", we can set the request method, headers etc.
+        connection.setRequestProperty("accept", "application/x-www-form-urlencoded");
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
 
-            
-            pageRoot.getChildren().add(root);
+        Map<String,String> params= new HashMap<>();
+        params.put("username", new GeneralDecoder().getUserFromToken());                  //La petición no llega al servidor cuando le pongo parámetros
+        params.put("token", new TokenManager().getToken());
+        //ADD PARAMETERS
+        int i = 0;
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            //System.out.println(entry.getKey() + "/" + entry.getValue());
 
-            //((Stage)pageRoot.getScene().getWindow()).setMinWidth(900);
-            //((Stage)pageRoot.getScene().getWindow()).setMinHeight(500);
-
-
-            //hyperlinkUser.setOnAction(actionEvent -> {
-                //slideChatSlider();
-           // });
-
-
-//            chatSlider.setOnMouseEntered(actionEvent->openChatSlider());
-//            chatSlider.setOnMouseExited(actionEvent->closeChatSlider());
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            String urlParameters  = (i > 0 ? "&" : "") + entry.getKey()+"="+entry.getValue();
+            byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
+            int    postDataLength = postData.length;
+            System.out.println("Escribiendo parámetros: key -> "+entry.getKey()+"|| value -> "+entry.getValue());
+            connection.getOutputStream().write(postData, 0, postDataLength);
+            i++;
         }
 
 
 
 
+
+        InputStream responseStream= connection.getInputStream();
+
+        return responseStream;
+
+
     }
 
 
-//    public void openChatSlider() {
-//
-//            TranslateTransition slide = new TranslateTransition();
-//            slide.setDuration(Duration.seconds(0.4));
-//            slide.setNode(chatSlider);
-//
-//            slide.setToX(0);
-//            slide.play();
-//
-//            chatSlider.setTranslateX(+176);
-//    }
-//
-//    public void closeChatSlider(){
-//
-//            TranslateTransition slide = new TranslateTransition();
-//            slide.setDuration(Duration.seconds(0.4));
-//            slide.setNode(chatSlider);
-//
-//            slide.setToX(265);
-//            slide.play();
-//
-//            //chatSlider.setTranslateX(+176);
-//
-//    }
 
-//    public void slideChatSlider(){
-//        if(chatOpen) {
-//            closeChatSlider();
-//            chatOpen=false;
-//        }else{
-//            openChatSlider();
-//
-//            //chatSlider.setTranslateX(+180);
-//            chatOpen=true;
-//        }
-//    }
+    //Hace una petición y obtiene una imagen. NO MODIFICAR. ES DE EJEMPLO.
+    InputStream requestBinary() throws IOException {
+
+        String URL= "http://tux.iesmurgi.org:11230/download-image";
+        java.net.URL server = new java.net.URL(URL);
+        // Open a connection(?) on the URL(??) and cast the response(???)
+        HttpURLConnection connection = (HttpURLConnection) server.openConnection();
+
+        // Now it's "open", we can set the request method, headers etc.
+        connection.setRequestProperty("accept", "application/x-www-form-urlencoded");
+        connection.setRequestMethod("GET");
+        connection.setDoOutput(true);
+
+        InputStream responseStream = connection.getInputStream();
+
+
+        return responseStream;
+    }
 
 
 
 
+
+    boolean first=true;
+    WebView webView;
+    WebEngine webEngine;
     @FXML
-    public void loadProfilePage()  {
-
+    public void loadHomePage() throws IOException {
+/*
         try {
-            pageRoot.setAlignment(Pos.TOP_LEFT);
-            pageRoot.getChildren().clear();
-            FXMLLoader rootFxmlLoader=new FXMLLoader(
-                    HelloApplication.class.getResource(
-                            "profilepage.fxml"
-                    )
-            );
-            Pane root = rootFxmlLoader.load();
-            pageRoot.getChildren().add(root);
+            // EJEMPLO
+            Map<String, String> headers = new HashMap<>();
+            headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
+            FileGetter multipart = new FileGetter();
+            multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/image", "utf-8", headers);
+            // Add form field
+            multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
+            // Add file
+            multipart.addFilePart("image", new File("C:\\Users\\whywo\\Pictures\\Screenshots\\Screenshot (3).png"));
+            // Print result
+            String response = multipart.finish();
+            System.out.println(response);
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
 
-
-            ((Stage)root.getScene().getWindow()).setMinWidth(900);
-            ((Stage)root.getScene().getWindow()).setMinHeight(500);
-
-
-
-            //root es la raiz de nuestra página, todoo lo que se ve menos el menu.
-            /*
-            String url="http://tux.iesmurgi.org:11230/users";
-            URL urls1 = new URL(url);
-            HttpURLConnection conexion1 = (HttpURLConnection) urls1.openConnection();
-            conexion1.setRequestMethod("POST");
-            BufferedReader rd = new BufferedReader(new InputStreamReader(conexion1. getInputStream()));
-
-            // Mientras el BufferedReader se pueda leer, agregar contenido a resultado
-            String linea="";
-            while ((linea = rd.readLine()) != null) {
-                Gson gson = new Gson();
-                User[] juegos = gson.fromJson(linea, User[].class);
-                Label labelRequest=new Label(juegos[0].toString());
-                root.getChildren().add(labelRequest);
-            }
-
-            // Cerrar el BufferedReader
-            rd.close();
 
 */
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+
+        //requestBinary();
+
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(pageRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            pageRoot.setTranslateX(-6000);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(pageRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                pageRoot.setAlignment(Pos.TOP_LEFT);
+                pageRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "homepage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+                pageRoot.getChildren().add(root);
+
+                if(first){
+                    Label l = new Label("Loading...");
+                    l.setFont(new Font("Arial",30));
+                    vboxPlayer.setAlignment(Pos.TOP_CENTER);
+                    vboxPlayer.getChildren().add(l);
+
+
+                    HomepageController homepageController= rootFxmlLoader.getController();
+                    homepageController.testHomepageController();
+                    if(first)
+                        homepageController.setWebViewPlayer(webView,webEngine,vboxPlayer,labelSongNamePlayer, imageviewPlayer, hyperlinkUsernamePlayer);
+                    homepageController.initializePlayer(vboxPlayer,webView);
+
+
+
+                    first=false;}
+                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+
+            });
+
+        }));
 
     }
 
 
-    @FXML
-    public void loadContactsPage(Event event) {
 
-        pageRoot.setAlignment(Pos.TOP_LEFT);
+    public void firstLoadHomePage()  {
+
+
         try {
+            pageRoot.setAlignment(Pos.TOP_LEFT);
             pageRoot.getChildren().clear();
             FXMLLoader rootFxmlLoader=new FXMLLoader(
                     HelloApplication.class.getResource(
-                            "contactspage.fxml"
+                            "homepage.fxml"
                     )
             );
             Pane root = rootFxmlLoader.load();
             pageRoot.getChildren().add(root);
 
 
-            ((Stage)root.getScene().getWindow()).setMinWidth(900);
-            ((Stage)root.getScene().getWindow()).setMinHeight(500);
-
+            ((Stage)pageRoot.getScene().getWindow()).setMinWidth(1000);
+            ((Stage)pageRoot.getScene().getWindow()).setMinHeight(850);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    FXMLLoader rootFxmlLoader;
+
+    @FXML
+    public void logout(Event e) throws IOException {
+        Requester<String> set_online = null;
+        try {
+            set_online = new Requester<>("http://tux.iesmurgi.org:11230/set-online", Requester.Method.POST, String.class);
+            set_online.addParam("token", new TokenManager().getToken());
+            set_online.addParam("online", "false");
+            set_online.addParam("username", new GeneralDecoder().getUserFromToken());
+            set_online.execute();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        webEngine.load(null);
+        TokenManager tk = new TokenManager();
+        tk.deleteToken();
+        try {
+            mainContainer.setAlignment(Pos.CENTER);
+
+
+
+            //ANIMACION DE TRANSICION DE VENTANA
+            Platform.runLater(()->{
+                TranslateTransition slide = new TranslateTransition();
+                slide.setDuration(Duration.seconds(1));
+                slide.setNode(pageRoot);
+                //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+                slide.setToY(-5000);
+
+                slide.setOnFinished((event)->{
+                    mainContainer.getChildren().clear();
+                    FXMLLoader rootFxmlLoader=new FXMLLoader(
+                            HelloApplication.class.getResource(
+                                    "log_in.fxml"
+                            )
+                    );
+                    Pane root = null;
+                    try {
+                        root = rootFxmlLoader.load();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    mainContainer.getChildren().add(root);
+                    pageRoot.setTranslateY(0);
+                });
+                slide.play();
+                hboxTopMenu.setVisible(false);
+
+
+
+            });
+
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    public void loadContactsPage() {
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(pageRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            pageRoot.setTranslateX(-6000);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(pageRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                pageRoot.setAlignment(Pos.TOP_LEFT);
+                pageRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "contactspage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+                pageRoot.getChildren().add(root);
+
+
+                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+            });
+        }));
+    }
+
+    private void animateTransition() {
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.8));
+        slide.setNode(pageRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+            pageRoot.setTranslateX(0);
+        }));
     }
 
     @FXML
@@ -276,7 +568,7 @@ public class HelloController {
         slide.setDuration(Duration.seconds(0.4));
         slide.setNode((VBox) event.getTarget());
         //((HBox) event.getTarget()).setTranslateY(-6);
-        slide.setToX(0);
+        slide.setToX(10);
         slide.play();
     }
 
@@ -327,7 +619,7 @@ public class HelloController {
         slide.setDuration(Duration.seconds(0.1));
         slide.setNode((HBox) event.getTarget());
 
-        slide.setToY(5);
+        slide.setToY(0);
         //slide.setToX(2);
         slide.play();
 
@@ -371,4 +663,7 @@ public class HelloController {
     }
 
 
+    @Deprecated
+    public void loadProfilePage(Event event) {
+    }
 }

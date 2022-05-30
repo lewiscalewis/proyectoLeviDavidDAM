@@ -32,4 +32,11 @@ public class TokenManager {
             e.printStackTrace();
         }
     }
+
+    public void deleteToken() throws IOException {
+        BufferedWriter w = new BufferedWriter(new FileWriter("src/main/java/org/iesmurgi/proyectolevidaviddam/LocalStorage/UserData.txt", false));
+        w.write("");
+        w.flush();
+        w.close();
+    }
 }

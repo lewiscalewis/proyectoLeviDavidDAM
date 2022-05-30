@@ -14,8 +14,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="720.0" minWidth="1200.0" stylesheets="@css/hellocss.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.HelloController">
-   <HBox maxHeight="92.0" minHeight="79.0" prefHeight="92.0" prefWidth="1928.0" spacing="5.0" style="-fx-background-color: #0b1533;" stylesheets="@css/main.css">
+<VBox fx:id="mainContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="720.0" minWidth="1200.0" prefHeight="1080.0" prefWidth="1920.0" styleClass="container" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.HelloController">
+   <HBox fx:id="hboxTopMenu" maxHeight="79.0" minHeight="79.0" prefHeight="79.0" prefWidth="1928.0" spacing="5.0" style="-fx-background-color: #0b1533;" stylesheets="@css/main.css">
       <children>
          <HBox maxWidth="740.0" spacing="5.0">
             <children>
@@ -36,7 +36,7 @@
                      </Label>
                   </children>
                </HBox>
-               <HBox alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseClicked="#loadProfilePage" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
+               <HBox fx:id="topProfileButton" alignment="CENTER" maxHeight="81.0" minHeight="81.0" minWidth="200.0" onMouseEntered="#onMenuItemEnter" onMouseExited="#onMenuItemExited" prefHeight="100.0" prefWidth="200.0" styleClass="botonMainMenu" stylesheets="@css/cssmenu.css">
                   <children>
                      <Label fx:id="labelTopMenu2" text="Profile" textFill="WHITE">
                         <font>
@@ -65,34 +65,37 @@
                </HBox>
             </children>
          </HBox>
-         <HBox alignment="TOP_RIGHT" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="79.0" prefWidth="1176.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+         <HBox alignment="TOP_RIGHT" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="81.0" prefWidth="1176.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
             <children>
-               <Pane minWidth="305.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="79.0" prefWidth="305.0" style="-fx-background-color: white;">
+               <HBox alignment="CENTER_RIGHT" style="-fx-background-color: #1c3787;" HBox.hgrow="ALWAYS">
                   <children>
-                     <HBox alignment="CENTER" layoutX="9.0" layoutY="6.0" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="288.0" spacing="30.0">
+                     <Pane minWidth="305.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="79.0">
                         <children>
-                           <ImageView fx:id="imageviewProfileImage" fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" smooth="false">
-                              <image>
-                                 <Image url="@images/Sample_User_Icon.png" />
-                              </image>
-                           </ImageView>
-                           <Hyperlink fx:id="hyperlinkUser" style="-fx-border-color: white;" text="Hyperlin">
-                              <font>
-                                 <Font size="30.0" />
-                              </font>
-                           </Hyperlink>
+                           <HBox alignment="CENTER" layoutX="9.0" layoutY="6.0" maxWidth="1.7976931348623157E308" prefHeight="80.0" spacing="30.0">
+                              <children>
+                                 <ImageView fx:id="imageviewProfileImage" fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" smooth="false" style="-fx-background-color: white;">
+                                    <image>
+                                       <Image url="@images/Sample_User_Icon.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Hyperlink fx:id="hyperlinkUser" style="-fx-border-color: #e45926;" text="eeeeeeeee">
+                                    <font>
+                                       <Font size="30.0" />
+                                    </font>
+                                 </Hyperlink>
+                              </children>
+                           </HBox>
                         </children>
-                     </HBox>
-                  </children>
-                  <HBox.margin>
-                     <Insets />
-                  </HBox.margin>
-               </Pane>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                     </Pane>
+                  </children></HBox>
             </children>
          </HBox>
       </children>
    </HBox>
-   <StackPane fx:id="baseRoot" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+   <StackPane fx:id="baseRoot" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
       <children>
          <GridPane fx:id="contentRoot" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="container" stylesheets="@css/main.css">
             <columnConstraints>
@@ -112,7 +115,7 @@
                <Insets />
             </StackPane.margin>
          </GridPane>
-         <GridPane fx:id="gridRoot" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false">
+         <GridPane alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false">
             <columnConstraints>
                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="100.0" />
                <ColumnConstraints fx:id="columnConstraints3" hgrow="ALWAYS" maxWidth="729.0" minWidth="305.0" prefWidth="305.0" />
@@ -128,7 +131,7 @@
                      <Insets bottom="25.0" />
                   </padding>
                   <children>
-                     <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox fx:id="uploadButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Label fx:id="tileSettings" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Uploads" textFill="WHITE">
                               <font>
@@ -140,7 +143,7 @@
                            </Label>
                         </children>
                      </HBox>
-                     <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox fx:id="profileButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Label fx:id="tileSettings1" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Profile" textFill="WHITE">
                               <font>
@@ -152,7 +155,7 @@
                            </Label>
                         </children>
                      </HBox>
-                     <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox fx:id="settingsButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Label fx:id="tileSettings2" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Settings" textFill="WHITE">
                               <font>
@@ -164,7 +167,7 @@
                            </Label>
                         </children>
                      </HBox>
-                     <HBox alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox alignment="CENTER_LEFT" onMouseClicked="#logout" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Label fx:id="tileSettings3" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Logout" textFill="WHITE">
                               <font>
@@ -183,6 +186,41 @@
                <Insets />
             </StackPane.margin>
          </GridPane>
+      </children>
+   </StackPane>
+   <StackPane style="-fx-background-color: #e45926;">
+      <children>
+         <HBox style="-fx-border: solid 20px blue; -fx-background-color: #1b1b1b;">
+            <StackPane.margin>
+               <Insets />
+            </StackPane.margin>
+            <children>
+               <ImageView fx:id="imageviewPlayer" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true">
+                  <HBox.margin>
+                     <Insets right="40.0" />
+                  </HBox.margin>
+               </ImageView>
+               <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                  <children>
+                     <Label fx:id="labelSongNamePlayer" maxWidth="1.7976931348623157E308" prefWidth="1500.0" textFill="WHITE">
+                        <font>
+                           <Font name="Sylfaen" size="40.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="-5.0" />
+                        </VBox.margin>
+                        <padding>
+                           <Insets top="6.0" />
+                        </padding>
+                     </Label>
+                     <Hyperlink fx:id="hyperlinkUsernamePlayer">
+                        <font>
+                           <Font size="20.0" />
+                        </font></Hyperlink>
+                  </children>
+               </VBox>
+            </children>
+         </HBox>
       </children>
    </StackPane>
 </VBox>

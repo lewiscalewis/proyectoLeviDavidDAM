@@ -1,17 +1,15 @@
 module org.iesmurgi.proyectolevidaviddam {
     requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.web;
-
-    requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
+    requires javafx.graphics;
+    requires java.sql;
+    requires java.desktop;
     requires com.google.gson;
-    requires org.json;
+    requires org.kordamp.bootstrapfx.core;
     requires socket.io.client;
     requires engine.io.client;
+    requires javamail;
+    requires javafx.web;
 
 
     opens org.iesmurgi.proyectolevidaviddam.models to com.google.gson;
@@ -19,4 +17,5 @@ module org.iesmurgi.proyectolevidaviddam {
     exports org.iesmurgi.proyectolevidaviddam;
     exports org.iesmurgi.proyectolevidaviddam.Controllers;
     opens org.iesmurgi.proyectolevidaviddam.Controllers to com.google.gson, javafx.fxml,javafx.base;
+    opens org.iesmurgi.proyectolevidaviddam.Middleware to com.google.gson;
 }

@@ -1,32 +1,48 @@
 package org.iesmurgi.proyectolevidaviddam;
 
-import com.google.gson.Gson;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.iesmurgi.proyectolevidaviddam.Controllers.HelloController;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
-import org.iesmurgi.proyectolevidaviddam.models.User;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
 
 public class HelloApplication extends Application {
+    public static Stage mainStage;
+    public static boolean session_started = false;
+
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
+        mainStage = stage;
+        stage.setOnCloseRequest(event -> {
+            Requester<String> set_online = null;
+            if(session_started){
+                try {
+                    set_online = new Requester<>("http://tux.iesmurgi.org:11230/set-online", Requester.Method.POST, String.class);
+                    set_online.addParam("token", HelloController.log_out_token);
+                    set_online.addParam("online", "false");
+                    set_online.addParam("username", HelloController.log_out_username);
+                    set_online.execute();
+                    System.exit(0);
+                    Platform.exit();
+                } catch (IOException e) {
+                    System.exit(0);
+                    e.printStackTrace();
+                }
+            }else{
+                System.exit(0);
+            }
+        });
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("log_in.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Hello!");
+        stage.setTitle("MuSick");
         stage.setMaximized(true);
-        stage.setMinWidth(1300);
-        stage.setMinHeight(870);
+        stage.setMinWidth(900);
+        stage.setMinHeight(850);
         stage.setScene(scene);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 

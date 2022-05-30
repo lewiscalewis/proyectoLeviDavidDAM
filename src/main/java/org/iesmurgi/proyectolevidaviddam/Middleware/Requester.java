@@ -75,7 +75,7 @@ public class Requester <T>{
         // This line makes the request
         T vuelta;
         T res = (T)"";
-        if (!connection.getHeaderField("Content-Length").equals("0")) {
+        if (!connection.getHeaderField("Content-Length").equals("0") && typeParameterClass != null) {
             InputStream responseStream = connection.getInputStream();
 
 

@@ -1,8 +1,6 @@
 package org.iesmurgi.proyectolevidaviddam.models;
 
 
-
-
 public class User {
 
     String name;
@@ -11,14 +9,28 @@ public class User {
     String password;
     String profileimage;
     String email;
+    String state;
+    int online;
 
-    public User(String name, String surname, String username, String password, String email, String profileimage){
+    public User(String name, String surname, String username, String password, String email, String profileimage, String state, int online){
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.password = password;
         this.email = email;
         this.profileimage = profileimage;
+        this.state = state;
+        this.online = online;
+    }
+
+    public User(String name, String surname, String username, String password, String email, String profileimage, String state){
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.profileimage = profileimage;
+        this.state = state;
     }
 
     public User(){
@@ -39,6 +51,22 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public int isOnline() {
+        return online;
+    }
+
+    public void setOnline(int online) {
+        this.online = online;
     }
 
     public void setEmail(String email) {

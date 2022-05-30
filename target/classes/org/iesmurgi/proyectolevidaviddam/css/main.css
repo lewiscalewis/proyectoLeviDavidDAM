@@ -44,17 +44,23 @@
     -fx-font-size: 16;
 }
 
-.browser-icon {
-    -fx-background-image: url('../images/lupa.png');
-    -fx-background-repeat: stretch;
-    -fx-background-size: 24 24;
-    -fx-background-position: center center;
-    /*-fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);*/
+.browser {
+    -fx-border-color: lightgrey;
+    -fx-background-color:  #1c3787;
 }
 
 .scroll-pane {
     -fx-border-color: #1c3787;
     -fx-background:  #1c3787;
+}
+
+.profileImage {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+}
+
+.profileImage:hover {
+    -fx-background-color: white;
 }
 
 .add-friend {
@@ -64,4 +70,106 @@
 }
 .add-friend:hover {
     -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
+}
+
+.userCard {
+    -fx-padding: 10;
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-fill: black;
+}
+
+.item-card {
+    -fx-padding: 10;
+    -fx-background-color: blue;
+    -fx-text-fill: black;
+    -fx-fill: black;
+}
+
+.item-card:hover {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, white, 5, 0.5, 0, 0);
+}
+
+.userCard2 {
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-width: 2;
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-min-height: 200;
+    -fx-min-width: 250;
+    -fx-max-height: 200;
+    -fx-max-width: 250;
+}
+
+.userCard2:hover {
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-width: 2;
+    -fx-padding: 20;
+    -fx-background-color: whitesmoke;
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
+}
+
+.userCard:hover{
+    -fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);
+}
+
+.messageCard{
+    -fx-border-color: whitesmoke;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-width: 2;
+    -fx-background-color: white;
+}
+
+.messageCard:hover{
+    -fx-background-color: #e7e7e7;
+}
+
+.button-default {
+    -fx-background-color: #63c963;
+    -fx-fill: white;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14
+}
+
+.button-default:hover{
+    -fx-background-color: white;
+    -fx-fill: #63c963;
+    -fx-text-fill: #63c963;
+    -fx-font-weight: bold;
+    -fx-font-size: 14
+}
+
+.decline-button{
+    -fx-background-color: #ff0000;
+    -fx-fill: white;
+    -fx-text-fill: white;
+    -fx-font-weight: bold
+}
+
+.decline-button:hover{
+    -fx-background-color: #ffffff;
+    -fx-fill: #ff0000;
+    -fx-text-fill: #ff0000;
+    -fx-font-weight: bold;
+    -fx-font-size: 14
+}
+
+.browser-icon {
+    -fx-background-image: url('../images/lupa.png');
+    -fx-background-repeat: stretch;
+    -fx-background-size: 24 24;
+    -fx-background-position: center center;
+    -fx-background-color: #ffffff;
+    /*-fx-effect: dropshadow(three-pass-box, white, 30, 0.5, 0, 0);*/
+}
+
+.browser-icon:hover{
+    -fx-background-color: #63c963;
 }
