@@ -25,6 +25,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -291,54 +292,54 @@ public class HomepageController {
         container.getChildren().clear();
         Platform.setImplicitExit(true);
         Platform.runLater(() -> {
-            try {
-                if(items.length > 0) {
-                    ScrollPane itemBar = new ScrollPane();
-                    VBox petitionBox = new VBox();
-                    itemBar.setContent(petitionBox);
-                    petitionBox.setSpacing(30);
-                    itemBar.setMinWidth(300);
-                    petitionBox.setPadding(new Insets(0, 0, 0, 0));
-                    petitionBox.setAlignment(Pos.CENTER);
+            if(items.length > 0) {
+                ScrollPane itemBar = new ScrollPane();
+                VBox petitionBox = new VBox();
+                itemBar.setContent(petitionBox);
+                petitionBox.setSpacing(30);
+                itemBar.setMinWidth(300);
+                petitionBox.setPadding(new Insets(0, 0, 0, 0));
+                petitionBox.setAlignment(Pos.CENTER);
 
-                    petitionBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
-                            itemBar.getViewportBounds().getWidth(), itemBar.viewportBoundsProperty()));
+                petitionBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+                        itemBar.getViewportBounds().getWidth(), itemBar.viewportBoundsProperty()));
 
-
-                    for (Item item : items) {
-                        VBox vb = new VBox();
-                        vb.setSpacing(0);
-                        vb.setAlignment(Pos.TOP_LEFT);
-                        vb.setPadding(new Insets(0, 0, 0, 0));
-                        vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
-                        Label song_name = new Label(item.getName());
-                        song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
-                        vb.getStyleClass().add("item-card");
+                Arrays.stream(items).forEach(item ->{
+                    VBox vb = new VBox();
+                    vb.setSpacing(0);
+                    vb.setAlignment(Pos.TOP_LEFT);
+                    vb.setPadding(new Insets(0, 0, 0, 0));
+                    vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
+                    Label song_name = new Label(item.getName());
+                    song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
+                    vb.getStyleClass().add("item-card");
+                    try {
                         vb.getChildren().addAll(song_name, getSong(item));
-                        vb.setOnMouseEntered((event -> {
-                            vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);");
-
-                            TranslateTransition t = new TranslateTransition();
-                            t.setNode(vb);
-                            t.setDuration(new Duration(60));
-                            t.setToX(10);
-                            t.play();
-                        }));
-                        vb.setOnMouseExited((event -> {
-                            vb.setStyle("-fx-effect: dropshadow(three-pass-box, white,0, 0, 0, 0);");
-                            TranslateTransition t = new TranslateTransition();
-                            t.setNode(vb);
-                            t.setDuration(new Duration(60));
-                            t.setToX(0);
-                            t.play();
-                        }));
-                        petitionBox.getChildren().add(vb);
-                        //Aquí iría el código para pasar los datos del usuario a la vista perfil
+                    } catch (IOException | URISyntaxException e) {
+                        e.printStackTrace();
                     }
-                    container.getChildren().add(itemBar);
-                }
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
+                    vb.setOnMouseEntered((event -> {
+                        vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);");
+
+                        TranslateTransition t = new TranslateTransition();
+                        t.setNode(vb);
+                        t.setDuration(new Duration(60));
+                        t.setToX(10);
+                        t.play();
+                    }));
+                    vb.setOnMouseExited((event -> {
+                        vb.setStyle("-fx-effect: dropshadow(three-pass-box, white,0, 0, 0, 0);");
+                        TranslateTransition t = new TranslateTransition();
+                        t.setNode(vb);
+                        t.setDuration(new Duration(60));
+                        t.setToX(0);
+                        t.play();
+                    }));
+                    petitionBox.getChildren().add(vb);
+                    //Aquí iría el código para pasar los datos del usuario a la vista perfil
+                });
+
+                container.getChildren().add(itemBar);
             }
         });
     }

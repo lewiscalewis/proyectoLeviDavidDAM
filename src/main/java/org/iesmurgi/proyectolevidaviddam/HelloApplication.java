@@ -1,6 +1,7 @@
 package org.iesmurgi.proyectolevidaviddam;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -27,6 +28,7 @@ public class HelloApplication extends Application {
                     set_online.addParam("username", HelloController.log_out_username);
                     set_online.execute();
                     System.exit(0);
+                    Platform.exit();
                 } catch (IOException e) {
                     System.exit(0);
                     e.printStackTrace();

@@ -27,6 +27,9 @@ import org.iesmurgi.proyectolevidaviddam.models.Notifications;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ContactspageController {
 
@@ -145,10 +148,15 @@ public class ContactspageController {
     }
 
     private void iterateUsers(User[] users) throws IOException {
-        for(User u: users){
-            if(!u.getUsername().equals(new GeneralDecoder().getUserFromToken())){
+        Platform.runLater(()->{
+            Arrays.stream(users).filter(user -> user.getUsername() != new GeneralDecoder().getUserFromToken()).forEach((u)->{
                 String url1 = CONSTANT.URL.getUrl()+"/download-image";
-                FileGetter fileGetter = new FileGetter(url1);
+                FileGetter fileGetter = null;
+                try {
+                    fileGetter = new FileGetter(url1);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
                 fileGetter.addParam("username", u.getUsername());
                 fileGetter.addParam("token", tk.getToken());
 
@@ -166,7 +174,12 @@ public class ContactspageController {
 //                        "-fx-border-width: 2; " +
 //                        "-fx-background-color: white;" +
 //                        "-fx-padding: 20");
-                ImageView imgView = fileGetter.getImage();
+                ImageView imgView = null;
+                try {
+                    imgView = fileGetter.getImage();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 imgView.setFitHeight(60);
                 imgView.setFitWidth(60);
                 Label usernameLabel = new Label("Usuario: "+u.getUsername());
@@ -180,11 +193,21 @@ public class ContactspageController {
                 Text state = new Text("Estado: "+u.getState());
                 Text online = new Text(u.isOnline() == 1 ? "En línea" : "Desconectado");
                 online.setStyle(u.isOnline() == 1 ? "-fx-fill: lightgreen; -fx-font-weight: bold" : "-fx-fill: red; -fx-font-weight: bold");
-                Requester<Notifications[]> req = new Requester<>("http://tux.iesmurgi.org:11230/get-notifications", Requester.Method.POST, Notifications[].class);
+                Requester<Notifications[]> req = null;
+                try {
+                    req = new Requester<>("http://tux.iesmurgi.org:11230/get-notifications", Requester.Method.POST, Notifications[].class);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
                 req.addParam("token", new TokenManager().getToken());
                 req.addParam("emisor", u.getUsername());
                 req.addParam("receptor", me);
-                Notifications[] notifications = req.execute();
+                Notifications[] notifications = new Notifications[0];
+                try {
+                    notifications = req.execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Text not_readed;
                 if(notifications.length > 0){
                     not_readed = new Text(notifications[0].getNotification()+" mensajes sin leer");
@@ -199,8 +222,8 @@ public class ContactspageController {
                 container.setAlignment(Pos.CENTER);
                 container.setPadding(new Insets(10,10,10,10));
                 openChat(userCard, u);
-            }
-        }
+            });
+        });
     }
 
     void loadUsers() throws IOException, InterruptedException {
