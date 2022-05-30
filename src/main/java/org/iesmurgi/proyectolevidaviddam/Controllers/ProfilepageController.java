@@ -3,9 +3,8 @@ package org.iesmurgi.proyectolevidaviddam.Controllers;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -16,13 +15,18 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
+import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 import org.iesmurgi.proyectolevidaviddam.models.Item;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -31,8 +35,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController.getSong;
 
 //Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
 public class ProfilepageController {
@@ -59,15 +61,15 @@ public class ProfilepageController {
 
     public void initialize() throws IOException, URISyntaxException {
 
-
-        imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
         imageviewProfileImage.setFitWidth(150);
         imageviewProfileImage.setFitHeight(150);
         imageviewProfileImage.maxHeight(150);
         imageviewProfileImage.maxWidth(150);
         imageviewProfileImage.setPreserveRatio(false);
 
-        labelUsername.setText(new GeneralDecoder().getUserFromToken());
+
+
+
 
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
         //es el AnchorPane del hello-view.fxml. con fxid pageRoot
@@ -97,6 +99,12 @@ public class ProfilepageController {
 
 
 
+    }
+    public void loadUserData(String username) throws IOException {
+        imageviewProfileImage.setImage(new Image(requestProfileImage(username)));
+        imageviewProfileImage.setPreserveRatio(false);
+
+        labelUsername.setText(username);
     }
 
     public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1, Label labelSongNamePlayer2, ImageView imageViewPlayer2, Hyperlink hyperlinkUsernamePlayer2){///////////////////////////////////////////
@@ -265,7 +273,7 @@ public class ProfilepageController {
         connection.setDoOutput(true);
 
         Map<String,String> params= new HashMap<>();
-        params.put("username", new GeneralDecoder().getUserFromToken());                  //La petición no llega al servidor cuando le pongo parámetros
+        params.put("username", username);                  //La petición no llega al servidor cuando le pongo parámetros
         params.put("token", new TokenManager().getToken());
         //ADD PARAMETERS
         int i = 0;
@@ -352,10 +360,195 @@ public class ProfilepageController {
     }
 
 
+    Node getSong(Item item) throws IOException, URISyntaxException {
+        String songName = item.getName();
+        String author = item.getUsername();
+        Image portada = new Image(new URL("https://cdn-icons-png.flaticon.com/512/13/13510.png").toURI().toURL().toExternalForm());
+
+
+        HBox hbox = new HBox();
+        hbox.setStyle("-fx-background-color: black;");
+        hbox.setAlignment(Pos.TOP_LEFT);
+        hbox.setStyle("-fx-background-color: #e45926;");
+
+        VBox song = new VBox();
+        song.setAlignment(Pos.TOP_LEFT);
+        song.setPrefWidth(350);
+        song.setMaxWidth(350);
+        song.setMinWidth(350);
+
+
+        //Label del título
+        Label labelSongName = new Label();
+        labelSongName.setMaxWidth(350);
+        labelSongName.setMinWidth(350);
+        labelSongName.setStyle( "-fx-font-weight: bold; " +
+                "-fx-text-fill: black;" +
+                "-fx-fill: black;" +
+                "-fx-font-size: 44; -fx-background-color: #ffffff;");
+
+        //labelSongName.setMinWidth(100);
+        //Hyperlink del autor
+        Hyperlink hyperlinkAuthor = new Hyperlink();
+        Label labelDescription = new Label();
+        hyperlinkAuthor.setOnAction((event -> {
+            loadProfile();
+        }));
+
+
+        hyperlinkAuthor.setFont(new Font(30));
+
+
+        hyperlinkAuthor.setText(author);
+        labelSongName.setText(songName);
+        labelDescription.setText(item.description);
+        labelDescription.setText("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        labelDescription.setStyle(
+                "-fx-text-fill: black; -fx-fill: black;");
+        //hyperlinkAuthor.setMaxWidth(Double.MAX_VALUE);
+
+        hyperlinkAuthor.setAlignment(Pos.TOP_LEFT);
+
+
+        //Imagen
+        ImageView imageView = new ImageView();
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(200);
+
+        imageView.setImage(portada);
+
+
+        Button buttonPlay;
+        buttonPlay = new Button();
+        //buttonPlay.setFont(new Font(100));
+        buttonPlay.setText("▶");
+
+
+        System.out.println(item.getId());
+
+        buttonPlay.setOnAction((event)->{
+            play(String.valueOf(item.getId()));
+            labelSongNamePlayer.setText(item.getName());
+
+            //Hyperlink del autor
+            Hyperlink hyperlinkAuthorPlayer = new Hyperlink();
+            hyperlinkUsernamePlayer.setText(item.getUsername());
+
+            try {
+                imageviewPlayer.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
+                //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
+                //HAY QUE CREAR UN REQUESTCOVER(itemid)
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+        });
+
+        Button buttonDownload = new Button("download");
+        buttonDownload.setOnAction((event -> {
+
+
+            FileChooser saveChooser = new FileChooser();
+            saveChooser.setTitle("Save");
+            saveChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("MP3", "*.mp3"));
+            //Adding action on the menu item
+            Platform.runLater(()->{
+                File saveFile = saveChooser.showSaveDialog(buttonPlay.getScene().getWindow());
+                Thread th = new Thread(()->{
+
+                    try {
+                        byte[] songFile= new byte[0];
+                        songFile = HomepageController.downloadAndStore(1).readAllBytes();
+                        FileOutputStream fosFile=new FileOutputStream(saveFile);
+                        fosFile.write(songFile);
+                        fosFile.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                th.setDaemon(true);
+                th.start();
+            });
+
+
+        }));
 
 
 
 
+        Label labelCopyright = new Label();
+        labelCopyright.setText("Free use.");
+        labelCopyright.setStyle(
+                "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #44bb44;");
+
+        if(item.copyright==1){
+            System.out.println("Tiene copyright");
+            labelCopyright.setText("® All rights reserved.");
+            labelCopyright.setStyle(
+                    "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #bb4444;");
+        }
+
+        labelDescription.setPadding(new Insets(0,0,0,0));
+        song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright,imageView);
+        hbox.getChildren().addAll(song,buttonPlay,buttonDownload,imageView);
+
+
+        return hbox;
+    }
+
+
+
+    private void loadProfile(){
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(baseRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            baseRoot.setTranslateX(-6000);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(baseRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                baseRoot.setAlignment(Pos.TOP_LEFT);
+                baseRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "profilepage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+
+                baseRoot.getChildren().add(root);
+
+                //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                //profilepageController.loadUserData();
+                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+
+            });
+
+        }));
+    }
 
 
 }
