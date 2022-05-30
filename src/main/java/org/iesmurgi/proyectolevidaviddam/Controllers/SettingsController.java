@@ -1,5 +1,6 @@
 package org.iesmurgi.proyectolevidaviddam.Controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,13 +55,24 @@ public class SettingsController {
 
     @FXML
     void initialize() throws IOException {
-        String url = CONSTANT.URL.getUrl()+"/download-image";
-        FileGetter fileGetter = new FileGetter(url);
-        fileGetter.addParam("username", gd.getUserFromToken());
-        fileGetter.addParam("token", tk.getToken());
-        profileImage.imageProperty().bind(fileGetter.getImage().imageProperty());
-        profileImage.setFitHeight(200);
-        profileImage.setFitWidth(200);
+        Platform.runLater(()->{
+            String url = CONSTANT.URL.getUrl()+"/download-image";
+            FileGetter fileGetter = null;
+            try {
+                fileGetter = new FileGetter(url);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            fileGetter.addParam("username", gd.getUserFromToken());
+            fileGetter.addParam("token", tk.getToken());
+            try {
+                profileImage.imageProperty().bind(fileGetter.getImage().imageProperty());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            profileImage.setFitHeight(200);
+            profileImage.setFitWidth(200);
+        });
     }
 
     @FXML
@@ -91,58 +103,82 @@ public class SettingsController {
     @FXML
     void changeProfileImage(MouseEvent event) throws IOException {
 
-        Stage stage = (Stage) baseRoot.getScene().getWindow();
+        Platform.runLater(()->{
+            Stage stage = (Stage) baseRoot.getScene().getWindow();
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Imágenes PNG", "*.png"),
-                new FileChooser.ExtensionFilter("Imágenes JPG", "*.jpg"),
-                new FileChooser.ExtensionFilter("Imágenes JPEG", "*.jpeg"),
-                new FileChooser.ExtensionFilter("Imágenes WEBP", "*.webp"),
-                new FileChooser.ExtensionFilter("Imágenes ICO", "*.ico"),
-                new FileChooser.ExtensionFilter("Imágenes SVG", "*.svg")
-        );
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Imágenes PNG", "*.png"),
+                    new FileChooser.ExtensionFilter("Imágenes JPG", "*.jpg"),
+                    new FileChooser.ExtensionFilter("Imágenes JPEG", "*.jpeg"),
+                    new FileChooser.ExtensionFilter("Imágenes WEBP", "*.webp"),
+                    new FileChooser.ExtensionFilter("Imágenes ICO", "*.ico"),
+                    new FileChooser.ExtensionFilter("Imágenes SVG", "*.svg")
+            );
 
-        File selectedFile = fileChooser.showOpenDialog(stage);
+            File selectedFile = fileChooser.showOpenDialog(stage);
 
-        if(selectedFile.exists()){
-            // EJEMPLO
-            Map<String, String> headers = new HashMap<>();
-            headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
-            FileGetter multipart = new FileGetter();
-            multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/upload-image-on-item", "utf-8", headers);
-            // Add form field
-            multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
-            multipart.addFormField("token", new TokenManager().getToken());
-            // Add file
-            multipart.addFilePart("image", selectedFile);
-            // Print result
-            String response = multipart.finish();
-            System.out.println(response);
-        }
+            if(selectedFile.exists()){
+                // EJEMPLO
+                Map<String, String> headers = new HashMap<>();
+                headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
+                FileGetter multipart = new FileGetter();
+                try {
+                    multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/upload-image", "utf-8", headers);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Add form field
+                multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
+                multipart.addFormField("token", new TokenManager().getToken());
+                // Add file
+                try {
+                    multipart.addFilePart("image", selectedFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Print result
+                String response = null;
+                try {
+                    response = multipart.finish();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(response);
+            }
 
-        initialize();
+            try {
+                initialize();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        Requester<User[]> userRequester = null;
-        User me = null;
-        try {
-            userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user", Requester.Method.POST, User[].class);
-            userRequester.addParam("username", new GeneralDecoder().getUserFromToken());
-            userRequester.addParam("token", new TokenManager().getToken());
-            helloController.loadUserData(userRequester.execute()[0]);
-            me = userRequester.execute()[0];
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            Requester<User[]> userRequester = null;
+            User me = null;
+            try {
+                userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user", Requester.Method.POST, User[].class);
+                userRequester.addParam("username", new GeneralDecoder().getUserFromToken());
+                userRequester.addParam("token", new TokenManager().getToken());
+                helloController.loadUserData(userRequester.execute()[0]);
+                me = userRequester.execute()[0];
 
-        helloController.loadUserData(me);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        Alert a = new Alert(Alert.AlertType.NONE);
-        a.setAlertType(Alert.AlertType.INFORMATION);
-        a.setTitle("Imagen Actualizada!");
-        a.setContentText("La imagen se ha cambiado correctamente!");
-        a.show();
+            try {
+                helloController.loadUserData(me);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Alert a = new Alert(Alert.AlertType.NONE);
+            a.setAlertType(Alert.AlertType.INFORMATION);
+            a.setTitle("Imagen Actualizada!");
+            a.setContentText("La imagen se ha cambiado correctamente!");
+            a.show();
+        });
+
     }
 
     HelloController helloController;

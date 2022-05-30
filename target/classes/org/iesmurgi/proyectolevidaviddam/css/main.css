@@ -81,7 +81,7 @@
 
 .item-card {
     -fx-padding: 10;
-    -fx-background-color: white;
+    -fx-background-color: blue;
     -fx-text-fill: black;
     -fx-fill: black;
 }
