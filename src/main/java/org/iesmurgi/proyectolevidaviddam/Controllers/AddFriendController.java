@@ -112,8 +112,8 @@ public class AddFriendController {
                     fileGetter.addParam("token", tk.getToken());
 
                     ImageView imgView = fileGetter.getImage();
-                    imgView.setFitHeight(60);
-                    imgView.setFitWidth(60);
+                    imgView.setFitHeight(70);
+                    imgView.setFitWidth(70);
 
                     VBox cardContainer = new VBox();
                     cardContainer.setAlignment(Pos.CENTER);
@@ -126,17 +126,17 @@ public class AddFriendController {
                     userCard.prefWidth(700);
                     userCard.maxHeight(400);
                     userCard.getStyleClass().add("userCard");
-                    Label usernameLabel = new Label(u.getUsername());
+                    Label usernameLabel = new Label("Usuario:\t"+u.getUsername());
                     usernameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 15");
-                    Text nameLabel = new Text(u.getName());
-                    Text surnameLabel = new Text(u.getSurname());
+                    Text nameLabel = new Text("Nombre:\t"+u.getName());
+                    Text surnameLabel = new Text("Apellidos:\t"+u.getSurname());
                     Button addToFriend = new Button("Añadir a lista de amigos");
                     //addToFriend.setStyle("-fx-background-color: #63c963; -fx-fill: white; -fx-text-fill: white; -fx-font-weight: bold");
                     addToFriend.getStyleClass().add("button");
                     userCard.getChildren().addAll(imgView, usernameLabel, nameLabel, surnameLabel);
                     cardContainer.getChildren().addAll(userCard, addToFriend);
                     cardContainer.setSpacing(20);
-                    userCard.setSpacing(5);
+                    userCard.setSpacing(8);
                     userCard.setPadding(new Insets(5, 5, 5, 5));
                     container.getChildren().add(cardContainer);
 
