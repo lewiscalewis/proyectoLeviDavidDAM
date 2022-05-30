@@ -67,17 +67,21 @@
          </HBox>
          <HBox alignment="TOP_RIGHT" maxHeight="81.0" maxWidth="1.7976931348623157E308" prefHeight="81.0" prefWidth="1176.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
             <children>
-               <HBox alignment="CENTER_RIGHT" style="-fx-background-color: #e45926;" HBox.hgrow="ALWAYS">
+               <HBox alignment="CENTER_RIGHT" style="-fx-background-color: #1c3787;" HBox.hgrow="ALWAYS">
                   <children>
                      <Pane minWidth="305.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="79.0">
                         <children>
                            <HBox alignment="CENTER" layoutX="9.0" layoutY="6.0" maxWidth="1.7976931348623157E308" prefHeight="80.0" spacing="30.0">
                               <children>
-                                 <ImageView fx:id="imageviewProfileImage" fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" smooth="false">
-                                    <image>
-                                       <Image url="@images/Sample_User_Icon.png" />
-                                    </image>
-                                 </ImageView>
+                                 <HBox style="-fx-background-color: white;">
+                                    <children>
+                                       <ImageView fx:id="imageviewProfileImage" fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" smooth="false" style="-fx-background-color: white;">
+                                          <image>
+                                             <Image url="@images/Sample_User_Icon.png" />
+                                          </image>
+                                       </ImageView>
+                                    </children>
+                                 </HBox>
                                  <Hyperlink fx:id="hyperlinkUser" style="-fx-border-color: #e45926;" text="eeeeeeeee">
                                     <font>
                                        <Font size="30.0" />
@@ -190,22 +194,22 @@
    </StackPane>
    <StackPane style="-fx-background-color: #e45926;">
       <children>
-         <HBox style="-fx-border: solid 20px blue;">
+         <HBox style="-fx-border: solid 20px blue; -fx-background-color: #1b1b1b;">
             <StackPane.margin>
                <Insets />
             </StackPane.margin>
             <children>
                <ImageView fx:id="imageviewPlayer" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true">
-                  <image>
-                     <Image url="@images/BitStore_Logo.png" />
-                  </image>
                   <HBox.margin>
                      <Insets right="40.0" />
                   </HBox.margin>
+                  <image>
+                     <Image url="@images/BitStore_Logo.png" />
+                  </image>
                </ImageView>
                <VBox>
                   <children>
-                     <Label fx:id="labelSongNamePlayer" text="Bangarang">
+                     <Label fx:id="labelSongNamePlayer" text="Bangarang" textFill="WHITE">
                         <font>
                            <Font name="Sylfaen" size="40.0" />
                         </font>
@@ -224,7 +228,7 @@
                </VBox>
             </children>
          </HBox>
-         <VBox fx:id="vboxPlayer" maxHeight="65.0" minHeight="65.0" prefHeight="65.0" style="-fx-background-color: #e45926;" StackPane.alignment="CENTER_RIGHT">
+         <VBox fx:id="vboxPlayer" maxHeight="65.0" minHeight="65.0" prefHeight="65.0" style="-fx-background-color: #1b1b1b;" StackPane.alignment="CENTER_RIGHT">
             <StackPane.margin>
                <Insets left="600.0" />
             </StackPane.margin>

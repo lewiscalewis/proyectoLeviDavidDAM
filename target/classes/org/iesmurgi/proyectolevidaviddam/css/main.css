@@ -130,7 +130,7 @@
     -fx-background-color: #e7e7e7;
 }
 
-.button{
+.button-default {
     -fx-background-color: #63c963;
     -fx-fill: white;
     -fx-text-fill: white;
@@ -138,7 +138,7 @@
     -fx-font-size: 14
 }
 
-.button:hover{
+.button-default:hover{
     -fx-background-color: white;
     -fx-fill: #63c963;
     -fx-text-fill: #63c963;

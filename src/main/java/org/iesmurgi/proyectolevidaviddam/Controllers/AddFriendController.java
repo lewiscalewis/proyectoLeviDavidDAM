@@ -6,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -128,9 +125,8 @@ public class AddFriendController {
                     userCard.maxWidth(900);
                     userCard.prefWidth(700);
                     userCard.maxHeight(400);
-                    Label usernameLabel = new Label("Usuario");
-                    Text usernameText = new Text(u.getUsername());
-                    usernameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 15");
+                    Hyperlink usernameLabel = new Hyperlink(u.getUsername());
+                    usernameLabel.setStyle("-fx-text-fill: darkblue; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 32");
                     Label nameLabel = new Label("Nombre");
                     nameLabel.setStyle("-fx-text-fill: black; -fx-fill: black; -fx-font-weight: bold; -fx-font-size: 13");
                     Text nametext = new Text(u.getName());
@@ -139,8 +135,8 @@ public class AddFriendController {
                     Text surnameText = new Text(u.getSurname());
                     Button addToFriend = new Button("Añadir a lista de amigos");
                     //addToFriend.setStyle("-fx-background-color: #63c963; -fx-fill: white; -fx-text-fill: white; -fx-font-weight: bold");
-                    addToFriend.getStyleClass().add("button");
-                    userCard.getChildren().addAll(usernameLabel, usernameText, nameLabel, nametext, surnameLabel, surnameText);
+                    addToFriend.getStyleClass().add("button-default");
+                    userCard.getChildren().addAll(usernameLabel, nameLabel, nametext, surnameLabel, surnameText);
 
                     userCard.minWidth(Double.MAX_VALUE);
                     userCard.maxWidth(Double.MAX_VALUE);
