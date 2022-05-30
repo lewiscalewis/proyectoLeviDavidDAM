@@ -6,6 +6,7 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -16,6 +17,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 
@@ -31,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javafx.scene.web.WebView;
+import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
@@ -147,7 +150,7 @@ public class HomepageController {
     }
 
     //Devuelve el nodo de la interfaz de una interfaz nosotros le pasamos un objeto cancion de la base de datos.
-    static Node getSong(Item item) throws IOException, URISyntaxException {
+    Node getSong(Item item) throws IOException, URISyntaxException {
         String songName = item.getName();
         String author = item.getUsername();
         Image portada = new Image(new URL("https://cdn-icons-png.flaticon.com/512/13/13510.png").toURI().toURL().toExternalForm());
@@ -178,7 +181,9 @@ public class HomepageController {
         //Hyperlink del autor
         Hyperlink hyperlinkAuthor = new Hyperlink();
         Label labelDescription = new Label();
-
+        hyperlinkAuthor.setOnAction((event -> {
+            loadProfile(author);
+        }));
 
 
         hyperlinkAuthor.setFont(new Font(30));
@@ -315,7 +320,7 @@ public class HomepageController {
         connection.setDoOutput(true);
 
         Map<String,String> params= new HashMap<>();
-        params.put("username", new GeneralDecoder().getUserFromToken());                  //La petición no llega al servidor cuando le pongo parámetros
+        params.put("username", username);                  //La petición no llega al servidor cuando le pongo parámetros
         params.put("token", new TokenManager().getToken());
         //ADD PARAMETERS
         int i = 0;
@@ -422,5 +427,59 @@ public class HomepageController {
     public void filterByName(Event event) throws IOException, URISyntaxException {
        ActionEvent e = null;
        search(e);
+    }
+
+
+
+
+    private void loadProfile(String username){
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(baseRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            baseRoot.setTranslateX(-6000);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(baseRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                baseRoot.setAlignment(Pos.TOP_LEFT);
+                baseRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "profilepage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+                ProfilepageController profilepageController = rootFxmlLoader.getController();
+                profilepageController.loadUserData(username);
+                baseRoot.getChildren().add(root);
+
+                //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                //profilepageController.loadUserData();
+                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+
+            });
+
+        }));
     }
 }
