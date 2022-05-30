@@ -32,6 +32,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController.getSong;
+
 //Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
 public class ProfilepageController {
 
@@ -83,9 +85,12 @@ public class ProfilepageController {
 
 
 
+        Requester<Item[]> req = new Requester(CONSTANT.URL.getUrl()+"/all-items", Requester.Method.POST, Item[].class);
+        req.addParam("token", new TokenManager().getToken());
 
+        Item[] items = req.execute();
 
-        loadItems();    //Carga las canciones
+        loadItems(items);    //Carga las canciones
 
         container.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
                 scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
@@ -287,23 +292,19 @@ public class ProfilepageController {
     }
 
 
-    private void loadItems(){
+    private  void loadItems(Item[] items){
+        container.getChildren().clear();
         Platform.setImplicitExit(true);
         Platform.runLater(() -> {
             try {
-                String url = CONSTANT.URL.getUrl()+"/all-items";
-                Requester<Item[]> req = new Requester<>(url, Requester.Method.POST, Item[].class);
-                req.addParam("token", new TokenManager().getToken());
-                Item[] items;
-                items = req.execute();
-
                 if(items.length > 0) {
                     ScrollPane itemBar = new ScrollPane();
                     VBox petitionBox = new VBox();
                     itemBar.setContent(petitionBox);
                     petitionBox.setSpacing(30);
-                    itemBar.setMinWidth(300);
-                    petitionBox.setPadding(new Insets(10, 10, 10, 10));
+                    itemBar.setMinWidth(700);
+                    itemBar.setMaxWidth(700);
+                    petitionBox.setPadding(new Insets(0, 0, 0, 0));
                     petitionBox.setAlignment(Pos.CENTER);
 
                     petitionBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
@@ -312,16 +313,17 @@ public class ProfilepageController {
 
                     for (Item item : items) {
                         VBox vb = new VBox();
-                        vb.setSpacing(10);
-                        vb.setAlignment(Pos.CENTER);
-                        vb.setPadding(new Insets(10, 10, 5, 10));
-                        vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
-                        Label song_name = new Label(item.getName());
-                        song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
+                        vb.setStyle("-fx-background-color: blue;");
+                        vb.setSpacing(0);
+                        vb.setAlignment(Pos.TOP_LEFT);
+                        vb.setPadding(new Insets(0, 0, 0, 0));
+                        //vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
+                        //Label song_name = new Label(item.getName());
+                        //song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
                         vb.getStyleClass().add("item-card");
-                        vb.getChildren().addAll(song_name, HomepageController.getSong(item));
+                        vb.getChildren().addAll( getSong(item));
                         vb.setOnMouseEntered((event -> {
-                            vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);");
+                            vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);-fx-background-color:blue;");
 
                             TranslateTransition t = new TranslateTransition();
                             t.setNode(vb);
@@ -330,7 +332,7 @@ public class ProfilepageController {
                             t.play();
                         }));
                         vb.setOnMouseExited((event -> {
-                            vb.setStyle("-fx-effect: dropshadow(three-pass-box, white,0, 0, 0, 0);");
+                            vb.setStyle("-fx-effect: dropshadow(three-pass-box, white,0, 0, 0, 0);-fx-background-color:blue;");
                             TranslateTransition t = new TranslateTransition();
                             t.setNode(vb);
                             t.setDuration(new Duration(60));
@@ -338,6 +340,7 @@ public class ProfilepageController {
                             t.play();
                         }));
                         petitionBox.getChildren().add(vb);
+
                         //Aquí iría el código para pasar los datos del usuario a la vista perfil
                     }
                     container.getChildren().add(itemBar);
@@ -347,7 +350,6 @@ public class ProfilepageController {
             }
         });
     }
-
 
 
 

@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 
@@ -25,7 +26,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +43,7 @@ public class HomepageController {
     private StackPane baseRoot;
 
     @FXML
-    private FlowPane container;
+    private  FlowPane container;
 
     @FXML
     private ScrollPane scrollPane;
@@ -153,26 +153,27 @@ public class HomepageController {
 
 
         HBox hbox = new HBox();
-
+        hbox.setStyle("-fx-background-color: black;");
         hbox.setAlignment(Pos.TOP_LEFT);
         hbox.setStyle("-fx-background-color: #e45926;");
 
         VBox song = new VBox();
         song.setAlignment(Pos.TOP_LEFT);
-        song.setPrefWidth(600);
-        song.setMaxWidth(600);
-        song.setMinWidth(600);
+        song.setPrefWidth(350);
+        song.setMaxWidth(350);
+        song.setMinWidth(350);
 
 
         //Label del título
         Label labelSongName = new Label();
-        labelSongName.setMaxWidth(500);
+        labelSongName.setMaxWidth(350);
+        labelSongName.setMinWidth(350);
         labelSongName.setStyle( "-fx-font-weight: bold; " +
                 "-fx-text-fill: black;" +
                 "-fx-fill: black;" +
                 "-fx-font-size: 44; -fx-background-color: #ffffff;");
 
-        labelSongName.setMinWidth(100);
+        //labelSongName.setMinWidth(100);
         //Hyperlink del autor
         Hyperlink hyperlinkAuthor = new Hyperlink();
         Label labelDescription = new Label();
@@ -225,7 +226,41 @@ public class HomepageController {
                 e.printStackTrace();
             }
 
+
+
         });
+
+        Button buttonDownload = new Button("download");
+        buttonDownload.setOnAction((event -> {
+
+
+            FileChooser saveChooser = new FileChooser();
+            saveChooser.setTitle("Save");
+            saveChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("MP3", "*.mp3"));
+            //Adding action on the menu item
+            Platform.runLater(()->{
+            File saveFile = saveChooser.showSaveDialog(buttonPlay.getScene().getWindow());
+                Thread th = new Thread(()->{
+
+                    try {
+                        byte[] songFile= new byte[0];
+                        songFile = downloadAndStore(1).readAllBytes();
+                        FileOutputStream fosFile=new FileOutputStream(saveFile);
+                        fosFile.write(songFile);
+                        fosFile.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                th.setDaemon(true);
+                th.start();
+            });
+
+
+        }));
+
+
+
 
         Label labelCopyright = new Label();
         labelCopyright.setText("Free use.");
@@ -241,13 +276,29 @@ public class HomepageController {
 
         labelDescription.setPadding(new Insets(0,0,0,0));
         song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright,imageView);
-        hbox.getChildren().addAll(song,buttonPlay,imageView);
+        hbox.getChildren().addAll(song,buttonPlay,buttonDownload,imageView);
 
 
         return hbox;
     }
 
+    static InputStream downloadAndStore(int id) throws IOException {
 
+        String URL= "http://tux.iesmurgi.org:11230/download-item/"+String.valueOf(id);
+        java.net.URL server = new java.net.URL(URL);
+        // Open a connection(?) on the URL(??) and cast the response(???)
+        HttpURLConnection connection = (HttpURLConnection) server.openConnection();
+
+        // Now it's "open", we can set the request method, headers etc.
+        connection.setRequestProperty("accept", "application/x-www-form-urlencoded");
+        connection.setRequestMethod("GET");
+        connection.setDoOutput(true);
+
+        InputStream responseStream = connection.getInputStream();
+
+
+        return responseStream;
+    }
     static InputStream requestProfileImage(String username) throws IOException {
         String URL= "http://tux.iesmurgi.org:11230/download-image";
         java.net.URL server = new java.net.URL(URL);
@@ -288,7 +339,7 @@ public class HomepageController {
 
 
     }
-    private void loadItems(Item[] items){
+    private  void loadItems(Item[] items){
         container.getChildren().clear();
         Platform.setImplicitExit(true);
         Platform.runLater(() -> {
