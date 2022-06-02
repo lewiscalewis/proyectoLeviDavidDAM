@@ -27,16 +27,15 @@ public class HelloApplication extends Application {
                     set_online.addParam("online", "false");
                     set_online.addParam("username", HelloController.log_out_username);
                     set_online.execute();
-                    System.exit(0);
-                    Platform.exit();
                 } catch (IOException e) {
-                    System.exit(0);
                     e.printStackTrace();
                 }
-            }else{
-                System.exit(0);
             }
+
+            System.exit(0);
+            Platform.exit();
         });
+
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("log_in.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("MuSick");

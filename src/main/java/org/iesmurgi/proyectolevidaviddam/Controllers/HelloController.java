@@ -418,7 +418,6 @@ public class HelloController {
         }catch (NullPointerException ex) {
             ex.printStackTrace();
         }
-        HomepageController.player.stop_music();
         Requester<String> set_online = null;
         try {
             set_online = new Requester<>("http://tux.iesmurgi.org:11230/set-online", Requester.Method.POST, String.class);
