@@ -31,10 +31,27 @@ public class MusickPlayer {
         this.player.setAutoPlay(true);
     }
 
+    public MusickPlayer(){
+
+    }
+
     public Node getControl(){
-        player.stop();
         MediaControl mediaControl = new MediaControl(this.player);
-        mediaControl.setStyle("-fx-background-color: #1c3787; -fx-max-width: 600; -fx-fill: white; -fx-min-width: 400; -fx-text-fill: white");
+        mediaControl.setStyle("-fx-background-color:  #1b1b1b; -fx-max-width: 600; -fx-min-width: 400; -fx-min-height: 80");
+        player.play();
         return mediaControl;
     }
+
+    public void setPlayer(String url){
+        this.url = url;
+        this.media = new Media(url);
+        this.player = new MediaPlayer(media);
+        this.player.setAutoPlay(true);
+        player.stop();
+    }
+
+    public void stop_music(){
+        player.stop();
+    }
+
 }

@@ -201,7 +201,7 @@
             <children>
                <ImageView fx:id="imageviewPlayer" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true">
                   <HBox.margin>
-                     <Insets right="40.0" />
+                     <Insets bottom="5.0" left="5.0" right="40.0" top="5.0" />
                   </HBox.margin>
                   <image>
                      <Image url="@images/BitStore_Logo.png" />
@@ -209,7 +209,7 @@
                </ImageView>
                <VBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                   <children>
-                     <Label fx:id="labelSongNamePlayer" maxWidth="1.7976931348623157E308" text="Bangarang" textFill="WHITE">
+                     <Label fx:id="labelSongNamePlayer" maxWidth="1.7976931348623157E308" textFill="WHITE">
                         <font>
                            <Font name="Sylfaen" size="40.0" />
                         </font>
@@ -220,7 +220,7 @@
                            <Insets top="6.0" />
                         </padding>
                      </Label>
-                     <Hyperlink fx:id="hyperlinkUsernamePlayer" text="Skrillex">
+                     <Hyperlink fx:id="hyperlinkUsernamePlayer">
                         <font>
                            <Font size="20.0" />
                         </font></Hyperlink>
@@ -229,7 +229,7 @@
                      <Insets right="20.0" />
                   </HBox.margin>
                </VBox>
-               <VBox fx:id="vboxPlayer" maxHeight="65.0" minHeight="65.0" prefHeight="65.0" style="-fx-background-color: #1b1b1b;">
+               <VBox fx:id="vboxPlayer" maxHeight="1.7976931348623157E308" style="-fx-background-color: #1b1b1b;">
                   <HBox.margin>
                      <Insets right="50.0" />
                   </HBox.margin>

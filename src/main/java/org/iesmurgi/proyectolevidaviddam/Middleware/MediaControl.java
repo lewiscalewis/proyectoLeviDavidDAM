@@ -29,19 +29,15 @@ public class MediaControl extends BorderPane {
 
     public MediaControl(final MediaPlayer mp) {
         this.mp = mp;
-        setStyle("-fx-background-color: #bfc2c7;");
         mediaView = new MediaView(mp);
-        Pane mvPane = new Pane() {                };
-        mvPane.getChildren().add(mediaView);
-        mvPane.setStyle("-fx-background-color: black;");
-        setCenter(mvPane);
 
         mediaBar = new HBox();
         mediaBar.setAlignment(Pos.CENTER);
         mediaBar.setPadding(new Insets(5, 10, 5, 10));
         BorderPane.setAlignment(mediaBar, Pos.CENTER);
 
-        final Button playButton  = new Button(">");
+        final Button playButton  = new Button("▶");
+        playButton.getStyleClass().add("button-default");
         playButton.setOnAction(e -> {
             MediaPlayer.Status status = mp.getStatus();
 
@@ -72,7 +68,7 @@ public class MediaControl extends BorderPane {
                     mp.pause();
                     stopRequested = false;
                 } else {
-                    playButton.setText("||");
+                    playButton.setText("⏸");
                 }
             }
         });
@@ -80,7 +76,7 @@ public class MediaControl extends BorderPane {
         mp.setOnPaused(new Runnable() {
             public void run() {
                 System.out.println("onPaused");
-                playButton.setText(">");
+                playButton.setText("▶");
             }
         });
 
@@ -95,7 +91,7 @@ public class MediaControl extends BorderPane {
         mp.setOnEndOfMedia(new Runnable() {
             public void run() {
                 if (!repeat) {
-                    playButton.setText(">");
+                    playButton.setText("▶");
                     stopRequested = true;
                     atEndOfMedia = true;
                 }
@@ -110,6 +106,7 @@ public class MediaControl extends BorderPane {
 
 // Add Time label
         Label timeLabel = new Label("Time: ");
+        timeLabel.setStyle("-fx-text-fill: white; -fx-fill: white");
         mediaBar.getChildren().add(timeLabel);
 
 // Add time slider
@@ -131,10 +128,12 @@ public class MediaControl extends BorderPane {
         playTime = new Label();
         playTime.setPrefWidth(130);
         playTime.setMinWidth(50);
+        playTime.setStyle("-fx-text-fill: white; -fx-fill: white");
         mediaBar.getChildren().add(playTime);
 
 // Add the volume label
         Label volumeLabel = new Label("Vol: ");
+        volumeLabel.setStyle("-fx-text-fill: white; -fx-fill: white");
         mediaBar.getChildren().add(volumeLabel);
 
 // Add Volume slider
@@ -152,7 +151,8 @@ public class MediaControl extends BorderPane {
 
         mediaBar.getChildren().add(volumeSlider);
 
-        setBottom(mediaBar);
+
+        setCenter(mediaBar);
 
     }
 

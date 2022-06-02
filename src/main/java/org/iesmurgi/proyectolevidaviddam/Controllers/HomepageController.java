@@ -34,10 +34,7 @@ import java.util.Map;
 
 import javafx.scene.web.WebView;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
-import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
-import org.iesmurgi.proyectolevidaviddam.Middleware.MusickPlayer;
-import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
-import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.Middleware.*;
 import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
 import org.iesmurgi.proyectolevidaviddam.models.Item;
 
@@ -70,7 +67,9 @@ public class HomepageController {
 
     private VBox vBoxPlayer;
 
-    MusickPlayer player;
+    Thread player_thread = new Thread();
+
+    static MusickPlayer player = new MusickPlayer();
 
 
     public void initialize() throws IOException, URISyntaxException {
@@ -129,9 +128,8 @@ public class HomepageController {
 
 
         HBox hbox = new HBox();
-        hbox.setStyle("-fx-background-color: black;");
+        hbox.setStyle("-fx-background-color: #eaeaea;");
         hbox.setAlignment(Pos.TOP_LEFT);
-        hbox.setStyle("-fx-background-color: #e45926;");
 
         VBox song = new VBox();
         song.setAlignment(Pos.TOP_LEFT);
@@ -144,10 +142,12 @@ public class HomepageController {
         Label labelSongName = new Label();
         labelSongName.setMaxWidth(350);
         labelSongName.setMinWidth(350);
-        labelSongName.setStyle( "-fx-font-weight: bold; " +
+        labelSongName.setStyle( "" +
+                "-fx-font-weight: bold; " +
                 "-fx-text-fill: black;" +
                 "-fx-fill: black;" +
-                "-fx-font-size: 44; -fx-background-color: #ffffff;");
+                "-fx-font-size: 40; " +
+                "-fx-font-family: Sylfaen");
 
         //labelSongName.setMinWidth(100);
         //Hyperlink del autor
@@ -163,10 +163,9 @@ public class HomepageController {
 
         hyperlinkAuthor.setText(author);
         labelSongName.setText(songName);
-        labelDescription.setText(item.description);
-        labelDescription.setText("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        labelDescription.setText(item.description == null ? "Canción subida por "+item.getUsername() : "Descripción: "+item.description);
         labelDescription.setStyle(
-                "-fx-text-fill: black; -fx-fill: black;");
+                "-fx-text-fill: black; -fx-fill: black; -fx-font-family: Bahnschrift; -fx-font-weight: bold; -fx-font-size: 16");
         //hyperlinkAuthor.setMaxWidth(Double.MAX_VALUE);
 
         hyperlinkAuthor.setAlignment(Pos.TOP_LEFT);
@@ -174,11 +173,22 @@ public class HomepageController {
 
         //Imagen
         ImageView imageView = new ImageView();
-        imageView.setFitHeight(200);
-        imageView.setFitWidth(200);
+        imageView.setFitHeight(120);
+        imageView.setFitWidth(120);
 
-        imageView.setImage(portada);
-
+        //obtenemos la imagen de la canción
+        Platform.runLater(()->{
+            String url = CONSTANT.URL.getUrl()+"/download-cover";
+            FileGetter fileGetter = null;
+            try {
+                fileGetter = new FileGetter(url);
+                fileGetter.addParam("itemid", String.valueOf(item.getId()));
+                fileGetter.addParam("token", new TokenManager().getToken());
+                imageView.imageProperty().bind(fileGetter.getImage().imageProperty());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         Button buttonPlay;
         buttonPlay = new Button();
@@ -191,31 +201,36 @@ public class HomepageController {
         buttonPlay.setOnAction((event)->{
             //Cuando se pulsa el botón de play label,hyperlink y el imgview de hellocontroller se establecen con los valores del item
             //además se añaden dos botones de play y pause de la canción
-            String img = String.valueOf(item.getId());
-            String url = CONSTANT.URL.getUrl()+"/download-item/"+img;
-            player = new MusickPlayer(url);
-
-            labelSongNamePlayer.setText(item.getName());
-
-            //Hyperlink del autor
-            hyperlinkUsernamePlayer.setText(item.getUsername());
-
-            try {
-                imageviewPlayer.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
-                HBox vbox_player_content = new HBox();
-                imageviewPlayer.setFitWidth(70);
-                imageviewPlayer.setFitHeight(70);
-
-                vBoxPlayer.getChildren().clear();
-                vBoxPlayer.getChildren().addAll(player.getControl());
-                vBoxPlayer.setAlignment(Pos.CENTER);
-                //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
-                //HAY QUE CREAR UN REQUESTCOVER(itemid)
-            } catch (IOException e) {
+            try{
+                player.stop_music();
+            }catch (NullPointerException e) {
                 e.printStackTrace();
             }
+            player_thread = new Thread(()-> Platform.runLater(()->{
+                String img = String.valueOf(item.getId());
+                String url = CONSTANT.URL.getUrl()+"/download-item/"+img;
+                player.setPlayer(url);
 
+                labelSongNamePlayer.setText(item.getName());
 
+                //Hyperlink del autor
+                hyperlinkUsernamePlayer.setText(item.getUsername());
+
+                try {
+                    imageviewPlayer.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
+                    imageviewPlayer.setFitWidth(70);
+                    imageviewPlayer.setFitHeight(70);
+
+                    vBoxPlayer.getChildren().clear();
+                    vBoxPlayer.getChildren().addAll(player.getControl());
+                    vBoxPlayer.setAlignment(Pos.CENTER);
+                    //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
+                    //HAY QUE CREAR UN REQUESTCOVER(itemid)
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }));
+            player_thread.start();
 
         });
 
@@ -233,7 +248,7 @@ public class HomepageController {
 
                     try {
                         byte[] songFile= new byte[0];
-                        songFile = downloadAndStore(1).readAllBytes();
+                        songFile = downloadAndStore(item.getId()).readAllBytes();
                         FileOutputStream fosFile=new FileOutputStream(saveFile);
                         fosFile.write(songFile);
                         fosFile.close();
@@ -252,20 +267,25 @@ public class HomepageController {
 
 
         Label labelCopyright = new Label();
-        labelCopyright.setText("Free use.");
+        labelCopyright.setText(item.copyright == 0 ? "Uso libre" : "Todos los derechos reservados");
         labelCopyright.setStyle(
-                "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #44bb44;");
+                "-fx-text-fill: black; -fx-fill: black; -fx-font-family: Bahnschrift; -fx-font-weight: bold; -fx-font-size: 16");
 
-        if(item.copyright==1){
-            System.out.println("Tiene copyright");
-            labelCopyright.setText("® All rights reserved.");
-            labelCopyright.setStyle(
-                    "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #bb4444;");
-        }
 
         labelDescription.setPadding(new Insets(0,0,0,0));
-        song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright,imageView);
-        hbox.getChildren().addAll(song,buttonPlay,buttonDownload,imageView);
+        buttonPlay.getStyleClass().add("buttons-item");
+        buttonDownload.getStyleClass().add("buttons-item");
+
+        //sería recomendable añadir un progressIndicator para cuando la imagen tarda en llegar
+
+        hbox.getChildren().addAll(song,buttonPlay,buttonDownload, imageView);
+        hbox.setPadding(new Insets(5,5,5,5));
+        hbox.setAlignment(Pos.CENTER);
+        song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright);
+        song.setPadding(new Insets(5,5,5,5));
+        song.setStyle("-fx-background-color: white");
+        song.setAlignment(Pos.CENTER);
+        hbox.setSpacing(15);
 
 
         return hbox;
@@ -273,7 +293,7 @@ public class HomepageController {
 
     static InputStream downloadAndStore(int id) throws IOException {
 
-        String URL= "http://tux.iesmurgi.org:11230/download-item/"+String.valueOf(id);
+        String URL= "http://tux.iesmurgi.org:11230/download-item/"+id;
         java.net.URL server = new java.net.URL(URL);
         // Open a connection(?) on the URL(??) and cast the response(???)
         HttpURLConnection connection = (HttpURLConnection) server.openConnection();
@@ -337,10 +357,10 @@ public class HomepageController {
             if(items.length > 0) {
                 ScrollPane itemBar = new ScrollPane();
                 VBox petitionBox = new VBox();
+                petitionBox.setPadding(new Insets(10, 10, 10, 10));
                 itemBar.setContent(petitionBox);
                 petitionBox.setSpacing(30);
-                itemBar.setMinWidth(300);
-                petitionBox.setPadding(new Insets(0, 0, 0, 0));
+                itemBar.setMinWidth(285);
                 petitionBox.setAlignment(Pos.CENTER);
 
                 petitionBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
@@ -348,7 +368,7 @@ public class HomepageController {
 
                 Arrays.stream(items).forEach(item ->{
                     VBox vb = new VBox();
-                    vb.setStyle("-fx-background-color: blue;");
+                    vb.setStyle("-fx-background-color: whitesmoke;");
                     vb.setSpacing(0);
                     vb.setAlignment(Pos.TOP_LEFT);
                     vb.setPadding(new Insets(0, 0, 0, 0));
@@ -364,15 +384,16 @@ public class HomepageController {
                         e.printStackTrace();
                     }
                     vb.setOnMouseEntered((event -> {
-                        vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);-fx-background-color:blue;");
+                        //Las transiciones quedan recortadas por el contenedor padre
+                        vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 10, 0.8, 1.2, 1.2);-fx-background-color:whitesmoke;");
                         TranslateTransition t = new TranslateTransition();
                         t.setNode(vb);
                         t.setDuration(new Duration(60));
-                        t.setToX(10);
+                        t.setToX(5);
                         t.play();
                     }));
                     vb.setOnMouseExited((event -> {
-                        vb.setStyle("-fx-effect: dropshadow(three-pass-box, white,0, 0, 0, 0);-fx-background-color:blue;");
+                        vb.setStyle("-fx-background-color: whitesmoke");
                         TranslateTransition t = new TranslateTransition();
                         t.setNode(vb);
                         t.setDuration(new Duration(60));
