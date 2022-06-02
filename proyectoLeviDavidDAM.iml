@@ -63,5 +63,9 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.13.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testfx:testfx-junit5:4.0.16-alpha" level="project" />
     <orderEntry type="library" name="Maven: org.lucee:activation:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.xdty.media:mediaplayer:0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: tv.danmaku.ijk.media:ijkplayer-armv7a:0.4.4.1" level="project" />
+    <orderEntry type="library" name="Maven: com.android.support:appcompat-v7:23.1.1" level="project" />
+    <orderEntry type="library" name="Maven: tv.danmaku.ijk.media:ijkplayer-java:0.4.4.1" level="project" />
   </component>
 </module>

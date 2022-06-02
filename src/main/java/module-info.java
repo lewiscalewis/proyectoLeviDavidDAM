@@ -10,6 +10,7 @@ module org.iesmurgi.proyectolevidaviddam {
     requires engine.io.client;
     requires javamail;
     requires javafx.web;
+    requires javafx.media;
 
 
     opens org.iesmurgi.proyectolevidaviddam.models to com.google.gson;

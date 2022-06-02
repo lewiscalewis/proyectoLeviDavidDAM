@@ -16,6 +16,13 @@
     -fx-background-color:  #1c3787;
 }
 
+.mediaControl {
+    -fx-background-color: #1c3787;
+}
+.mediaViewPane {
+    -fx-background-color: black;;
+}
+
 .container {
     -fx-background-color: #0b1533;
 }

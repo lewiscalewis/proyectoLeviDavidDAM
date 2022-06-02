@@ -81,7 +81,7 @@
                         </TextField>
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" onAction="#sendData" text="Aplicar cambios">
+                  <Button mnemonicParsing="false" onAction="#sendData" styleClass="button-default" text="Aplicar cambios">
                      <VBox.margin>
                         <Insets top="25.0" />
                      </VBox.margin>

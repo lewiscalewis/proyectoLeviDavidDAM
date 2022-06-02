@@ -35,6 +35,7 @@ import java.util.Map;
 import javafx.scene.web.WebView;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
+import org.iesmurgi.proyectolevidaviddam.Middleware.MusickPlayer;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
 import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
@@ -52,15 +53,24 @@ public class HomepageController {
     @FXML
     private ScrollPane scrollPane;
 
-    static VBox vboxPlayer;
-    static WebView webviewPlayer;
-    static WebEngine webEngine;
     @FXML
     private TextField textfieldBrowser;
+
     @FXML
     private HBox hboxContainer;
+
     @FXML
     private ComboBox<String> comboboxGenero;
+
+    static Label labelSongNamePlayer = new Label();
+
+    static Hyperlink hyperlinkUsernamePlayer = new Hyperlink();
+
+    static ImageView imageviewPlayer = new ImageView();
+
+    private VBox vBoxPlayer;
+
+    MusickPlayer player;
 
 
     public void initialize() throws IOException, URISyntaxException {
@@ -97,54 +107,16 @@ public class HomepageController {
 
     }
 
-    public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1, Label labelSongNamePlayer2, ImageView imageViewPlayer2, Hyperlink hyperlinkUsernamePlayer2){///////////////////////////////////////////
-        labelSongNamePlayer=labelSongNamePlayer2;
-        hyperlinkUsernamePlayer=hyperlinkUsernamePlayer2;
-        imageviewPlayer=imageViewPlayer2;
-        HomepageController.webviewPlayer =webviewPlayer;
-        HomepageController.webEngine =webEngine;
-
-        vboxPlayer=vboxPlayer1;
+    public void setVboxPlayer(VBox vbox){
+        vBoxPlayer = vbox;
     }
 
-
-    public static void play(String itemid){
-        webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
-        webEngine.load(CONSTANT.URL.getUrl()+"/download-item/"+itemid);
-        vboxPlayer.getChildren().clear();
-        vboxPlayer.getChildren().add(webviewPlayer);
+    public void setItemsFromFXML(Label label, Hyperlink hyperlink, ImageView img){
+        labelSongNamePlayer = label;
+        hyperlinkUsernamePlayer = hyperlink;
+        imageviewPlayer = img;
     }
 
-    public boolean first=true;
-    public void initializePlayer(VBox vboxPlayer, WebView webView){
-
-        if(first) {
-            vboxPlayer.getChildren().clear();
-            first=false;
-        }
-
-        vboxPlayer.setMaxHeight(100);
-        vboxPlayer.setMinHeight(100);
-        //vboxPlayer.setStyle("-fx-background-color:black;");
-
-        //vboxPlayer.setTranslateZ(-1);
-        vboxPlayer.setAlignment(Pos.TOP_RIGHT);
-        webviewPlayer.setTranslateX(-100);
-        //webviewPlayer.setMaxWidth(1000);
-        webviewPlayer.setMaxHeight(100);
-        webviewPlayer.setMinHeight(100);
-        webviewPlayer.setMinWidth(340);
-        webviewPlayer.setMaxWidth(340);
-        webviewPlayer.setTranslateY(46);
-        webviewPlayer.setScaleX(2);
-        webviewPlayer.setScaleY(2);
-        webviewPlayer.setTranslateX(-40);
-
-
-    }
-    static Label labelSongNamePlayer;
-    static Hyperlink hyperlinkUsernamePlayer;
-    static ImageView imageviewPlayer;
     public void testHomepageController(){
         System.out.println("TEST OK....");
     }
@@ -217,15 +189,26 @@ public class HomepageController {
         System.out.println(item.getId());
 
         buttonPlay.setOnAction((event)->{
-            play(String.valueOf(item.getId()));
+            //Cuando se pulsa el botón de play label,hyperlink y el imgview de hellocontroller se establecen con los valores del item
+            //además se añaden dos botones de play y pause de la canción
+            String img = String.valueOf(item.getId());
+            String url = CONSTANT.URL.getUrl()+"/download-item/"+img;
+            player = new MusickPlayer(url);
+
             labelSongNamePlayer.setText(item.getName());
 
             //Hyperlink del autor
-            Hyperlink hyperlinkAuthorPlayer = new Hyperlink();
             hyperlinkUsernamePlayer.setText(item.getUsername());
 
             try {
                 imageviewPlayer.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
+                HBox vbox_player_content = new HBox();
+                imageviewPlayer.setFitWidth(70);
+                imageviewPlayer.setFitHeight(70);
+
+                vBoxPlayer.getChildren().clear();
+                vBoxPlayer.getChildren().addAll(player.getControl());
+                vBoxPlayer.setAlignment(Pos.CENTER);
                 //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
                 //HAY QUE CREAR UN REQUESTCOVER(itemid)
             } catch (IOException e) {
@@ -305,6 +288,7 @@ public class HomepageController {
 
         return responseStream;
     }
+
     static InputStream requestProfileImage(String username) throws IOException {
         String URL= "http://tux.iesmurgi.org:11230/download-image";
         java.net.URL server = new java.net.URL(URL);
@@ -345,6 +329,7 @@ public class HomepageController {
 
 
     }
+
     private  void loadItems(Item[] items){
         container.getChildren().clear();
         Platform.setImplicitExit(true);
@@ -380,7 +365,6 @@ public class HomepageController {
                     }
                     vb.setOnMouseEntered((event -> {
                         vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);-fx-background-color:blue;");
-
                         TranslateTransition t = new TranslateTransition();
                         t.setNode(vb);
                         t.setDuration(new Duration(60));

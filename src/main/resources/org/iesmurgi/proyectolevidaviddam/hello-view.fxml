@@ -194,7 +194,7 @@
    </StackPane>
    <StackPane style="-fx-background-color: #e45926;">
       <children>
-         <HBox style="-fx-border: solid 20px blue; -fx-background-color: #1b1b1b;">
+         <HBox spacing="10.0" style="-fx-border: solid 20px blue; -fx-background-color: #1b1b1b;">
             <StackPane.margin>
                <Insets />
             </StackPane.margin>
@@ -207,9 +207,9 @@
                      <Image url="@images/BitStore_Logo.png" />
                   </image>
                </ImageView>
-               <VBox>
+               <VBox maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                   <children>
-                     <Label fx:id="labelSongNamePlayer" text="Bangarang" textFill="WHITE">
+                     <Label fx:id="labelSongNamePlayer" maxWidth="1.7976931348623157E308" text="Bangarang" textFill="WHITE">
                         <font>
                            <Font name="Sylfaen" size="40.0" />
                         </font>
@@ -225,14 +225,17 @@
                            <Font size="20.0" />
                         </font></Hyperlink>
                   </children>
+                  <HBox.margin>
+                     <Insets right="20.0" />
+                  </HBox.margin>
+               </VBox>
+               <VBox fx:id="vboxPlayer" maxHeight="65.0" minHeight="65.0" prefHeight="65.0" style="-fx-background-color: #1b1b1b;">
+                  <HBox.margin>
+                     <Insets right="50.0" />
+                  </HBox.margin>
                </VBox>
             </children>
          </HBox>
-         <VBox fx:id="vboxPlayer" maxHeight="65.0" minHeight="65.0" prefHeight="65.0" style="-fx-background-color: #1b1b1b;" StackPane.alignment="CENTER_RIGHT">
-            <StackPane.margin>
-               <Insets left="600.0" />
-            </StackPane.margin>
-         </VBox>
       </children>
    </StackPane>
 </VBox>

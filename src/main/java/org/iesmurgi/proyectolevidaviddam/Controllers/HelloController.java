@@ -327,30 +327,6 @@ public class HelloController {
     WebEngine webEngine;
     @FXML
     public void loadHomePage() throws IOException {
-/*
-        try {
-            // EJEMPLO
-            Map<String, String> headers = new HashMap<>();
-            headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
-            FileGetter multipart = new FileGetter();
-            multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/image", "utf-8", headers);
-            // Add form field
-            multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
-            // Add file
-            multipart.addFilePart("image", new File("C:\\Users\\whywo\\Pictures\\Screenshots\\Screenshot (3).png"));
-            // Print result
-            String response = multipart.finish();
-            System.out.println(response);
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
-
-
-*/
-
-
-        //requestBinary();
-
 
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));
@@ -383,19 +359,12 @@ public class HelloController {
                 pageRoot.getChildren().add(root);
 
                 if(first){
-                    Label l = new Label("Loading...");
-                    l.setFont(new Font("Arial",30));
-                    vboxPlayer.setAlignment(Pos.TOP_CENTER);
-                    vboxPlayer.getChildren().add(l);
-
+                    vboxPlayer.setAlignment(Pos.CENTER);
 
                     HomepageController homepageController= rootFxmlLoader.getController();
                     homepageController.testHomepageController();
-                    if(first)
-                        homepageController.setWebViewPlayer(webView,webEngine,vboxPlayer,labelSongNamePlayer, imageviewPlayer, hyperlinkUsernamePlayer);
-                    homepageController.initializePlayer(vboxPlayer,webView);
-
-
+                    homepageController.setVboxPlayer(vboxPlayer);
+                    homepageController.setItemsFromFXML(labelSongNamePlayer, hyperlinkUsernamePlayer, imageviewPlayer);
 
                     first=false;}
                 ((Stage)root.getScene().getWindow()).setMinWidth(1000);
