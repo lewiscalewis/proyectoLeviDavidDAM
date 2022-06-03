@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
+import org.iesmurgi.proyectolevidaviddam.Middleware.FileGetter;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
@@ -33,12 +34,16 @@ import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController.downloadAndStore;
 
 //Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
 public class ProfilepageController {
 
+    public static VBox vBoxPlayer;
     @FXML
     private StackPane baseRoot;
 
@@ -81,19 +86,6 @@ public class ProfilepageController {
         //Fin de profilepage
         /////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-        Requester<Item[]> req = new Requester(CONSTANT.URL.getUrl()+"/all-items", Requester.Method.POST, Item[].class);
-        req.addParam("token", new TokenManager().getToken());
-
-        Item[] items = req.execute();
-
-        loadItems(items);    //Carga las canciones
-
         container.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
                 scrollPane.getViewportBounds().getWidth(), scrollPane.viewportBoundsProperty()));
 
@@ -103,8 +95,15 @@ public class ProfilepageController {
     public void loadUserData(String username) throws IOException {
         imageviewProfileImage.setImage(new Image(requestProfileImage(username)));
         imageviewProfileImage.setPreserveRatio(false);
-
         labelUsername.setText(username);
+
+        Requester<Item[]> req = new Requester(CONSTANT.URL.getUrl()+"/user-items", Requester.Method.POST, Item[].class);
+        req.addParam("token", new TokenManager().getToken());
+        req.addParam("username", labelUsername.getText());
+
+        Item[] items = req.execute();
+
+        loadItems(items);    //Carga las canciones
     }
 
     public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1, Label labelSongNamePlayer2, ImageView imageViewPlayer2, Hyperlink hyperlinkUsernamePlayer2){///////////////////////////////////////////
@@ -300,66 +299,74 @@ public class ProfilepageController {
     }
 
 
+
     private  void loadItems(Item[] items){
         container.getChildren().clear();
         Platform.setImplicitExit(true);
         Platform.runLater(() -> {
-            try {
-                if(items.length > 0) {
-                    ScrollPane itemBar = new ScrollPane();
-                    VBox petitionBox = new VBox();
-                    itemBar.setContent(petitionBox);
-                    petitionBox.setSpacing(30);
-                    itemBar.setMinWidth(700);
-                    itemBar.setMaxWidth(700);
-                    petitionBox.setPadding(new Insets(0, 0, 0, 0));
-                    petitionBox.setAlignment(Pos.CENTER);
+            if(items.length > 0) {
+                ScrollPane itemBar = new ScrollPane();
+                VBox petitionBox = new VBox();
+                petitionBox.setPadding(new Insets(10, 10, 10, 10));
+                itemBar.setContent(petitionBox);
+                petitionBox.setSpacing(30);
+                itemBar.setMinWidth(285);
+                petitionBox.setAlignment(Pos.CENTER);
 
-                    petitionBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
-                            itemBar.getViewportBounds().getWidth(), itemBar.viewportBoundsProperty()));
+                petitionBox.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+                        itemBar.getViewportBounds().getWidth(), itemBar.viewportBoundsProperty()));
 
-
-                    for (Item item : items) {
-                        VBox vb = new VBox();
-                        vb.setStyle("-fx-background-color: blue;");
-                        vb.setSpacing(0);
-                        vb.setAlignment(Pos.TOP_LEFT);
-                        vb.setPadding(new Insets(0, 0, 0, 0));
-                        //vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
-                        //Label song_name = new Label(item.getName());
-                        //song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
-                        vb.getStyleClass().add("item-card");
-                        vb.getChildren().addAll( getSong(item));
-                        vb.setOnMouseEntered((event -> {
-                            vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 5, 0, 1, 0);-fx-background-color:blue;");
-
-                            TranslateTransition t = new TranslateTransition();
-                            t.setNode(vb);
-                            t.setDuration(new Duration(60));
-                            t.setToX(10);
-                            t.play();
-                        }));
-                        vb.setOnMouseExited((event -> {
-                            vb.setStyle("-fx-effect: dropshadow(three-pass-box, white,0, 0, 0, 0);-fx-background-color:blue;");
-                            TranslateTransition t = new TranslateTransition();
-                            t.setNode(vb);
-                            t.setDuration(new Duration(60));
-                            t.setToX(0);
-                            t.play();
-                        }));
-                        petitionBox.getChildren().add(vb);
-
-                        //Aquí iría el código para pasar los datos del usuario a la vista perfil
+                Arrays.stream(items).forEach(item ->{
+                    VBox vb = new VBox();
+                    vb.setStyle("-fx-background-color: whitesmoke;");
+                    vb.setSpacing(0);
+                    vb.setAlignment(Pos.TOP_LEFT);
+                    vb.setPadding(new Insets(0, 0, 0, 0));
+                    //vb.setStyle("-fx-border-color: white; -fx-border-width: 2");
+                    //Label song_name = new Label(item.getName());
+                    //song_name.setStyle("-fx-font-size: 16; -fx-font-weight: bold");
+                    vb.getStyleClass().add("item-card");
+                    try {
+                        vb.getChildren().addAll(getSong(item));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
                     }
-                    container.getChildren().add(itemBar);
-                }
-            } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
+                    vb.setOnMouseEntered((event -> {
+                        //Las transiciones quedan recortadas por el contenedor padre
+                        vb.setStyle("-fx-effect: dropshadow(three-pass-box, white, 10, 0.8, 1.2, 1.2);-fx-background-color:whitesmoke;");
+                        TranslateTransition t = new TranslateTransition();
+                        t.setNode(vb);
+                        t.setDuration(new Duration(60));
+                        t.setToX(5);
+                        t.play();
+                    }));
+                    vb.setOnMouseExited((event -> {
+                        vb.setStyle("-fx-background-color: whitesmoke");
+                        TranslateTransition t = new TranslateTransition();
+                        t.setNode(vb);
+                        t.setDuration(new Duration(60));
+                        t.setToX(0);
+                        t.play();
+                    }));
+                    petitionBox.getChildren().add(vb);
+                });
+
+                container.getChildren().add(itemBar);
             }
         });
     }
 
+    public void setVboxPlayer(VBox vbox){
+        ProfilepageController.vBoxPlayer = vbox;
+    }
 
+    public void setItemsFromFXML(Label label, Hyperlink hyperlink, ImageView img){
+        labelSongNamePlayer = label;
+        hyperlinkUsernamePlayer = hyperlink;
+        imageviewPlayer = img;
+    }
     Node getSong(Item item) throws IOException, URISyntaxException {
         String songName = item.getName();
         String author = item.getUsername();
@@ -367,9 +374,8 @@ public class ProfilepageController {
 
 
         HBox hbox = new HBox();
-        hbox.setStyle("-fx-background-color: black;");
+        hbox.setStyle("-fx-background-color: #eaeaea;");
         hbox.setAlignment(Pos.TOP_LEFT);
-        hbox.setStyle("-fx-background-color: #e45926;");
 
         VBox song = new VBox();
         song.setAlignment(Pos.TOP_LEFT);
@@ -382,17 +388,19 @@ public class ProfilepageController {
         Label labelSongName = new Label();
         labelSongName.setMaxWidth(350);
         labelSongName.setMinWidth(350);
-        labelSongName.setStyle( "-fx-font-weight: bold; " +
+        labelSongName.setStyle( "" +
+                "-fx-font-weight: bold; " +
                 "-fx-text-fill: black;" +
                 "-fx-fill: black;" +
-                "-fx-font-size: 44; -fx-background-color: #ffffff;");
+                "-fx-font-size: 40; " +
+                "-fx-font-family: Sylfaen");
 
         //labelSongName.setMinWidth(100);
         //Hyperlink del autor
         Hyperlink hyperlinkAuthor = new Hyperlink();
         Label labelDescription = new Label();
         hyperlinkAuthor.setOnAction((event -> {
-            loadProfile();
+            loadProfile(author);
         }));
 
 
@@ -401,10 +409,9 @@ public class ProfilepageController {
 
         hyperlinkAuthor.setText(author);
         labelSongName.setText(songName);
-        labelDescription.setText(item.description);
-        labelDescription.setText("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        labelDescription.setText(item.description == null ? "Canción subida por "+item.getUsername() : "Descripción: "+item.description);
         labelDescription.setStyle(
-                "-fx-text-fill: black; -fx-fill: black;");
+                "-fx-text-fill: black; -fx-fill: black; -fx-font-family: Bahnschrift; -fx-font-weight: bold; -fx-font-size: 16");
         //hyperlinkAuthor.setMaxWidth(Double.MAX_VALUE);
 
         hyperlinkAuthor.setAlignment(Pos.TOP_LEFT);
@@ -412,11 +419,22 @@ public class ProfilepageController {
 
         //Imagen
         ImageView imageView = new ImageView();
-        imageView.setFitHeight(200);
-        imageView.setFitWidth(200);
+        imageView.setFitHeight(120);
+        imageView.setFitWidth(120);
 
-        imageView.setImage(portada);
-
+        //obtenemos la imagen de la canción
+        Platform.runLater(()->{
+            String url = CONSTANT.URL.getUrl()+"/download-cover";
+            FileGetter fileGetter = null;
+            try {
+                fileGetter = new FileGetter(url);
+                fileGetter.addParam("itemid", String.valueOf(item.getId()));
+                fileGetter.addParam("token", new TokenManager().getToken());
+                imageView.imageProperty().bind(fileGetter.getImage().imageProperty());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         Button buttonPlay;
         buttonPlay = new Button();
@@ -427,22 +445,47 @@ public class ProfilepageController {
         System.out.println(item.getId());
 
         buttonPlay.setOnAction((event)->{
-            play(String.valueOf(item.getId()));
-            labelSongNamePlayer.setText(item.getName());
-
-            //Hyperlink del autor
-            Hyperlink hyperlinkAuthorPlayer = new Hyperlink();
-            hyperlinkUsernamePlayer.setText(item.getUsername());
-
-            try {
-                imageviewPlayer.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
-                //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
-                //HAY QUE CREAR UN REQUESTCOVER(itemid)
-            } catch (IOException e) {
+            //Cuando se pulsa el botón de play label,hyperlink y el imgview de hellocontroller se establecen con los valores del item
+            //además se añaden dos botones de play y pause de la canción
+            try{
+                HomepageController.player.stop_music();
+            }catch (NullPointerException e) {
                 e.printStackTrace();
             }
 
+            Platform.runLater(()->{
+                String url = CONSTANT.URL.getUrl()+"/download-cover";
+                FileGetter fileGetter = null;
+                try {
+                    fileGetter = new FileGetter(url);
+                    fileGetter.addParam("itemid", String.valueOf(item.getId()));
+                    fileGetter.addParam("token", new TokenManager().getToken());
 
+                    HomepageController.imageviewPlayer.imageProperty().bind(fileGetter.getImage().imageProperty());
+                    HomepageController.imageviewPlayer.setFitWidth(70);
+                    HomepageController.imageviewPlayer.setFitHeight(70);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            Thread player_thread = new Thread(() -> Platform.runLater(() -> {
+                String img = String.valueOf(item.getId());
+                String url = CONSTANT.URL.getUrl() + "/download-item/" + img;
+                HomepageController.player.setPlayer(url);
+
+                HomepageController.labelSongNamePlayer.setText(item.getName());
+
+                //Hyperlink del autor
+                HomepageController.hyperlinkUsernamePlayer.setText(item.getUsername());
+
+                HomepageController.vBoxPlayer.getChildren().clear();
+                HomepageController.vBoxPlayer.getChildren().addAll(HomepageController.player.getControl());
+                HomepageController.vBoxPlayer.setAlignment(Pos.CENTER);
+                //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
+                //HAY QUE CREAR UN REQUESTCOVER(itemid)
+            }));
+            player_thread.start();
 
         });
 
@@ -460,7 +503,7 @@ public class ProfilepageController {
 
                     try {
                         byte[] songFile= new byte[0];
-                        songFile = HomepageController.downloadAndStore(1).readAllBytes();
+                        songFile = downloadAndStore(item.getId()).readAllBytes();
                         FileOutputStream fosFile=new FileOutputStream(saveFile);
                         fosFile.write(songFile);
                         fosFile.close();
@@ -479,20 +522,25 @@ public class ProfilepageController {
 
 
         Label labelCopyright = new Label();
-        labelCopyright.setText("Free use.");
+        labelCopyright.setText(item.copyright == 0 ? "Uso libre" : "Todos los derechos reservados");
         labelCopyright.setStyle(
-                "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #44bb44;");
+                "-fx-text-fill: black; -fx-fill: black; -fx-font-family: Bahnschrift; -fx-font-weight: bold; -fx-font-size: 16");
 
-        if(item.copyright==1){
-            System.out.println("Tiene copyright");
-            labelCopyright.setText("® All rights reserved.");
-            labelCopyright.setStyle(
-                    "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #bb4444;");
-        }
 
         labelDescription.setPadding(new Insets(0,0,0,0));
-        song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright,imageView);
-        hbox.getChildren().addAll(song,buttonPlay,buttonDownload,imageView);
+        buttonPlay.getStyleClass().add("buttons-item");
+        buttonDownload.getStyleClass().add("buttons-item");
+
+        //sería recomendable añadir un progressIndicator para cuando la imagen tarda en llegar
+
+        hbox.getChildren().addAll(song,buttonPlay,buttonDownload, imageView);
+        hbox.setPadding(new Insets(5,5,5,5));
+        hbox.setAlignment(Pos.CENTER);
+        song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright);
+        song.setPadding(new Insets(5,5,5,5));
+        song.setStyle("-fx-background-color: white");
+        song.setAlignment(Pos.CENTER);
+        hbox.setSpacing(15);
 
 
         return hbox;
@@ -551,4 +599,54 @@ public class ProfilepageController {
     }
 
 
+    private void loadProfile(String username){
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(baseRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            baseRoot.setTranslateX(-6000);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(baseRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                baseRoot.setAlignment(Pos.TOP_LEFT);
+                baseRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "profilepage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+                ProfilepageController profilepageController = rootFxmlLoader.getController();
+                profilepageController.loadUserData(username);
+                baseRoot.getChildren().add(root);
+
+                //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                //profilepageController.loadUserData();
+                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+
+            });
+
+        }));
+    }
 }

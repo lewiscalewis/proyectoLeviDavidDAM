@@ -67,6 +67,26 @@ public class HelloController {
 
     public static String log_out_username;
     public static String log_out_token = new TokenManager().getToken();
+    @FXML
+    private Label labelTopMenu1;
+    @FXML
+    private Label labelTopMenu3;
+    @FXML
+    private Label labelTopMenu2;
+    @FXML
+    private StackPane baseRoot;
+    @FXML
+    private ColumnConstraints columnConstraints3;
+    @FXML
+    private Label tileSettings;
+    @FXML
+    private Label tileSettings3;
+    @FXML
+    private GridPane contentRoot;
+    @FXML
+    private Label tileSettings2;
+    @FXML
+    private Label tileSettings1;
 
     public void initialize() throws IOException {
 

@@ -59,17 +59,17 @@ public class HomepageController {
     @FXML
     private ComboBox<String> comboboxGenero;
 
-    static Label labelSongNamePlayer = new Label();
+    public static Label labelSongNamePlayer = new Label();
 
-    static Hyperlink hyperlinkUsernamePlayer = new Hyperlink();
+    public static Hyperlink hyperlinkUsernamePlayer = new Hyperlink();
 
-    static ImageView imageviewPlayer = new ImageView();
+    public static ImageView imageviewPlayer = new ImageView();
 
-    private static VBox vBoxPlayer;
+    public static VBox vBoxPlayer;
 
-    Thread player_thread = new Thread();
+    public Thread player_thread = new Thread();
 
-    static MusickPlayer player = new MusickPlayer();
+    public static MusickPlayer player = new MusickPlayer();
 
 
     public void initialize() throws IOException, URISyntaxException {
@@ -202,7 +202,7 @@ public class HomepageController {
             //Cuando se pulsa el botón de play label,hyperlink y el imgview de hellocontroller se establecen con los valores del item
             //además se añaden dos botones de play y pause de la canción
             try{
-                player.stop_music();
+               player.stop_music();
             }catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -360,6 +360,7 @@ public class HomepageController {
     }
 
     private  void loadItems(Item[] items){
+
         container.getChildren().clear();
         Platform.setImplicitExit(true);
         Platform.runLater(() -> {
