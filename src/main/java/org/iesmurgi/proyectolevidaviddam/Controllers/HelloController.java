@@ -70,7 +70,7 @@ public class HelloController {
 
     public void initialize() throws IOException {
 
-
+        log_out_username = new GeneralDecoder().getUserFromToken();
         HelloApplication.session_started = true;
         chatSlider.setTranslateX(265);
 

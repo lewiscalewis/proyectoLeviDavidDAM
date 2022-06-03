@@ -90,10 +90,14 @@ public class MediaControl extends BorderPane {
         mp.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
         mp.setOnEndOfMedia(new Runnable() {
             public void run() {
+                System.out.println("Fin de la canción");
                 if (!repeat) {
                     playButton.setText("▶");
                     stopRequested = true;
                     atEndOfMedia = true;
+                    mp.seek(mp.getStartTime());
+                    atEndOfMedia = false;
+                    mp.play();
                 }
             }
         });

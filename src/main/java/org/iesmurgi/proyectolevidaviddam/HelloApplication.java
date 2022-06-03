@@ -22,6 +22,7 @@ public class HelloApplication extends Application {
             Requester<String> set_online = null;
             if(session_started){
                 try {
+                    System.out.println("Cerrando sesión ...");
                     set_online = new Requester<>("http://tux.iesmurgi.org:11230/set-online", Requester.Method.POST, String.class);
                     set_online.addParam("token", HelloController.log_out_token);
                     set_online.addParam("online", "false");
