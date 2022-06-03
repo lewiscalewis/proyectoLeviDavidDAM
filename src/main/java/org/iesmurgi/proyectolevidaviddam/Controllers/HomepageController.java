@@ -206,6 +206,23 @@ public class HomepageController {
             }catch (NullPointerException e) {
                 e.printStackTrace();
             }
+
+            Platform.runLater(()->{
+                String url = CONSTANT.URL.getUrl()+"/download-cover";
+                FileGetter fileGetter = null;
+                try {
+                    fileGetter = new FileGetter(url);
+                    fileGetter.addParam("itemid", String.valueOf(item.getId()));
+                    fileGetter.addParam("token", new TokenManager().getToken());
+
+                    imageviewPlayer.imageProperty().bind(fileGetter.getImage().imageProperty());
+                    imageviewPlayer.setFitWidth(70);
+                    imageviewPlayer.setFitHeight(70);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
             player_thread = new Thread(()-> Platform.runLater(()->{
                 String img = String.valueOf(item.getId());
                 String url = CONSTANT.URL.getUrl()+"/download-item/"+img;
@@ -216,19 +233,11 @@ public class HomepageController {
                 //Hyperlink del autor
                 hyperlinkUsernamePlayer.setText(item.getUsername());
 
-                try {
-                    imageviewPlayer.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
-                    imageviewPlayer.setFitWidth(70);
-                    imageviewPlayer.setFitHeight(70);
-
-                    vBoxPlayer.getChildren().clear();
-                    vBoxPlayer.getChildren().addAll(player.getControl());
-                    vBoxPlayer.setAlignment(Pos.CENTER);
-                    //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
-                    //HAY QUE CREAR UN REQUESTCOVER(itemid)
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                vBoxPlayer.getChildren().clear();
+                vBoxPlayer.getChildren().addAll(player.getControl());
+                vBoxPlayer.setAlignment(Pos.CENTER);
+                //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
+                //HAY QUE CREAR UN REQUESTCOVER(itemid)
             }));
             player_thread.start();
 
