@@ -65,7 +65,7 @@ public class HomepageController {
 
     static ImageView imageviewPlayer = new ImageView();
 
-    private VBox vBoxPlayer;
+    private static VBox vBoxPlayer;
 
     Thread player_thread = new Thread();
 
