@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -23,6 +24,7 @@ import org.iesmurgi.proyectolevidaviddam.Middleware.FileGetter;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
 import org.iesmurgi.proyectolevidaviddam.models.Notifications;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
@@ -75,6 +77,82 @@ public class ContactspageController {
 
         loadUsers();
 
+        loadPetitions();
+
+    }
+
+    void loadPetitions() throws IOException {
+        Platform.runLater(()->{
+            try {
+                FriendRequest[] petitions;
+                String url = CONSTANT.URL.getUrl()+"/get-friend-requests";
+                Requester<FriendRequest[]> r = new Requester(url, Requester.Method.POST, FriendRequest[].class);
+                r.addParam("username", me);
+                r.addParam("token", tk.getToken());
+                petitions = r.execute();
+
+                Arrays.stream(petitions).forEach(u->{
+                    VBox petitions_container = new VBox();
+                    HBox buttons_container = new HBox();
+                    Button accept = new Button("Aceptar");
+                    accept.getStyleClass().add("button-default");
+                    Button decline = new Button("Rechazar");
+                    decline.getStyleClass().add("decline-button");
+                    buttons_container.getChildren().addAll(accept, decline);
+                    buttons_container.setSpacing(8);
+                    buttons_container.setAlignment(Pos.CENTER);
+                    Label petition = new Label("Petición de amistad de "+u.getEmisor());
+                    petition.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 300; -fx-alignment: center");
+                    petitions_container.getChildren().addAll(petition, buttons_container);
+                    petitions_container.maxWidth(400);
+                    petitions_container.setSpacing(10);
+                    petitions_container.setStyle("-fx-border-color: white");
+                    petitions_container.setAlignment(Pos.CENTER);
+                    hboxContainer.setSpacing(50);
+                    hboxContainer.getChildren().add(petitions_container);
+
+                    accept.setOnAction(event -> {
+                        String accept_url = CONSTANT.URL.getUrl()+"/add-friend";
+                        try {
+                            Requester<FriendRequest[]> accept_action = new Requester(accept_url, Requester.Method.POST, FriendRequest[].class);
+                            accept_action.addParam("username1", u.getReceptor());
+                            accept_action.addParam("username2", u.getEmisor());
+                            accept_action.addParam("token", tk.getToken());
+                            accept_action.execute();
+
+                            decline_action_event(u, petitions_container);
+
+                            petitions_container.getChildren().clear();
+                            initialize();
+                        }catch (Exception exc){
+                            exc.printStackTrace();
+                        }
+                    });
+
+                    decline.setOnAction(event -> {
+                        decline_action_event(u, petitions_container);
+                    });
+
+
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void decline_action_event(FriendRequest u, VBox petitions_container) {
+        try {
+            String decline_url = CONSTANT.URL.getUrl()+"/decline-request";
+            Requester<FriendRequest[]> decline_action = new Requester(decline_url, Requester.Method.POST, FriendRequest[].class);
+            decline_action.addParam("emisor", u.getEmisor());
+            decline_action.addParam("receptor", u.getReceptor());
+            decline_action.addParam("token", tk.getToken());
+            decline_action.execute();
+            petitions_container.getChildren().clear();
+        }catch (Exception exc){
+            exc.printStackTrace();
+        }
     }
 
     void reload(){
