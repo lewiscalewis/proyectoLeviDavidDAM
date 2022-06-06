@@ -75,9 +75,6 @@ public class ProfilepageController {
         imageviewProfileImage.setPreserveRatio(false);
 
 
-
-
-
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
         //es el AnchorPane del hello-view.fxml. con fxid pageRoot
         ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
@@ -94,6 +91,7 @@ public class ProfilepageController {
 
 
     }
+
     public void loadUserData(String username) throws IOException {
         imageviewProfileImage.setImage(new Image(requestProfileImage(username)));
         imageviewProfileImage.setPreserveRatio(false);

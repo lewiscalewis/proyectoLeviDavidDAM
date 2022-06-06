@@ -109,9 +109,10 @@ public class ContactspageController {
     }
 
     @FXML
-    void filterByName(KeyEvent event) {
+    synchronized void filterByName(KeyEvent event) {
         Platform.runLater(()->{
             try {
+                container.getChildren().clear();
                 loadUsersBySearch();
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
@@ -120,17 +121,18 @@ public class ContactspageController {
     }
 
     @FXML
-    void search(ActionEvent event) {
+    synchronized void search(ActionEvent event) {
         Platform.runLater(()->{
             try {
-                loadUsers();
+                container.getChildren().clear();
+                loadUsersBySearch();
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    private void loadUsersBySearch() throws IOException, InterruptedException {
+    private synchronized void loadUsersBySearch() throws IOException, InterruptedException {
         container.getChildren().clear();
         if(!textfieldBrowser.getText().equals("")){
 
@@ -150,6 +152,7 @@ public class ContactspageController {
 
     private void iterateUsers(User[] users) throws IOException {
         Platform.runLater(()->{
+            container.getChildren().clear();
             Arrays.stream(users).filter(user -> !Objects.equals(user.getUsername(), new GeneralDecoder().getUserFromToken())).forEach((u)->{
                 String url1 = CONSTANT.URL.getUrl()+"/download-image";
                 FileGetter fileGetter = null;
