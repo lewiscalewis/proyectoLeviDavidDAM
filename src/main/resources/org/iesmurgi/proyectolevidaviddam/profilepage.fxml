@@ -42,7 +42,7 @@
                               <Insets />
                            </HBox.margin>
                            <children>
-                              <Button mnemonicParsing="false" text="Add Friend">
+                              <Button fx:id="buttonAddFriend" mnemonicParsing="false" text="Add Friend">
                                  <font>
                                     <Font size="24.0" />
                                  </font>

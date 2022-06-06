@@ -20,11 +20,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
-import org.iesmurgi.proyectolevidaviddam.Middleware.FileGetter;
-import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
-import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
-import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.Middleware.*;
+import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
 import org.iesmurgi.proyectolevidaviddam.models.Item;
+import org.iesmurgi.proyectolevidaviddam.models.User;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController.downloadAndStore;
+import static org.iesmurgi.proyectolevidaviddam.HelloApplication.mainStage;
 
 //Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
 public class ProfilepageController {
@@ -62,6 +62,8 @@ public class ProfilepageController {
     private ImageView imageviewProfileImage;
     @FXML
     private Label labelUsername;
+    @FXML
+    private Button buttonAddFriend;
 
 
     public void initialize() throws IOException, URISyntaxException {
@@ -104,6 +106,48 @@ public class ProfilepageController {
         Item[] items = req.execute();
 
         loadItems(items);    //Carga las canciones
+
+
+        //Muestra el buttonAddFriend si es un usuario diferente al logeado.
+        if(username.equals(new GeneralDecoder().getUserFromToken())){
+            buttonAddFriend.setVisible(false);
+        }else{
+            buttonAddFriend.setVisible(false);
+            Requester<User[]> noFriendsRequester = new Requester<>(CONSTANT.URL.getUrl()+"/get-noFriends", Requester.Method.POST,User[].class);
+            noFriendsRequester.addParam("username", new GeneralDecoder().getUserFromToken());                  //La petición no llega al servidor cuando le pongo parámetros
+            noFriendsRequester.addParam("token", new TokenManager().getToken());
+            User[] notFriends=noFriendsRequester.execute();
+            System.out.println(notFriends);
+
+
+            //Recorre los usuarios que no son amigos, y si encuentra que el usuario que pertenece el profile
+            //no es amigo del usuario logeado muestra el boton.
+            for(int i=0;i<notFriends.length;i++){
+                if(notFriends[i].getUsername().equals(username))buttonAddFriend.setVisible(true);//Si no son amigos se muestra
+            }
+
+        }
+
+        //On action Añadir amigo
+        buttonAddFriend.setOnAction(event -> {
+            String url2 = CONSTANT.URL.getUrl()+"/friend-request";
+            try {
+                Requester<FriendRequest> requester = new Requester<>(url2, Requester.Method.POST, FriendRequest.class);
+                requester.addParam("emisor", new GeneralDecoder().getUserFromToken());
+                requester.addParam("receptor", username);
+                requester.addParam("token", new TokenManager().getToken());
+                requester.execute();
+                String toastMsg = "Petición enviada !!";
+                int toastMsgTime = 2800; //3.5 seconds
+                int fadeInTime = 500; //0.5 seconds
+                int fadeOutTime= 500; //0.5 seconds
+                Toast.makeText(mainStage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
+                buttonAddFriend.setVisible(false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 
     public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1, Label labelSongNamePlayer2, ImageView imageViewPlayer2, Hyperlink hyperlinkUsernamePlayer2){///////////////////////////////////////////

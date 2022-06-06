@@ -148,11 +148,11 @@ public class HelloController {
         });
 
         topProfileButton.setOnMouseClicked(Event->{
-            loadProfile();
+            loadProfile(new GeneralDecoder().getUserFromToken());
         });
 
         profileButton.setOnMouseClicked(Event->{
-            loadProfile();
+            loadProfile(new GeneralDecoder().getUserFromToken());
         });
 
         settingsButton.setOnMouseClicked(Event ->{
@@ -208,6 +208,57 @@ public class HelloController {
             }));
         });
 
+    }
+
+    private void loadProfile(String username){
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(baseRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            baseRoot.setTranslateX(-6000);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(baseRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                baseRoot.setAlignment(Pos.TOP_LEFT);
+                baseRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "profilepage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+                ProfilepageController profilepageController = rootFxmlLoader.getController();
+                profilepageController.loadUserData(username);
+                baseRoot.getChildren().add(root);
+
+                //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                //profilepageController.loadUserData();
+                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+
+            });
+
+        }));
     }
 
     private void loadProfile(){
@@ -387,8 +438,8 @@ public class HelloController {
                     homepageController.setItemsFromFXML(labelSongNamePlayer, hyperlinkUsernamePlayer, imageviewPlayer);
 
                     first=false;}
-                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
