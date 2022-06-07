@@ -214,7 +214,7 @@ public class HelloController {
 
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));
-        slide.setNode(baseRoot);
+        slide.setNode(pageRoot);
         //((HBox) event.getTarget()).setTranslateY(-6);
 
 
@@ -222,18 +222,18 @@ public class HelloController {
         slide.play();
         slide.setOnFinished((event -> {
 
-            baseRoot.setTranslateX(-6000);
+            pageRoot.setTranslateX(-6000);
             TranslateTransition slide2 = new TranslateTransition();
             slide2.setDuration(Duration.seconds(0.4));
-            slide2.setNode(baseRoot);
+            slide2.setNode(pageRoot);
             //((HBox) event.getTarget()).setTranslateY(-6);
 
 
             slide2.setToX(0);
 
             try {
-                baseRoot.setAlignment(Pos.TOP_LEFT);
-                baseRoot.getChildren().clear();
+                pageRoot.setAlignment(Pos.TOP_LEFT);
+                pageRoot.getChildren().clear();
                 FXMLLoader rootFxmlLoader=new FXMLLoader(
                         HelloApplication.class.getResource(
                                 "profilepage.fxml"
@@ -242,7 +242,7 @@ public class HelloController {
                 Pane root = rootFxmlLoader.load();
                 ProfilepageController profilepageController = rootFxmlLoader.getController();
                 profilepageController.loadUserData(username);
-                baseRoot.getChildren().add(root);
+                pageRoot.getChildren().add(root);
 
                 //ProfilepageController profilepageController =rootFxmlLoader.getController();
                 //profilepageController.loadUserData();

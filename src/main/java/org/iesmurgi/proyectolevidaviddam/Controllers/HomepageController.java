@@ -37,6 +37,10 @@ import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.Middleware.*;
 import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
 import org.iesmurgi.proyectolevidaviddam.models.Item;
+import org.iesmurgi.proyectolevidaviddam.models.User;
+
+import static org.iesmurgi.proyectolevidaviddam.Controllers.ProfilepageController.vboxPlayer;
+import static org.iesmurgi.proyectolevidaviddam.HelloApplication.mainStage;
 
 //Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
 public class HomepageController {
@@ -273,6 +277,70 @@ public class HomepageController {
         }));
 
 
+        Button buttonDeleteItem = new Button("Eliminar 🗑");
+
+
+
+            Requester<User[]> userRequester = null;
+            try {
+                userRequester = new Requester<>(CONSTANT.URL.getUrl()+"/user",Requester.Method.POST, User[].class);
+
+                userRequester.addParam("token",new TokenManager().getToken());
+                userRequester.addParam("username",new GeneralDecoder().getUserFromToken());
+                User me = userRequester.execute()[0];
+
+                if(me.getAdmin()==1||me.getUsername().equals(author)){       //Si el usuario actual es admin muestra el botón "eliminar usuario" y añade el evento.
+                    System.out.println("DELETING ITEM= "+item.id);
+
+                    buttonDeleteItem.setOnAction((event2) -> {
+                        Requester<String> deleteItemRequester = null;
+                        try {
+                            deleteItemRequester = new Requester<String>(CONSTANT.URL.getUrl()+"/delete-item", Requester.Method.POST, String.class);
+                            deleteItemRequester.addParam("token",new TokenManager().getToken());
+                            deleteItemRequester.addParam("item", String.valueOf(item.id));
+
+                            String toastMsg2 = "Canción eliminada.";
+                            int toastMsgTime2 = 2800; //3.5 seconds
+                            int fadeInTime2 = 500; //0.5 seconds
+                            int fadeOutTime2= 500; //0.5 seconds
+                            Toast.makeText(mainStage, toastMsg2, toastMsgTime2, fadeInTime2, fadeOutTime2);
+
+
+
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            deleteItemRequester.execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            loadHomePage();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    });
+
+
+                    buttonDeleteItem.setVisible(true);
+                }else {
+                    buttonDeleteItem.setVisible(false);
+                }
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+
 
 
         Label labelCopyright = new Label();
@@ -287,7 +355,7 @@ public class HomepageController {
 
         //sería recomendable añadir un progressIndicator para cuando la imagen tarda en llegar
 
-        hbox.getChildren().addAll(song,buttonPlay,buttonDownload, imageView);
+        hbox.getChildren().addAll(song,buttonPlay,new VBox(buttonDownload,buttonDeleteItem), imageView);
         hbox.setPadding(new Insets(5,5,5,5));
         hbox.setAlignment(Pos.CENTER);
         song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright);
@@ -317,6 +385,67 @@ public class HomepageController {
 
         return responseStream;
     }
+
+
+    public void loadHomePage() throws IOException {
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(baseRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            baseRoot.setTranslateX(0);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(baseRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                baseRoot.setAlignment(Pos.TOP_LEFT);
+                baseRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "homepage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+                baseRoot.getChildren().add(root);
+
+                if(first){
+                    vboxPlayer.setAlignment(Pos.CENTER);
+
+                    HomepageController homepageController= rootFxmlLoader.getController();
+                    homepageController.testHomepageController();
+                    homepageController.setVboxPlayer(vboxPlayer);
+                    homepageController.setItemsFromFXML(labelSongNamePlayer, hyperlinkUsernamePlayer, imageviewPlayer);
+
+                    first=false;}
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+
+            });
+
+        }));
+
+    }
+    boolean first=true;
+
 
     static InputStream requestProfileImage(String username) throws IOException {
         String URL= "http://tux.iesmurgi.org:11230/download-image";

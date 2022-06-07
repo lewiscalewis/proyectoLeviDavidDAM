@@ -42,6 +42,11 @@
                               <Insets />
                            </HBox.margin>
                            <children>
+                              <Button fx:id="buttonDeleteUserForever" mnemonicParsing="false" text="Eliminar">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Button>
                               <Button fx:id="buttonAddFriend" mnemonicParsing="false" text="Add Friend">
                                  <font>
                                     <Font size="24.0" />

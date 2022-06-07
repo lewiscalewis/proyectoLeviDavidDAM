@@ -12,7 +12,29 @@ public class User {
     String state;
     int online;
 
-    public User(String name, String surname, String username, String password, String email, String profileimage, String state, int online){
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getOnline() {
+        return online;
+    }
+
+    public int getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(int admin) {
+        this.admin = admin;
+    }
+
+    int admin;
+
+    public User(String name, String surname, String username, String password, String email, String profileimage, String state, int online, int admin){
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -21,6 +43,7 @@ public class User {
         this.profileimage = profileimage;
         this.state = state;
         this.online = online;
+        this.admin=admin;
     }
 
     public User(String name, String surname, String username, String password, String email, String profileimage, String state){

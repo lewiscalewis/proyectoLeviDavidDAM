@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -63,11 +64,13 @@ public class ProfilepageController {
     @FXML
     private Label labelUsername;
     @FXML
+    private Button buttonDeleteUserForever;
+    @FXML
     private Button buttonAddFriend;
 
 
     public void initialize() throws IOException, URISyntaxException {
-
+        buttonDeleteUserForever.setVisible(false);
         imageviewProfileImage.setFitWidth(150);
         imageviewProfileImage.setFitHeight(150);
         imageviewProfileImage.maxHeight(150);
@@ -145,6 +148,48 @@ public class ProfilepageController {
                 e.printStackTrace();
             }
         });
+
+
+
+
+
+        Requester<User[]> userRequester = new Requester<>(CONSTANT.URL.getUrl()+"/user",Requester.Method.POST,User[].class);
+        userRequester.addParam("token",new TokenManager().getToken());
+        userRequester.addParam("username",new GeneralDecoder().getUserFromToken());
+        User me = userRequester.execute()[0];
+
+        if(me.getAdmin()==1){       //Si el usuario actual es admin muestra el botón "eliminar usuario" y añade el evento.
+            System.out.println("DELETING USER= "+username);
+
+            buttonDeleteUserForever.setOnAction((event -> {
+                Requester<String> deleteUserRequester = null;
+                try {
+                    deleteUserRequester = new Requester<String>(CONSTANT.URL.getUrl()+"/delete-user", Requester.Method.POST, String.class);
+                    deleteUserRequester.addParam("token",new TokenManager().getToken());
+                    deleteUserRequester.addParam("username",username);
+                    //deleteUserRequester.addParam("admin", new GeneralDecoder().getUserFromToken());
+
+                    String toastMsg = "Cuenta eliminada.";
+                    int toastMsgTime = 2800; //3.5 seconds
+                    int fadeInTime = 500; //0.5 seconds
+                    int fadeOutTime= 500; //0.5 seconds
+                    Toast.makeText(mainStage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
+
+
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    deleteUserRequester.execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }));
+
+
+            buttonDeleteUserForever.setVisible(true);
+        }
 
     }
 
@@ -690,5 +735,11 @@ public class ProfilepageController {
             });
 
         }));
+    }
+
+    @Deprecated
+    public void deleteUserForever() throws MalformedURLException {
+
+
     }
 }
