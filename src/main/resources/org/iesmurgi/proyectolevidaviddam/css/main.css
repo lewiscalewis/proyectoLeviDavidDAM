@@ -29,17 +29,17 @@
 
 .hyperlink:visited{
     -fx-text-fill: #1895c8;
-    -fx-border-color: #3C3C3C;
+    -fx-border-color:  #1c3787;
     -fx-underline: false;
 }
 .hyperlink:pressed{
     -fx-text-fill: #1895c8;
-    -fx-border-color: #3C3C3C;
+    -fx-border-color:  #1c3787;
     -fx-underline: false;
 }
 .hyperlink:hover{
     -fx-text-fill: #28a5e8;
-    -fx-border-color: #3C3C3C;
+    -fx-border-color:  #1c3787;
     -fx-underline: false;
 }
 

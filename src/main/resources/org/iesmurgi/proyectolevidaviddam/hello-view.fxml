@@ -82,7 +82,7 @@
                                        </ImageView>
                                     </children>
                                  </HBox>
-                                 <Hyperlink fx:id="hyperlinkUser" style="-fx-border-color: #e45926;" text="eeeeeeeee">
+                                 <Hyperlink fx:id="hyperlinkUser" style="-fx-border-color: #1c3787;" text="eeeeeeeee">
                                     <font>
                                        <Font size="30.0" />
                                     </font>
@@ -135,6 +135,18 @@
                      <Insets bottom="25.0" />
                   </padding>
                   <children>
+                     <HBox fx:id="aboutButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                        <children>
+                           <Label fx:id="tileSettings4" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="About" textFill="WHITE">
+                              <font>
+                                 <Font size="36.0" />
+                              </font>
+                              <HBox.margin>
+                                 <Insets left="39.0" />
+                              </HBox.margin>
+                           </Label>
+                        </children>
+                     </HBox>
                      <HBox fx:id="uploadButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Label fx:id="tileSettings" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Uploads" textFill="WHITE">

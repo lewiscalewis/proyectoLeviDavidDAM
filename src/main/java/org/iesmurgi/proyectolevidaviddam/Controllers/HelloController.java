@@ -87,6 +87,10 @@ public class HelloController {
     private Label tileSettings2;
     @FXML
     private Label tileSettings1;
+    @FXML
+    private Label tileSettings4;
+    @FXML
+    private HBox aboutButton;
 
     public void initialize() throws IOException {
 
@@ -207,6 +211,61 @@ public class HelloController {
 
             }));
         });
+
+
+        aboutButton.setOnMouseClicked(Event ->{
+
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(pageRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide.setToX(6000);
+            slide.play();
+            slide.setOnFinished((event -> {
+
+                pageRoot.setTranslateX(-6000);
+                TranslateTransition slide2 = new TranslateTransition();
+                slide2.setDuration(Duration.seconds(0.4));
+                slide2.setNode(pageRoot);
+                //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+                slide2.setToX(0);
+
+                try {
+                    pageRoot.setAlignment(Pos.TOP_CENTER);
+                    pageRoot.getChildren().clear();
+                    FXMLLoader rootFxmlLoader=new FXMLLoader(
+                            HelloApplication.class.getResource(
+                                    "about-view.fxml"
+                            )
+                    );
+
+                    Pane root = rootFxmlLoader.load();
+                    AboutController sc = rootFxmlLoader.getController();
+
+
+                    pageRoot.getChildren().add(root);
+
+                    //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                    //profilepageController.loadUserData();
+                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                slide2.play();
+                slide2.setOnFinished((event2)->{
+
+                });
+
+            }));
+        });
+
 
     }
 
