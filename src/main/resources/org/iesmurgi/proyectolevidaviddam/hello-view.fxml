@@ -206,7 +206,7 @@
    </StackPane>
    <StackPane style="-fx-background-color: #e45926;">
       <children>
-         <HBox spacing="10.0" style="-fx-border: solid 20px blue; -fx-background-color: #1b1b1b;">
+         <HBox minHeight="100.0" prefHeight="100.0" spacing="10.0" style="-fx-border: solid 20px blue; -fx-background-color: #1b1b1b;">
             <StackPane.margin>
                <Insets />
             </StackPane.margin>
@@ -235,7 +235,10 @@
                      <Hyperlink fx:id="hyperlinkUsernamePlayer">
                         <font>
                            <Font size="20.0" />
-                        </font></Hyperlink>
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="10.0" />
+                        </VBox.margin></Hyperlink>
                   </children>
                   <HBox.margin>
                      <Insets right="20.0" />

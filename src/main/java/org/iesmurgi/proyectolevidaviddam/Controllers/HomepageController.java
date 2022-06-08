@@ -177,8 +177,8 @@ public class HomepageController {
 
         //Imagen
         ImageView imageView = new ImageView();
-        imageView.setFitHeight(120);
-        imageView.setFitWidth(120);
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(200);
 
         //obtenemos la imagen de la canción
         Platform.runLater(()->{
@@ -220,8 +220,8 @@ public class HomepageController {
                     fileGetter.addParam("token", new TokenManager().getToken());
 
                     imageviewPlayer.imageProperty().bind(fileGetter.getImage().imageProperty());
-                    imageviewPlayer.setFitWidth(70);
-                    imageviewPlayer.setFitHeight(70);
+                    imageviewPlayer.setFitWidth(90);
+                    imageviewPlayer.setFitHeight(90);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
