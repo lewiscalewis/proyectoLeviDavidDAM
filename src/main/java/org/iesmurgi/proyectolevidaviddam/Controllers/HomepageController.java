@@ -344,7 +344,7 @@ public class HomepageController {
 
 
         Label labelCopyright = new Label();
-        labelCopyright.setText(item.copyright == 0 ? "Uso libre" : "Todos los derechos reservados");
+        labelCopyright.setText(item.copyright == 0 ? "Uso libre" : "®Todos los derechos reservados");
         labelCopyright.setStyle(
                 "-fx-text-fill: black; -fx-fill: black; -fx-font-family: Bahnschrift; -fx-font-weight: bold; -fx-font-size: 16");
 
