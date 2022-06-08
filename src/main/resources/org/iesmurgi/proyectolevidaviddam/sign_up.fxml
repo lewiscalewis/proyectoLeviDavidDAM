@@ -55,7 +55,7 @@
                   </Label>
                   <PasswordField fx:id="pwdRepetirContraseña" maxWidth="200.0" stylesheets="@css/main.css" />
                   <Hyperlink fx:id="login" onMouseClicked="#login" text="¿Ya tienes cuenta? Iniciar sesión " />
-                  <Button fx:id="btnRegistrarse" mnemonicParsing="false" onAction="#signup" onMouseClicked="#signup" styleClass="button-default" text="Crear cuenta" textAlignment="CENTER">
+                  <Button fx:id="btnRegistrarse" mnemonicParsing="false" onAction="#signup" onMouseClicked="#signup" styleClass="buttons-item-play" text="Crear cuenta" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets top="50.0" />
                      </VBox.margin>
@@ -80,7 +80,7 @@
       </HBox>
       <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="2000.0">
          <children>
-            <Label text="Al creear una cuenta aceptas los términos del " textFill="WHITE">
+            <Label text="Al crear una cuenta aceptas los términos del " textFill="WHITE">
                <HBox.margin>
                   <Insets left="40.0" />
                </HBox.margin>
@@ -92,7 +92,7 @@
             </Hyperlink>
          </children>
          <VBox.margin>
-            <Insets left="-276.0" top="-138.0" />
+            <Insets left="-276.0" top="-160.0" />
          </VBox.margin>
       </HBox>
       <HBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="2000.0">

@@ -244,16 +244,18 @@ public class HomepageController {
                 //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
                 //HAY QUE CREAR UN REQUESTCOVER(itemid)
             }));
+            player_thread.setDaemon(true);
             player_thread.start();
 
         });
 
-        Button buttonDownload = new Button("download");
+        Button buttonDownload = new Button("Descargar  🎶");
         buttonDownload.setOnAction((event -> {
 
 
             FileChooser saveChooser = new FileChooser();
             saveChooser.setTitle("Save");
+            saveChooser.setInitialFileName(songName);
             saveChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("MP3", "*.mp3"));
             //Adding action on the menu item
             Platform.runLater(()->{
@@ -278,7 +280,10 @@ public class HomepageController {
         }));
 
 
-        Button buttonDeleteItem = new Button("Eliminar 🗑");
+        Button buttonDeleteItem = new Button("Eliminar          🗑");
+        //buttonDeleteItem.setFont(new Font(14));
+        buttonDeleteItem.getStyleClass().add("decline-button");
+
 
 
 
@@ -351,12 +356,16 @@ public class HomepageController {
 
 
         labelDescription.setPadding(new Insets(0,0,0,0));
-        buttonPlay.getStyleClass().add("buttons-item");
+        buttonPlay.getStyleClass().add("buttons-item-play");
         buttonDownload.getStyleClass().add("buttons-item");
 
         //sería recomendable añadir un progressIndicator para cuando la imagen tarda en llegar
+        VBox vboxDownloadAndDelete=new VBox(buttonDownload,buttonDeleteItem);
+        vboxDownloadAndDelete.setAlignment(Pos.CENTER);
+        buttonDeleteItem.getStyleClass().add("decline-button");
 
-        hbox.getChildren().addAll(song,buttonPlay,new VBox(buttonDownload,buttonDeleteItem), imageView);
+
+        hbox.getChildren().addAll(song,buttonPlay,vboxDownloadAndDelete, imageView);
         hbox.setPadding(new Insets(5,5,5,5));
         hbox.setAlignment(Pos.CENTER);
         song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright);
@@ -642,8 +651,8 @@ public class HomepageController {
 
                 //ProfilepageController profilepageController =rootFxmlLoader.getController();
                 //profilepageController.loadUserData();
-                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();

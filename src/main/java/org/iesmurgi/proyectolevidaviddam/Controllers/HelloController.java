@@ -135,8 +135,8 @@ public class HelloController {
 
 
 
-                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                    //((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -197,8 +197,8 @@ public class HelloController {
 
                     //ProfilepageController profilepageController =rootFxmlLoader.getController();
                     //profilepageController.loadUserData();
-                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                    //((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -251,8 +251,8 @@ public class HelloController {
 
                     //ProfilepageController profilepageController =rootFxmlLoader.getController();
                     //profilepageController.loadUserData();
-                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                    //((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -305,8 +305,8 @@ public class HelloController {
 
                 //ProfilepageController profilepageController =rootFxmlLoader.getController();
                 //profilepageController.loadUserData();
-                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -355,8 +355,8 @@ public class HelloController {
 
                 //ProfilepageController profilepageController =rootFxmlLoader.getController();
                 //profilepageController.loadUserData();
-                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -373,13 +373,13 @@ public class HelloController {
     public void loadUserData(User user) throws IOException {
         hyperlinkUser.setText(user.getName());
         imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
-        imageviewProfileImage.setFitWidth(55);
-        imageviewProfileImage.setFitHeight(55);
-        imageviewProfileImage.maxWidth(55);
-        imageviewProfileImage.maxHeight(55);
-        imageviewProfileImage.setPreserveRatio(false);
+        //imageviewProfileImage.setFitWidth(55);
+        //imageviewProfileImage.setFitHeight(55);
+        //imageviewProfileImage.maxWidth(55);
+        //imageviewProfileImage.maxHeight(55);
+        //imageviewProfileImage.setPreserveRatio(false);
         hyperlinkUser.setOnAction(event->{
-
+            loadProfile(user.getUsername());
         });
 
     }
@@ -531,8 +531,8 @@ public class HelloController {
             pageRoot.getChildren().add(root);
 
 
-            ((Stage)pageRoot.getScene().getWindow()).setMinWidth(1000);
-            ((Stage)pageRoot.getScene().getWindow()).setMinHeight(850);
+            //((Stage)pageRoot.getScene().getWindow()).setMinWidth(1000);
+            //((Stage)pageRoot.getScene().getWindow()).setMinHeight(850);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -560,6 +560,8 @@ public class HelloController {
         }
 
         webEngine.load(null);
+        mainContainer.getChildren().clear();
+
         TokenManager tk = new TokenManager();
         tk.deleteToken();
         try {

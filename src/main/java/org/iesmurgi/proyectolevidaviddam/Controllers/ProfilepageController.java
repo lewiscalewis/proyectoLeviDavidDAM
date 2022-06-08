@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -39,6 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController.downloadAndStore;
+import static org.iesmurgi.proyectolevidaviddam.Controllers.HomepageController.player;
 import static org.iesmurgi.proyectolevidaviddam.HelloApplication.mainStage;
 
 //Dentro de contentRoot es donde se supone que va el contenido de nuestra página. Es para que el chatSlider se superponga encima de esta vista.
@@ -67,9 +69,13 @@ public class ProfilepageController {
     private Button buttonDeleteUserForever;
     @FXML
     private Button buttonAddFriend;
+    @FXML
+    private VBox backgroundPad;
 
 
     public void initialize() throws IOException, URISyntaxException {
+        backgroundPad.setStyle("-fx-background-color: linear-gradient(to bottom, #ff7f50, #6a5acd);");
+
         buttonDeleteUserForever.setVisible(false);
         imageviewProfileImage.setFitWidth(150);
         imageviewProfileImage.setFitHeight(150);
@@ -112,8 +118,14 @@ public class ProfilepageController {
         //Muestra el buttonAddFriend si es un usuario diferente al logeado.
         if(username.equals(new GeneralDecoder().getUserFromToken())){
             buttonAddFriend.setVisible(false);
+            buttonAddFriend.setMaxWidth(0);
+            buttonAddFriend.setMinWidth(0);
+            buttonAddFriend.setPrefWidth(0);
         }else{
             buttonAddFriend.setVisible(false);
+            buttonAddFriend.setMaxWidth(0);
+            buttonAddFriend.setMinWidth(0);
+            buttonAddFriend.setPrefWidth(0);
             Requester<User[]> noFriendsRequester = new Requester<>(CONSTANT.URL.getUrl()+"/get-noFriends", Requester.Method.POST,User[].class);
             noFriendsRequester.addParam("username", new GeneralDecoder().getUserFromToken());                  //La petición no llega al servidor cuando le pongo parámetros
             noFriendsRequester.addParam("token", new TokenManager().getToken());
@@ -124,7 +136,13 @@ public class ProfilepageController {
             //Recorre los usuarios que no son amigos, y si encuentra que el usuario que pertenece el profile
             //no es amigo del usuario logeado muestra el boton.
             for(int i=0;i<notFriends.length;i++){
-                if(notFriends[i].getUsername().equals(username))buttonAddFriend.setVisible(true);//Si no son amigos se muestra
+                if(notFriends[i].getUsername().equals(username)){
+                    buttonAddFriend.setVisible(true);
+                    buttonAddFriend.setMaxWidth(200);
+                    buttonAddFriend.setMinWidth(200);
+                    buttonAddFriend.setPrefWidth(200);//Si no son amigos se muestra
+                    buttonAddFriend.getStyleClass().add("buttons-item-play");
+                }
             }
 
         }
@@ -144,6 +162,9 @@ public class ProfilepageController {
                 int fadeOutTime= 500; //0.5 seconds
                 Toast.makeText(mainStage, toastMsg, toastMsgTime, fadeInTime, fadeOutTime);
                 buttonAddFriend.setVisible(false);
+                buttonAddFriend.setMaxWidth(0);
+                buttonAddFriend.setMinWidth(0);
+                buttonAddFriend.setPrefWidth(0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -160,7 +181,7 @@ public class ProfilepageController {
 
         if(me.getAdmin()==1){       //Si el usuario actual es admin muestra el botón "eliminar usuario" y añade el evento.
             System.out.println("DELETING USER= "+username);
-
+            buttonDeleteUserForever.getStyleClass().add("decline-button");
             buttonDeleteUserForever.setOnAction((event -> {
                 Requester<String> deleteUserRequester = null;
                 try {
@@ -473,6 +494,7 @@ public class ProfilepageController {
 
         //Label del título
         Label labelSongName = new Label();
+        labelSongName.getStyleClass().add(String.valueOf(item.getId()));
         labelSongName.setMaxWidth(350);
         labelSongName.setMinWidth(350);
         labelSongName.setStyle( "" +
@@ -506,8 +528,8 @@ public class ProfilepageController {
 
         //Imagen
         ImageView imageView = new ImageView();
-        imageView.setFitHeight(120);
-        imageView.setFitWidth(120);
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(200);
 
         //obtenemos la imagen de la canción
         Platform.runLater(()->{
@@ -549,8 +571,8 @@ public class ProfilepageController {
                     fileGetter.addParam("token", new TokenManager().getToken());
 
                     HomepageController.imageviewPlayer.imageProperty().bind(fileGetter.getImage().imageProperty());
-                    HomepageController.imageviewPlayer.setFitWidth(70);
-                    HomepageController.imageviewPlayer.setFitHeight(70);
+                    HomepageController.imageviewPlayer.setFitWidth(90);
+                    HomepageController.imageviewPlayer.setFitHeight(90);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -567,21 +589,23 @@ public class ProfilepageController {
                 HomepageController.hyperlinkUsernamePlayer.setText(item.getUsername());
 
                 HomepageController.vBoxPlayer.getChildren().clear();
-                HomepageController.vBoxPlayer.getChildren().addAll(HomepageController.player.getControl());
+                HomepageController.vBoxPlayer.getChildren().addAll(player.getControl());
                 HomepageController.vBoxPlayer.setAlignment(Pos.CENTER);
                 //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
                 //HAY QUE CREAR UN REQUESTCOVER(itemid)
             }));
+            player_thread.setDaemon(true);
             player_thread.start();
 
         });
 
-        Button buttonDownload = new Button("download");
+        Button buttonDownload = new Button("Descargar  🎶");
         buttonDownload.setOnAction((event -> {
 
 
             FileChooser saveChooser = new FileChooser();
             saveChooser.setTitle("Save");
+            saveChooser.setInitialFileName(songName);
             saveChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("MP3", "*.mp3"));
             //Adding action on the menu item
             Platform.runLater(()->{
@@ -606,21 +630,92 @@ public class ProfilepageController {
         }));
 
 
+        Button buttonDeleteItem = new Button("Eliminar          🗑");
+        //buttonDeleteItem.setFont(new Font(14));
+        buttonDeleteItem.getStyleClass().add("decline-button");
+
+
+
+
+        Requester<User[]> userRequester = null;
+        try {
+            userRequester = new Requester<>(CONSTANT.URL.getUrl()+"/user",Requester.Method.POST, User[].class);
+
+            userRequester.addParam("token",new TokenManager().getToken());
+            userRequester.addParam("username",new GeneralDecoder().getUserFromToken());
+            User me = userRequester.execute()[0];
+
+            if(me.getAdmin()==1||me.getUsername().equals(author)){       //Si el usuario actual es admin muestra el botón "eliminar usuario" y añade el evento.
+                System.out.println("DELETING ITEM= "+item.id);
+
+                buttonDeleteItem.setOnAction((event2) -> {
+                    Requester<String> deleteItemRequester = null;
+                    try {
+                        deleteItemRequester = new Requester<String>(CONSTANT.URL.getUrl()+"/delete-item", Requester.Method.POST, String.class);
+                        deleteItemRequester.addParam("token",new TokenManager().getToken());
+                        deleteItemRequester.addParam("item", String.valueOf(item.id));
+
+                        String toastMsg2 = "Canción eliminada.";
+                        int toastMsgTime2 = 2800; //3.5 seconds
+                        int fadeInTime2 = 500; //0.5 seconds
+                        int fadeOutTime2= 500; //0.5 seconds
+                        Toast.makeText(mainStage, toastMsg2, toastMsgTime2, fadeInTime2, fadeOutTime2);
+
+
+
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        deleteItemRequester.execute();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        loadHomePage();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                });
+
+
+                buttonDeleteItem.setVisible(true);
+            }else {
+                buttonDeleteItem.setVisible(false);
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
 
 
         Label labelCopyright = new Label();
-        labelCopyright.setText(item.copyright == 0 ? "Uso libre" : "Todos los derechos reservados");
+        labelCopyright.setText(item.copyright == 0 ? "Uso libre" : "®Todos los derechos reservados");
         labelCopyright.setStyle(
                 "-fx-text-fill: black; -fx-fill: black; -fx-font-family: Bahnschrift; -fx-font-weight: bold; -fx-font-size: 16");
 
 
         labelDescription.setPadding(new Insets(0,0,0,0));
-        buttonPlay.getStyleClass().add("buttons-item");
+        buttonPlay.getStyleClass().add("buttons-item-play");
         buttonDownload.getStyleClass().add("buttons-item");
 
         //sería recomendable añadir un progressIndicator para cuando la imagen tarda en llegar
 
-        hbox.getChildren().addAll(song,buttonPlay,buttonDownload, imageView);
+        VBox vboxDownloadAndDelete=new VBox(buttonDownload,buttonDeleteItem);
+        vboxDownloadAndDelete.setAlignment(Pos.CENTER);
+        buttonDeleteItem.getStyleClass().add("decline-button");
+
+        hbox.getChildren().addAll(song,buttonPlay,vboxDownloadAndDelete, imageView);
         hbox.setPadding(new Insets(5,5,5,5));
         hbox.setAlignment(Pos.CENTER);
         song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright);
@@ -634,7 +729,63 @@ public class ProfilepageController {
     }
 
 
+    public void loadHomePage() throws IOException {
 
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(baseRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            baseRoot.setTranslateX(0);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(baseRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                baseRoot.setAlignment(Pos.TOP_LEFT);
+                baseRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "homepage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+                baseRoot.getChildren().add(root);
+
+                if(first){
+                    vboxPlayer.setAlignment(Pos.CENTER);
+
+                    HomepageController homepageController= rootFxmlLoader.getController();
+                    homepageController.testHomepageController();
+                    homepageController.setVboxPlayer(vboxPlayer);
+                    homepageController.setItemsFromFXML(labelSongNamePlayer, hyperlinkUsernamePlayer, imageviewPlayer);
+
+                    first=false;}
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+
+            });
+
+        }));
+
+    }
     private void loadProfile(){
 
         TranslateTransition slide = new TranslateTransition();
@@ -670,8 +821,8 @@ public class ProfilepageController {
 
                 //ProfilepageController profilepageController =rootFxmlLoader.getController();
                 //profilepageController.loadUserData();
-                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -722,8 +873,8 @@ public class ProfilepageController {
 
                 //ProfilepageController profilepageController =rootFxmlLoader.getController();
                 //profilepageController.loadUserData();
-                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
