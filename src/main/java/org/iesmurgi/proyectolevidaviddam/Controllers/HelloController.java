@@ -640,8 +640,8 @@ public class HelloController {
                 pageRoot.getChildren().add(root);
 
 
-                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+//                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
+//                ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();

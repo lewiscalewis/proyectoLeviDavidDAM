@@ -38,6 +38,7 @@ public class MusickPlayer {
     public Node getControl(){
         MediaControl mediaControl = new MediaControl(this.player);
         mediaControl.setStyle("-fx-background-color:  #1b1b1b; -fx-max-width: 600; -fx-min-width: 400; -fx-min-height: 80");
+        player.setVolume(0.55);
         player.play();
         return mediaControl;
     }

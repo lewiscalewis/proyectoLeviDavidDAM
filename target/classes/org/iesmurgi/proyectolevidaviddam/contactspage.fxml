@@ -37,7 +37,7 @@
                <children>
                   <VBox alignment="CENTER">
                      <children>
-                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="56.0" spacing="50.0" styleClass="browser">
+                        <HBox alignment="CENTER" maxWidth="700.0" prefHeight="56.0" prefWidth="700.0" spacing="50.0" styleClass="browser">
                            <children>
                               <TextField fx:id="textfieldBrowser" onKeyTyped="#filterByName" prefHeight="35.0" prefWidth="333.0" />
                               <Button mnemonicParsing="false" onAction="#search" prefHeight="32.0" prefWidth="78.0" styleClass="browser-icon" />
@@ -51,9 +51,9 @@
                         </HBox>
                         <HBox fx:id="hboxContainer" alignment="CENTER" maxWidth="800.0" minWidth="800.0" prefWidth="800.0" VBox.vgrow="NEVER">
                            <children>
-                              <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" minWidth="700.0" spacing="50.0" styleClass="container" stylesheets="@css/main.css">
+                              <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" minWidth="400.0" prefWidth="700.0" spacing="50.0" styleClass="container" stylesheets="@css/main.css">
                                  <children>
-                                    <ScrollPane fx:id="scrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="780.0" VBox.vgrow="ALWAYS">
+                                    <ScrollPane fx:id="scrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="400.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
                                        <content>
                                           <FlowPane fx:id="container" alignment="CENTER" columnHalignment="CENTER" hgap="300.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="50.0">
                                              <padding>

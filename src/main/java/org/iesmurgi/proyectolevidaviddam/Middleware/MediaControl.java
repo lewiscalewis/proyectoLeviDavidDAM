@@ -152,7 +152,6 @@ public class MediaControl extends BorderPane {
                 }
             }
         });
-
         mediaBar.getChildren().add(volumeSlider);
 
 

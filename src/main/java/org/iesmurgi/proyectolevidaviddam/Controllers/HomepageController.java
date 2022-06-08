@@ -144,6 +144,7 @@ public class HomepageController {
 
         //Label del título
         Label labelSongName = new Label();
+        labelSongName.getStyleClass().add(String.valueOf(item.getId()));
         labelSongName.setMaxWidth(350);
         labelSongName.setMinWidth(350);
         labelSongName.setStyle( "" +
@@ -489,10 +490,10 @@ public class HomepageController {
     }
 
     private  void loadItems(Item[] items){
-
         container.getChildren().clear();
         Platform.setImplicitExit(true);
         Platform.runLater(() -> {
+            container.getChildren().clear();
             if(items.length > 0) {
                 ScrollPane itemBar = new ScrollPane();
                 VBox petitionBox = new VBox();
@@ -549,34 +550,63 @@ public class HomepageController {
 
 
     @FXML
-    public void search(ActionEvent actionEvent) throws IOException, URISyntaxException {
-        if(!textfieldBrowser.getText().equals("")){
-            Requester<Item[]> req = new Requester(CONSTANT.URL.getUrl()+"/items-search", Requester.Method.POST, Item[].class);
-            req.addParam("token", new TokenManager().getToken());
-            req.addParam("item", textfieldBrowser.getText());
-            req.addParam("genre", comboboxGenero.getValue().equals("Todos los géneros") ? "all" : comboboxGenero.getValue());
-            Item[] items = req.execute();
-            loadItems(items);
-        }else{
-            Requester<Item[]> req = new Requester(CONSTANT.URL.getUrl()+"/items-search-genre", Requester.Method.POST, Item[].class);
-            req.addParam("token", new TokenManager().getToken());
-            req.addParam("genre", comboboxGenero.getValue().equals("Todos los géneros") ? "all" : comboboxGenero.getValue());
-            Item[] items = req.execute();
-            loadItems(items);
-        }
-
+    public synchronized void search(ActionEvent actionEvent) throws IOException, URISyntaxException {
+        container.getChildren().clear();
+        Platform.runLater(()->{
+            if(!textfieldBrowser.getText().equals("")){
+                Requester<Item[]> req = null;
+                try {
+                    req = new Requester(CONSTANT.URL.getUrl()+"/items-search", Requester.Method.POST, Item[].class);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                req.addParam("token", new TokenManager().getToken());
+                req.addParam("item", textfieldBrowser.getText());
+                req.addParam("genre", comboboxGenero.getValue().equals("Todos los géneros") ? "all" : comboboxGenero.getValue());
+                Item[] items = new Item[0];
+                try {
+                    items = req.execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                loadItems(items);
+            }else{
+                Requester<Item[]> req = null;
+                try {
+                    req = new Requester(CONSTANT.URL.getUrl()+"/items-search-genre", Requester.Method.POST, Item[].class);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                req.addParam("token", new TokenManager().getToken());
+                req.addParam("genre", comboboxGenero.getValue().equals("Todos los géneros") ? "all" : comboboxGenero.getValue());
+                Item[] items = new Item[0];
+                try {
+                    items = req.execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                loadItems(items);
+            }
+        });
     }
 
     @FXML
-    public void filterByName(Event event) throws IOException, URISyntaxException {
-       ActionEvent e = null;
-       search(e);
+    public synchronized void filterByName(Event event) throws IOException, URISyntaxException {
+        container.getChildren().clear();
+        Platform.runLater(()->{
+            ActionEvent e = null;
+            try {
+                search(e);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
 
-
-
-    private void loadProfile(String username){
+    private synchronized void loadProfile(String username){
 
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));

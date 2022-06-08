@@ -46,7 +46,7 @@
                   </HBox>
                   <HBox alignment="CENTER" minHeight="60.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <PasswordField fx:id="changepdw" />
+                        <PasswordField fx:id="changepdw" onAction="#sendData" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -60,7 +60,7 @@
                   </HBox>
                   <HBox alignment="CENTER" minHeight="60.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <PasswordField fx:id="rechangepwd" />
+                        <PasswordField fx:id="rechangepwd" onAction="#sendData" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -74,7 +74,7 @@
                   </HBox>
                   <HBox alignment="CENTER" minHeight="60.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <TextField fx:id="state">
+                        <TextField fx:id="state" onAction="#sendData">
                            <font>
                               <Font size="14.0" />
                            </font>

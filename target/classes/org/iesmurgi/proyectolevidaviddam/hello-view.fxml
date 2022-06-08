@@ -82,7 +82,7 @@
                                        </ImageView>
                                     </children>
                                  </HBox>
-                                 <Hyperlink fx:id="hyperlinkUser" style="-fx-border-color: #e45926;" text="eeeeeeeee">
+                                 <Hyperlink fx:id="hyperlinkUser" style="-fx-border-color: #1c3787;" text="eeeeeeeee">
                                     <font>
                                        <Font size="30.0" />
                                     </font>
@@ -135,6 +135,18 @@
                      <Insets bottom="25.0" />
                   </padding>
                   <children>
+                     <HBox fx:id="aboutButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                        <children>
+                           <Label fx:id="tileSettings4" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="About" textFill="WHITE">
+                              <font>
+                                 <Font size="36.0" />
+                              </font>
+                              <HBox.margin>
+                                 <Insets left="39.0" />
+                              </HBox.margin>
+                           </Label>
+                        </children>
+                     </HBox>
                      <HBox fx:id="uploadButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <Label fx:id="tileSettings" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Uploads" textFill="WHITE">
@@ -194,7 +206,7 @@
    </StackPane>
    <StackPane style="-fx-background-color: #e45926;">
       <children>
-         <HBox spacing="10.0" style="-fx-border: solid 20px blue; -fx-background-color: #1b1b1b;">
+         <HBox minHeight="100.0" prefHeight="100.0" spacing="10.0" style="-fx-border: solid 20px blue; -fx-background-color: #1b1b1b;">
             <StackPane.margin>
                <Insets />
             </StackPane.margin>
@@ -223,7 +235,10 @@
                      <Hyperlink fx:id="hyperlinkUsernamePlayer">
                         <font>
                            <Font size="20.0" />
-                        </font></Hyperlink>
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="10.0" />
+                        </VBox.margin></Hyperlink>
                   </children>
                   <HBox.margin>
                      <Insets right="20.0" />
