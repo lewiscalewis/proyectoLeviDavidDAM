@@ -123,7 +123,7 @@ public class ContactspageController {
                             decline_action_event(u, petitions_container);
 
                             petitions_container.getChildren().clear();
-                            initialize();
+                            reload();
                         }catch (Exception exc){
                             exc.printStackTrace();
                         }
@@ -150,6 +150,7 @@ public class ContactspageController {
             decline_action.addParam("token", tk.getToken());
             decline_action.execute();
             petitions_container.getChildren().clear();
+            reload();
         }catch (Exception exc){
             exc.printStackTrace();
         }
@@ -159,7 +160,6 @@ public class ContactspageController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("contactspage.fxml"));
         baseRoot.getChildren().clear();
         Pane root = null;
-        VBox pageRoot = (VBox) baseRoot.getParent();
 
         try {
             root = (fxmlLoader.load());
