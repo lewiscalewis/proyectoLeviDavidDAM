@@ -102,7 +102,7 @@ public class AddFriendController {
         String me = d.getUserFromToken();
 
         Platform.runLater(()->{
-            Arrays.stream(users).filter(user -> user.getUsername() != new GeneralDecoder().getUserFromToken()).forEach((u)->{
+            Arrays.stream(users).filter(user -> !user.getUsername().equals(new GeneralDecoder().getUserFromToken())).forEach((u)->{
                 try {
                     String url1 = CONSTANT.URL.getUrl()+"/download-image";
                     FileGetter fileGetter = new FileGetter(url1);
