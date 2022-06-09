@@ -58,6 +58,7 @@ public class ChatController {
     @FXML
     void initialize() throws IOException, InterruptedException {
         Platform.runLater(()->{
+            vboxContainer.setPadding(new Insets(50, 0, 50, 0));
             String url = CONSTANT.URL.getUrl()+"/chatID";
             Platform.setImplicitExit(true);
             Platform.runLater(()->{

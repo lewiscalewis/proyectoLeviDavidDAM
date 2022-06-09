@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="baseRoot" maxHeight="1.7976931348623157E308" prefWidth="900.0" style="-fx-background-color: #0b1533;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.ContactspageController">
+<StackPane fx:id="baseRoot" maxHeight="1.7976931348623157E308" prefWidth="900.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.ContactspageController">
    <children>
       <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="800.0" styleClass="container" stylesheets="@css/main.css" StackPane.alignment="BOTTOM_CENTER">
          <children>

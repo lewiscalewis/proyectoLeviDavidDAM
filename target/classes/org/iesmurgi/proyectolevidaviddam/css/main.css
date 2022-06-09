@@ -24,22 +24,22 @@
 }
 
 .container {
-    -fx-background-color: #0b1533;
+    -fx-background-color: linear-gradient(to bottom right, #ff7f50, #3a5afd);
 }
 
 .hyperlink:visited{
     -fx-text-fill: #1895c8;
-    -fx-border-color: #3C3C3C;
+    -fx-border-color:  #1c3787;
     -fx-underline: false;
 }
 .hyperlink:pressed{
     -fx-text-fill: #1895c8;
-    -fx-border-color: #3C3C3C;
+    -fx-border-color:  #1c3787;
     -fx-underline: false;
 }
 .hyperlink:hover{
     -fx-text-fill: #28a5e8;
-    -fx-border-color: #3C3C3C;
+    -fx-border-color:  #1c3787;
     -fx-underline: false;
 }
 
@@ -151,6 +151,36 @@
     -fx-text-fill: white;
 }
 
+.buttons-item-play {
+    -fx-background-color: #1aba2a;
+    -fx-fill: white;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 28;
+    -fx-font-family: Bahnschrift;
+}
+.buttons-item-play:hover {
+    -fx-background-color: #15a323;
+    -fx-fill: white;
+    -fx-text-fill: white;
+}
+
+.buttons-login{
+    -fx-background-color: #1aba2a;
+    -fx-fill: white;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-font-family: Bahnschrift;
+}
+.buttons-login:hover {
+    -fx-background-color: #15a323;
+    -fx-fill: white;
+    -fx-text-fill: white;
+}
+
+
+
 .button-default {
     -fx-background-color: #63c963;
     -fx-fill: white;
@@ -164,14 +194,15 @@
     -fx-fill: #63c963;
     -fx-text-fill: #63c963;
     -fx-font-weight: bold;
-    -fx-font-size: 14
+    -fx-font-size: 14;
 }
 
 .decline-button{
     -fx-background-color: #ff0000;
     -fx-fill: white;
     -fx-text-fill: white;
-    -fx-font-weight: bold
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
 }
 
 .decline-button:hover{
@@ -179,7 +210,7 @@
     -fx-fill: #ff0000;
     -fx-text-fill: #ff0000;
     -fx-font-weight: bold;
-    -fx-font-size: 14
+    -fx-font-size: 14;
 }
 
 .browser-icon {

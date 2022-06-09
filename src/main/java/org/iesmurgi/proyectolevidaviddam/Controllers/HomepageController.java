@@ -361,6 +361,7 @@ public class HomepageController {
 
         //sería recomendable añadir un progressIndicator para cuando la imagen tarda en llegar
         VBox vboxDownloadAndDelete=new VBox(buttonDownload,buttonDeleteItem);
+        vboxDownloadAndDelete.setSpacing(8);
         vboxDownloadAndDelete.setAlignment(Pos.CENTER);
         buttonDeleteItem.getStyleClass().add("decline-button");
 

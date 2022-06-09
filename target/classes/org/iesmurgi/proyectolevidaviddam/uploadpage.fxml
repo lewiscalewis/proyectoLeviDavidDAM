@@ -44,7 +44,7 @@
                               <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Nombre:" textFill="WHITE">
+                              <Label text="Título" textFill="WHITE">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -60,7 +60,7 @@
                                     <Insets right="30.0" />
                                  </GridPane.margin>
                               </Label>
-                              <ChoiceBox fx:id="choiceboxLicenseType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <ChoiceBox fx:id="choiceboxLicenseType" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Button fx:id="buttonChooseFile" mnemonicParsing="false" onMouseClicked="#choose_music" text="Seleccionar" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                               <TextField fx:id="textfieldNombre" maxHeight="38.0" minHeight="20.0" GridPane.columnIndex="1">
                                  <font>
@@ -120,10 +120,13 @@
                         </GridPane>
                      </children>
                   </HBox>
-                  <Button fx:id="buttonTryUpload" maxHeight="20.0" maxWidth="160.0" mnemonicParsing="false" onAction="#upload_music" prefHeight="20.0" stylesheets="@css/main.css" text="Subir">
+                  <Button fx:id="buttonTryUpload" maxHeight="20.0" maxWidth="160.0" mnemonicParsing="false" onAction="#upload_music" prefHeight="20.0" styleClass="buttons-login" stylesheets="@css/main.css" text="Subir">
                      <font>
                         <Font size="36.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="30.0" top="20.0" />
+                     </VBox.margin>
                   </Button>
                </children>
             </VBox>
