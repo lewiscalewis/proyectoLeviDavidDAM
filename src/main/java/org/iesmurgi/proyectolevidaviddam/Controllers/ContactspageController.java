@@ -91,25 +91,35 @@ public class ContactspageController {
                 r.addParam("token", tk.getToken());
                 petitions = r.execute();
 
+                VBox petitions_box = new VBox();
+
                 Arrays.stream(petitions).forEach(u->{
-                    VBox petitions_container = new VBox();
-                    HBox buttons_container = new HBox();
                     Button accept = new Button("Aceptar");
                     accept.getStyleClass().add("button-default");
                     Button decline = new Button("Rechazar");
                     decline.getStyleClass().add("decline-button");
+
+                    HBox buttons_container = new HBox();
+
                     buttons_container.getChildren().addAll(accept, decline);
                     buttons_container.setSpacing(8);
                     buttons_container.setAlignment(Pos.CENTER);
+
                     Label petition = new Label("Petición de amistad de "+u.getEmisor());
                     petition.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 300; -fx-alignment: center");
+
+                    VBox petitions_container = new VBox();
                     petitions_container.getChildren().addAll(petition, buttons_container);
-                    petitions_container.maxWidth(400);
-                    petitions_container.setSpacing(10);
-                    petitions_container.setStyle("-fx-border-color: white");
-                    petitions_container.setAlignment(Pos.CENTER);
-                    hboxContainer.setSpacing(50);
-                    hboxContainer.getChildren().add(petitions_container);
+                    petitions_container.setSpacing(5);
+                    petitions_container.setMaxHeight(60);
+
+                    petitions_box.getChildren().add(petitions_container);
+                    petitions_box.setSpacing(15);
+                    petitions_box.setStyle("" +
+                            "-fx-border-color: white; " +
+                            "-fx-alignment: top;" +
+                            "-fx-max-width: 400");
+                    petitions_box.setAlignment(Pos.CENTER);
 
                     accept.setOnAction(event -> {
                         String accept_url = CONSTANT.URL.getUrl()+"/add-friend";
@@ -133,6 +143,7 @@ public class ContactspageController {
                         decline_action_event(u, petitions_container);
                     });
 
+                    hboxContainer.getChildren().add(petitions_box);
 
                 });
             } catch (IOException e) {
