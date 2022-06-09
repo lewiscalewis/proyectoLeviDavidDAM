@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -23,6 +24,7 @@ import org.iesmurgi.proyectolevidaviddam.Middleware.FileGetter;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.iesmurgi.proyectolevidaviddam.Middleware.TokenManager;
+import org.iesmurgi.proyectolevidaviddam.models.FriendRequest;
 import org.iesmurgi.proyectolevidaviddam.models.Notifications;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
@@ -75,13 +77,100 @@ public class ContactspageController {
 
         loadUsers();
 
+        loadPetitions();
+
+    }
+
+    void loadPetitions() throws IOException {
+        Platform.runLater(()->{
+            try {
+                FriendRequest[] petitions;
+                String url = CONSTANT.URL.getUrl()+"/get-friend-requests";
+                Requester<FriendRequest[]> r = new Requester(url, Requester.Method.POST, FriendRequest[].class);
+                r.addParam("username", me);
+                r.addParam("token", tk.getToken());
+                petitions = r.execute();
+
+                VBox petitions_box = new VBox();
+
+                Arrays.stream(petitions).forEach(u->{
+                    Button accept = new Button("Aceptar");
+                    accept.getStyleClass().add("button-default");
+                    Button decline = new Button("Rechazar");
+                    decline.getStyleClass().add("decline-button");
+
+                    HBox buttons_container = new HBox();
+
+                    buttons_container.getChildren().addAll(accept, decline);
+                    buttons_container.setSpacing(8);
+                    buttons_container.setAlignment(Pos.CENTER);
+
+                    Label petition = new Label("Petición de amistad de "+u.getEmisor());
+                    petition.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 300; -fx-alignment: center");
+
+                    VBox petitions_container = new VBox();
+                    petitions_container.getChildren().addAll(petition, buttons_container);
+                    petitions_container.setSpacing(5);
+                    petitions_container.setMaxHeight(60);
+
+                    petitions_box.getChildren().add(petitions_container);
+                    petitions_box.setSpacing(15);
+                    petitions_box.setStyle("" +
+                            "-fx-border-color: white; " +
+                            "-fx-alignment: top;" +
+                            "-fx-max-width: 400");
+                    petitions_box.setAlignment(Pos.CENTER);
+
+                    accept.setOnAction(event -> {
+                        String accept_url = CONSTANT.URL.getUrl()+"/add-friend";
+                        try {
+                            Requester<FriendRequest[]> accept_action = new Requester(accept_url, Requester.Method.POST, FriendRequest[].class);
+                            accept_action.addParam("username1", u.getReceptor());
+                            accept_action.addParam("username2", u.getEmisor());
+                            accept_action.addParam("token", tk.getToken());
+                            accept_action.execute();
+
+                            decline_action_event(u, petitions_container);
+
+                            petitions_container.getChildren().clear();
+                            reload();
+                        }catch (Exception exc){
+                            exc.printStackTrace();
+                        }
+                    });
+
+                    decline.setOnAction(event -> {
+                        decline_action_event(u, petitions_container);
+                    });
+
+                    hboxContainer.getChildren().add(petitions_box);
+
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void decline_action_event(FriendRequest u, VBox petitions_container) {
+        try {
+            String decline_url = CONSTANT.URL.getUrl()+"/decline-request";
+            Requester<FriendRequest[]> decline_action = new Requester(decline_url, Requester.Method.POST, FriendRequest[].class);
+            decline_action.addParam("emisor", u.getEmisor());
+            decline_action.addParam("receptor", u.getReceptor());
+            decline_action.addParam("token", tk.getToken());
+            decline_action.execute();
+            petitions_container.getChildren().clear();
+            reload();
+        }catch (Exception exc){
+            exc.printStackTrace();
+        }
     }
 
     void reload(){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("contactspage.fxml"));
         baseRoot.getChildren().clear();
         Pane root = null;
-        VBox pageRoot = (VBox) baseRoot.getParent();
 
         try {
             root = (fxmlLoader.load());
@@ -109,9 +198,10 @@ public class ContactspageController {
     }
 
     @FXML
-    void filterByName(KeyEvent event) {
+    synchronized void filterByName(KeyEvent event) {
         Platform.runLater(()->{
             try {
+                container.getChildren().clear();
                 loadUsersBySearch();
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
@@ -120,17 +210,18 @@ public class ContactspageController {
     }
 
     @FXML
-    void search(ActionEvent event) {
+    synchronized void search(ActionEvent event) {
         Platform.runLater(()->{
             try {
-                loadUsers();
+                container.getChildren().clear();
+                loadUsersBySearch();
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    private void loadUsersBySearch() throws IOException, InterruptedException {
+    private synchronized void loadUsersBySearch() throws IOException, InterruptedException {
         container.getChildren().clear();
         if(!textfieldBrowser.getText().equals("")){
 
@@ -150,6 +241,7 @@ public class ContactspageController {
 
     private void iterateUsers(User[] users) throws IOException {
         Platform.runLater(()->{
+            container.getChildren().clear();
             Arrays.stream(users).filter(user -> !Objects.equals(user.getUsername(), new GeneralDecoder().getUserFromToken())).forEach((u)->{
                 String url1 = CONSTANT.URL.getUrl()+"/download-image";
                 FileGetter fileGetter = null;

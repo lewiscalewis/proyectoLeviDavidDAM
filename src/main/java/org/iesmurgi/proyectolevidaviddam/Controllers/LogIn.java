@@ -48,6 +48,26 @@ public class LogIn {
     private PasswordField textFieldContrasena;
 
     public void initialize() {
+        /*textFieldUsuario.setOnAction((event -> {
+            try {
+                login(event);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }));
+        textFieldContrasena.setOnAction((event -> {
+            try {
+                login(event);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }));*/
+
+
 
         btnRegistrarse.setOnAction(actionEvent -> {
 
@@ -62,70 +82,104 @@ public class LogIn {
         });
 
         btnIniciarSesion.setOnAction(actionEvent -> {
-            Platform.setImplicitExit(true);
-            Platform.runLater(()->{
-                String response = "";
+            finalLogin();
+        });
+        textFieldUsuario.setOnAction(event -> {
+            finalLogin();
+        });
+        textFieldContrasena.setOnAction(event -> {
+            finalLogin();
+        });
+    }
 
-                String url = CONSTANT.URL.getUrl()+"/login";
-                GeneralDecoder md5 = new GeneralDecoder();
+    boolean finalLogin(){
 
-                try {
-                    Requester<String> t = new Requester<String>(url,  Requester.Method.POST, String.class);
-                    t.addParam("username", textFieldUsuario.getText());
-                    t.addParam("password", md5.encodeMD5(textFieldContrasena.getText()));
-                    response = t.execute();
-                } catch (NoSuchAlgorithmException | IOException e) {
-                    e.printStackTrace();
-                }
+        String response = "";
 
+        String url = CONSTANT.URL.getUrl()+"/login";
+        GeneralDecoder md5 = new GeneralDecoder();
 
-                System.out.println("Respuesta: "+response);
-                if(response!=null) {//////////////////////////////////////////////////////SALE SI LA RESPUESTA ES NULL
-                    if (response.equals("login_error") || response.equals("")) {
-                        Alert a = new Alert(Alert.AlertType.NONE);
-                        a.setAlertType(Alert.AlertType.ERROR);
-                        a.setTitle("Error de Autentificación");
-                        a.setContentText("El usuario o la contraseña son incorrectos");
-                        a.show();
-                    } else {
-                        //Llamamos al gestor del token para que guarde localmente el token
-                        TokenManager tkm = new TokenManager();
-                        tkm.tokenStorage(response);
-                        System.out.println("Token de usuario: " + response);
-
-                        scene = btnIniciarSesion.getScene();
-                        stage = (Stage) scene.getWindow();
-                        try {
-                            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-                            Parent helloView = fxmlLoader.load();
-                            HelloController helloController = fxmlLoader.getController();
+        try {
+            Requester<String> t = new Requester<String>(url,  Requester.Method.POST, String.class);
+            t.addParam("username", textFieldUsuario.getText());
+            t.addParam("password", md5.encodeMD5(textFieldContrasena.getText()));
+            response = t.execute();
+        } catch (NoSuchAlgorithmException | IOException e) {
+            e.printStackTrace();
+        }
 
 
-                            GeneralDecoder gd = new GeneralDecoder();
 
 
-                            String username = gd.getUserFromToken();
+
+        Platform.setImplicitExit(true);
+        String finalResponse = response;
+        boolean vuelta;
+
+        Platform.runLater(()->{
+
+            System.out.println("Respuesta: "+ finalResponse);
+            if(finalResponse !=null) {//////////////////////////////////////////////////////SALE SI LA RESPUESTA ES NULL
+                if (finalResponse.equals("login_error") || finalResponse.equals("")) {
+                    Alert a = new Alert(Alert.AlertType.NONE);
+                    a.setAlertType(Alert.AlertType.ERROR);
+                    a.setTitle("Error de Autentificación");
+                    a.setContentText("El usuario o la contraseña son incorrectos");
+                    a.show();
+
+                } else {
+                    //Llamamos al gestor del token para que guarde localmente el token
+                    TokenManager tkm = new TokenManager();
+                    tkm.tokenStorage(finalResponse);
+                    System.out.println("Token de usuario: " + finalResponse);
+
+                    scene = btnIniciarSesion.getScene();
+                    stage = (Stage) scene.getWindow();
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+                        Parent helloView = fxmlLoader.load();
+                        HelloController helloController = fxmlLoader.getController();
 
 
-                            Platform.runLater(() -> {
-                                Requester<User[]> userRequester = null;
-                                try {
+                        GeneralDecoder gd = new GeneralDecoder();
 
-                                    Auth.userRequestLogin(username, tkm, helloView, helloController, scene, stage);
-                                    //Loads Home page
 
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            });
+                        String username = gd.getUserFromToken();
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+
+                        Platform.runLater(() -> {
+                            Requester<User[]> userRequester = null;
+                            try {
+
+                                Auth.userRequestLogin(username, tkm, helloView, helloController, scene, stage);
+                                //Loads Home page
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-            });
+            }
         });
+
+        if(finalResponse==null){
+            System.out.println("LOGIN SUCCESSFUL");
+            return false;
+        }
+
+        if(finalResponse.equals("login_error")){
+            System.out.println("LOGIN ERROR");
+            return false;
+
+        }else{
+            System.out.println("LOGIN SUCCESSFUL");
+            return true;
+        }//SI DEVUELVES UN BOOLEANO PUEDES HACER PRUEBA UNITARIA.
+
     }
 
     @FXML
@@ -153,8 +207,8 @@ public class LogIn {
             alert.showAndWait();
         }
     }
-
-    @FXML
+/*
+    @Deprecated
     void login(ActionEvent event) throws NoSuchAlgorithmException, IOException {
 //        String response = "";
 //
@@ -212,6 +266,6 @@ public class LogIn {
 //                e.printStackTrace();
 //            }
 //        }
-    }
+    }*/
 
 }

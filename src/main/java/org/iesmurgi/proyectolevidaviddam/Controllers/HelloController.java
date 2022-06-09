@@ -67,10 +67,34 @@ public class HelloController {
 
     public static String log_out_username;
     public static String log_out_token = new TokenManager().getToken();
+    @FXML
+    private Label labelTopMenu1;
+    @FXML
+    private Label labelTopMenu3;
+    @FXML
+    private Label labelTopMenu2;
+    @FXML
+    private StackPane baseRoot;
+    @FXML
+    private ColumnConstraints columnConstraints3;
+    @FXML
+    private Label tileSettings;
+    @FXML
+    private Label tileSettings3;
+    @FXML
+    private GridPane contentRoot;
+    @FXML
+    private Label tileSettings2;
+    @FXML
+    private Label tileSettings1;
+    @FXML
+    private Label tileSettings4;
+    @FXML
+    private HBox aboutButton;
 
     public void initialize() throws IOException {
 
-
+        log_out_username = new GeneralDecoder().getUserFromToken();
         HelloApplication.session_started = true;
         chatSlider.setTranslateX(265);
 
@@ -111,8 +135,8 @@ public class HelloController {
 
 
 
-                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                    //((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -128,11 +152,11 @@ public class HelloController {
         });
 
         topProfileButton.setOnMouseClicked(Event->{
-            loadProfile();
+            loadProfile(new GeneralDecoder().getUserFromToken());
         });
 
         profileButton.setOnMouseClicked(Event->{
-            loadProfile();
+            loadProfile(new GeneralDecoder().getUserFromToken());
         });
 
         settingsButton.setOnMouseClicked(Event ->{
@@ -173,8 +197,8 @@ public class HelloController {
 
                     //ProfilepageController profilepageController =rootFxmlLoader.getController();
                     //profilepageController.loadUserData();
-                    ((Stage)root.getScene().getWindow()).setMinWidth(900);
-                    ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                    //((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -188,6 +212,112 @@ public class HelloController {
             }));
         });
 
+
+        aboutButton.setOnMouseClicked(Event ->{
+
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.4));
+            slide.setNode(pageRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide.setToX(6000);
+            slide.play();
+            slide.setOnFinished((event -> {
+
+                pageRoot.setTranslateX(-6000);
+                TranslateTransition slide2 = new TranslateTransition();
+                slide2.setDuration(Duration.seconds(0.4));
+                slide2.setNode(pageRoot);
+                //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+                slide2.setToX(0);
+
+                try {
+                    pageRoot.setAlignment(Pos.TOP_CENTER);
+                    pageRoot.getChildren().clear();
+                    FXMLLoader rootFxmlLoader=new FXMLLoader(
+                            HelloApplication.class.getResource(
+                                    "about-view.fxml"
+                            )
+                    );
+
+                    Pane root = rootFxmlLoader.load();
+                    AboutController sc = rootFxmlLoader.getController();
+
+
+                    pageRoot.getChildren().add(root);
+
+                    //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                    //profilepageController.loadUserData();
+                    //((Stage)root.getScene().getWindow()).setMinWidth(900);
+                    //((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                slide2.play();
+                slide2.setOnFinished((event2)->{
+
+                });
+
+            }));
+        });
+
+
+    }
+
+    private void loadProfile(String username){
+
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.4));
+        slide.setNode(pageRoot);
+        //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+        slide.setToX(6000);
+        slide.play();
+        slide.setOnFinished((event -> {
+
+            pageRoot.setTranslateX(-6000);
+            TranslateTransition slide2 = new TranslateTransition();
+            slide2.setDuration(Duration.seconds(0.4));
+            slide2.setNode(pageRoot);
+            //((HBox) event.getTarget()).setTranslateY(-6);
+
+
+            slide2.setToX(0);
+
+            try {
+                pageRoot.setAlignment(Pos.TOP_LEFT);
+                pageRoot.getChildren().clear();
+                FXMLLoader rootFxmlLoader=new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "profilepage.fxml"
+                        )
+                );
+                Pane root = rootFxmlLoader.load();
+                ProfilepageController profilepageController = rootFxmlLoader.getController();
+                profilepageController.loadUserData(username);
+                pageRoot.getChildren().add(root);
+
+                //ProfilepageController profilepageController =rootFxmlLoader.getController();
+                //profilepageController.loadUserData();
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            slide2.play();
+            slide2.setOnFinished((event2)->{
+
+            });
+
+        }));
     }
 
     private void loadProfile(){
@@ -225,8 +355,8 @@ public class HelloController {
 
                 //ProfilepageController profilepageController =rootFxmlLoader.getController();
                 //profilepageController.loadUserData();
-                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -243,13 +373,13 @@ public class HelloController {
     public void loadUserData(User user) throws IOException {
         hyperlinkUser.setText(user.getName());
         imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
-        imageviewProfileImage.setFitWidth(55);
-        imageviewProfileImage.setFitHeight(55);
-        imageviewProfileImage.maxWidth(55);
-        imageviewProfileImage.maxHeight(55);
-        imageviewProfileImage.setPreserveRatio(false);
+        //imageviewProfileImage.setFitWidth(55);
+        //imageviewProfileImage.setFitHeight(55);
+        //imageviewProfileImage.maxWidth(55);
+        //imageviewProfileImage.maxHeight(55);
+        //imageviewProfileImage.setPreserveRatio(false);
         hyperlinkUser.setOnAction(event->{
-
+            loadProfile(user.getUsername());
         });
 
     }
@@ -327,30 +457,6 @@ public class HelloController {
     WebEngine webEngine;
     @FXML
     public void loadHomePage() throws IOException {
-/*
-        try {
-            // EJEMPLO
-            Map<String, String> headers = new HashMap<>();
-            headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36");
-            FileGetter multipart = new FileGetter();
-            multipart.HttpPostMultipart(CONSTANT.URL.getUrl()+"/image", "utf-8", headers);
-            // Add form field
-            multipart.addFormField("username", new GeneralDecoder().getUserFromToken());
-            // Add file
-            multipart.addFilePart("image", new File("C:\\Users\\whywo\\Pictures\\Screenshots\\Screenshot (3).png"));
-            // Print result
-            String response = multipart.finish();
-            System.out.println(response);
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
-
-
-*/
-
-
-        //requestBinary();
-
 
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.4));
@@ -383,23 +489,16 @@ public class HelloController {
                 pageRoot.getChildren().add(root);
 
                 if(first){
-                    Label l = new Label("Loading...");
-                    l.setFont(new Font("Arial",30));
-                    vboxPlayer.setAlignment(Pos.TOP_CENTER);
-                    vboxPlayer.getChildren().add(l);
-
+                    vboxPlayer.setAlignment(Pos.CENTER);
 
                     HomepageController homepageController= rootFxmlLoader.getController();
                     homepageController.testHomepageController();
-                    if(first)
-                        homepageController.setWebViewPlayer(webView,webEngine,vboxPlayer,labelSongNamePlayer, imageviewPlayer, hyperlinkUsernamePlayer);
-                    homepageController.initializePlayer(vboxPlayer,webView);
-
-
+                    homepageController.setVboxPlayer(vboxPlayer);
+                    homepageController.setItemsFromFXML(labelSongNamePlayer, hyperlinkUsernamePlayer, imageviewPlayer);
 
                     first=false;}
-                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
+                //((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -432,8 +531,8 @@ public class HelloController {
             pageRoot.getChildren().add(root);
 
 
-            ((Stage)pageRoot.getScene().getWindow()).setMinWidth(1000);
-            ((Stage)pageRoot.getScene().getWindow()).setMinHeight(850);
+            //((Stage)pageRoot.getScene().getWindow()).setMinWidth(1000);
+            //((Stage)pageRoot.getScene().getWindow()).setMinHeight(850);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -444,6 +543,11 @@ public class HelloController {
 
     @FXML
     public void logout(Event e) throws IOException {
+        try{
+            HomepageController.player.stop_music();
+        }catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
         Requester<String> set_online = null;
         try {
             set_online = new Requester<>("http://tux.iesmurgi.org:11230/set-online", Requester.Method.POST, String.class);
@@ -456,6 +560,8 @@ public class HelloController {
         }
 
         webEngine.load(null);
+        mainContainer.getChildren().clear();
+
         TokenManager tk = new TokenManager();
         tk.deleteToken();
         try {
@@ -536,8 +642,8 @@ public class HelloController {
                 pageRoot.getChildren().add(root);
 
 
-                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                ((Stage)root.getScene().getWindow()).setMinHeight(850);
+//                ((Stage)root.getScene().getWindow()).setMinWidth(1000);
+//                ((Stage)root.getScene().getWindow()).setMinHeight(850);
 
             } catch (IOException e) {
                 e.printStackTrace();

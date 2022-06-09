@@ -42,7 +42,7 @@
                   <Insets />
                </VBox.margin>
                <children>
-                  <Button fx:id="btnIniciarSesion" mnemonicParsing="false" onAction="#login" styleClass="button-default" text="Iniciar sesión">
+                  <Button fx:id="btnIniciarSesion" mnemonicParsing="false" styleClass="buttons-login" text="Iniciar sesión">
                      <font>
                         <Font size="14.0" />
                      </font>

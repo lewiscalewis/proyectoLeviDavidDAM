@@ -12,19 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="baseRoot" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0b1533;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.SettingsController">
+<StackPane fx:id="baseRoot" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesmurgi.proyectolevidaviddam.Controllers.SettingsController">
     <children>
         <VBox alignment="CENTER" spacing="20.0">
             <children>
-                <VBox maxWidth="1.7976931348623157E308">
-                    <children>
-                        <Label maxWidth="1.7976931348623157E308" text="Ajustes" textFill="#979797">
-                            <font>
-                                <Font name="System Bold" size="25.0" />
-                            </font>
-                        </Label>
-                    </children>
-                </VBox>
+                <VBox maxWidth="1.7976931348623157E308" />
             <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="200.0" prefWidth="100.0" styleClass="card" stylesheets="@css/main.css" VBox.vgrow="ALWAYS">
                <children>
                   <ImageView fx:id="profileImage" fitHeight="112.0" fitWidth="152.0" onMouseClicked="#changeProfileImage" pickOnBounds="true" preserveRatio="true" styleClass="profileImage">
@@ -46,7 +38,7 @@
                   </HBox>
                   <HBox alignment="CENTER" minHeight="60.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <PasswordField fx:id="changepdw" />
+                        <PasswordField fx:id="changepdw" onAction="#sendData" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -60,7 +52,7 @@
                   </HBox>
                   <HBox alignment="CENTER" minHeight="60.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <PasswordField fx:id="rechangepwd" />
+                        <PasswordField fx:id="rechangepwd" onAction="#sendData" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -74,14 +66,14 @@
                   </HBox>
                   <HBox alignment="CENTER" minHeight="60.0" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <TextField fx:id="state">
+                        <TextField fx:id="state" onAction="#sendData">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" onAction="#sendData" text="Aplicar cambios">
+                  <Button mnemonicParsing="false" onAction="#sendData" styleClass="buttons-login" text="Aplicar cambios">
                      <VBox.margin>
                         <Insets top="25.0" />
                      </VBox.margin>

@@ -8,6 +8,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -18,8 +21,13 @@ import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.Middleware.*;
 import org.iesmurgi.proyectolevidaviddam.models.User;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import java.awt.*;
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -78,15 +86,42 @@ public class SignUp {
 
     Stage stage;
     Scene scene;
-
     @FXML
-    void initialize(){
+    private Hyperlink hyperlinkLicencia;
+    @FXML
+    private Hyperlink hyperlinkPrivacidad;
+
+
+    public void initialize(){
 //        lblNombre.getStyleClass().setAll("lbl","lbl-primary");
 //        lblApellidos.getStyleClass().setAll("lbl", "lbl-primary");
 //        lblCorreo.getStyleClass().setAll("lbl", "lbl-primary");
 //        lblContraseña.getStyleClass().setAll("lbl", "lbl-primary");
 //        lblRepetirContraseña.getStyleClass().setAll("lbl", "lbl-primary");
-        btnRegistrarse.getStyleClass().setAll("btn", "btn-success");
+        //btnRegistrarse.getStyleClass().setAll("btn", "btn-success");
+
+        hyperlinkLicencia.setOnAction((event -> {
+            try {
+                Desktop.getDesktop().browse(new URL("https://www.gnu.org/licenses/gpl-3.0.en.html").toURI());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }));
+
+        hyperlinkPrivacidad.setOnAction((event -> {
+            try {
+                Desktop.getDesktop().browse(new URL("https://www.privacypolicies.com/live/d5656c62-1743-44ef-93fa-0d0e6cb9c1ce").toURI());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }));
+
+
+
     }
 
     @FXML
@@ -150,10 +185,31 @@ public class SignUp {
             }
         });
     }
-
+    public static boolean isValidEmailAddress(String email) {
+        boolean result = true;
+        try {
+            InternetAddress emailAddr = new InternetAddress(email);
+            emailAddr.validate();
+        } catch (AddressException ex) {
+            result = false;
+        }
+        return result;
+    }
     private synchronized boolean checkMail() throws IOException, InterruptedException {
 
         boolean mail = false;
+
+       if(!isValidEmailAddress(textFieldCorreo.getText())){
+           Alert a = new Alert(Alert.AlertType.NONE);
+           a.setAlertType(Alert.AlertType.ERROR);
+           a.setTitle("Error!!");
+           a.setContentText("El correo electrónico no cumple con \n" +
+                   "el siguiente formato: xxxxxx@xxxxxxxx.xxx ");
+           a.show();
+           return false;
+       }else{
+
+
 
         String url1 = CONSTANT.URL.getUrl()+"/check-email";
         Requester<String> stringRequester1 = new Requester<>(url1, Requester.Method.POST,String.class);
@@ -175,7 +231,7 @@ public class SignUp {
         }
         System.out.println("Comprobando username");
 
-        return mail;
+        return mail;}
     }
 
     private synchronized boolean checkUsername() throws IOException, InterruptedException {

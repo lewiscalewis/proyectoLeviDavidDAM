@@ -22,26 +22,26 @@ public class HelloApplication extends Application {
             Requester<String> set_online = null;
             if(session_started){
                 try {
+                    System.out.println("Cerrando sesión ...");
                     set_online = new Requester<>("http://tux.iesmurgi.org:11230/set-online", Requester.Method.POST, String.class);
                     set_online.addParam("token", HelloController.log_out_token);
                     set_online.addParam("online", "false");
                     set_online.addParam("username", HelloController.log_out_username);
                     set_online.execute();
-                    System.exit(0);
-                    Platform.exit();
                 } catch (IOException e) {
-                    System.exit(0);
                     e.printStackTrace();
                 }
-            }else{
-                System.exit(0);
             }
+
+            System.exit(0);
+            Platform.exit();
         });
+
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("log_in.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("MuSick");
         stage.setMaximized(true);
-        stage.setMinWidth(900);
+        stage.setMinWidth(1200);
         stage.setMinHeight(850);
         stage.setScene(scene);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
