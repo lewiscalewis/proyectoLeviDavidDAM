@@ -151,8 +151,8 @@ public class HomepageController {
                 "-fx-font-weight: bold; " +
                 "-fx-text-fill: black;" +
                 "-fx-fill: black;" +
-                "-fx-font-size: 40; " +
-                "-fx-font-family: Sylfaen");
+                "-fx-font-size: 25; " +
+                "-fx-font-family: Bahnschrift");
 
         //labelSongName.setMinWidth(100);
         //Hyperlink del autor
@@ -168,7 +168,7 @@ public class HomepageController {
 
         hyperlinkAuthor.setText(author);
         labelSongName.setText(songName);
-        labelDescription.setText(item.description == null ? "Canción subida por "+item.getUsername() : "Descripción: "+item.description);
+        labelDescription.setText("Autor: " + item.description);
         labelDescription.setStyle(
                 "-fx-text-fill: black; -fx-fill: black; -fx-font-family: Bahnschrift; -fx-font-weight: bold; -fx-font-size: 16");
         //hyperlinkAuthor.setMaxWidth(Double.MAX_VALUE);
@@ -237,6 +237,9 @@ public class HomepageController {
 
                 //Hyperlink del autor
                 hyperlinkUsernamePlayer.setText(item.getUsername());
+                hyperlinkUsernamePlayer.setOnAction(event1 -> {
+                    loadProfile(item.getUsername());
+                });
 
                 vBoxPlayer.getChildren().clear();
                 vBoxPlayer.getChildren().addAll(player.getControl());
