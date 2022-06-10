@@ -67,12 +67,12 @@
                                     <Font size="18.0" />
                                  </font>
                               </TextField>
-                              <TextArea fx:id="textareaDescription" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <TextArea fx:id="textareaDescription" prefHeight="10.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets bottom="10.0" top="30.0" />
                                  </GridPane.margin>
                               </TextArea>
-                              <Label text="Descripción:" textFill="WHITE" GridPane.rowIndex="1">
+                              <Label text="Autor:" textFill="WHITE" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
