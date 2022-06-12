@@ -136,9 +136,9 @@
                      <Insets bottom="25.0" />
                   </padding>
                   <children>
-                     <HBox fx:id="aboutButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox fx:id="aboutButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings4" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Acerca de" textFill="WHITE">
+                           <Label fx:id="tileSettings4" text="Acerca de" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>
@@ -148,9 +148,9 @@
                            </Label>
                         </children>
                      </HBox>
-                     <HBox fx:id="uploadButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox fx:id="uploadButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Subir" textFill="WHITE">
+                           <Label fx:id="tileSettings" text="Subir" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>
@@ -160,9 +160,9 @@
                            </Label>
                         </children>
                      </HBox>
-                     <HBox fx:id="profileButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox fx:id="profileButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings1" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Perfil" textFill="WHITE">
+                           <Label fx:id="tileSettings1" text="Perfil" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>
@@ -172,9 +172,9 @@
                            </Label>
                         </children>
                      </HBox>
-                     <HBox fx:id="settingsButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox fx:id="settingsButton" alignment="CENTER_LEFT" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings2" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Ajustes" textFill="WHITE">
+                           <Label fx:id="tileSettings2" text="Ajustes" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>
@@ -184,9 +184,9 @@
                            </Label>
                         </children>
                      </HBox>
-                     <HBox alignment="CENTER_LEFT" onMouseClicked="#logout" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" prefHeight="100.0" prefWidth="200.0">
+                     <HBox alignment="CENTER_LEFT" onMouseClicked="#logout" onMouseEntered="#onSlideHoverEnter" onMouseExited="#onSlideHoverExited" prefHeight="100.0" prefWidth="200.0">
                         <children>
-                           <Label fx:id="tileSettings3" onMousePressed="#onSliderPressed" onMouseReleased="#onSliderReleased" text="Cerrar sesión" textFill="WHITE">
+                           <Label fx:id="tileSettings3" text="Cerrar sesión" textFill="WHITE">
                               <font>
                                  <Font size="36.0" />
                               </font>

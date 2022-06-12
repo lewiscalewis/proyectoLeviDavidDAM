@@ -10,6 +10,7 @@ import org.iesmurgi.proyectolevidaviddam.Controllers.HelloController;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
+import javax.swing.text.PlainDocument;
 import java.io.File;
 import java.io.IOException;
 
@@ -32,18 +33,22 @@ public class HelloApplication extends Application {
         
         //Para gestionar el estado "en línea de un usuario"
         stage.setOnCloseRequest(event -> {
-            Requester<String> set_online = null;
             if(session_started){
-                try {
-                    System.out.println("Cerrando sesión ...");
-                    set_online = new Requester<>("http://tux.iesmurgi.org:11230/set-online", Requester.Method.POST, String.class);
-                    set_online.addParam("token", HelloController.log_out_token);
-                    set_online.addParam("online", "false");
-                    set_online.addParam("username", HelloController.log_out_username);
-                    set_online.execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Platform.runLater(()->{
+                    try {
+                        Requester<String> set_online = null;
+                        System.out.println("Cerrando sesión ...");
+                        set_online = new Requester<>("http://tux.iesmurgi.org:11230/set-online", Requester.Method.POST, String.class);
+                        set_online.addParam("token", HelloController.log_out_token);
+                        set_online.addParam("online", "false");
+                        set_online.addParam("username", HelloController.log_out_username);
+                        set_online.execute();
+                    }catch (IOException e) {
+                        System.exit(0);
+                        Platform.exit();
+                        e.printStackTrace();
+                    }
+                });
             }
 
             System.exit(0);

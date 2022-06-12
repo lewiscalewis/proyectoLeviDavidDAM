@@ -440,7 +440,6 @@ public class HelloController {
                     vboxPlayer.setAlignment(Pos.CENTER);
 
                     HomepageController homepageController= rootFxmlLoader.getController();
-                    homepageController.testHomepageController();
                     homepageController.setVboxPlayer(vboxPlayer);
                     homepageController.setItemsFromFXML(labelSongNamePlayer, hyperlinkUsernamePlayer, imageviewPlayer);
 
