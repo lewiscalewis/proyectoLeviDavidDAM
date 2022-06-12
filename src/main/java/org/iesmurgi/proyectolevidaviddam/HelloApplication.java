@@ -14,9 +14,16 @@ import javax.swing.text.PlainDocument;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Punto de entrada para nuestra aplicación. TrickLauncher contiene el método main que llama al método main de esta clase.
+ * Es para que javaFX no detecte que se está llamando a launch en el main y nos deje compilar el programa.
+ *
+ * @version 1.0
+ * @author David Pérez Contreras
+ * @author Leví Vicente Navarro
+ *
+ */
 
-//Punto de entrada para nuestra aplicación. TrickLauncher contiene el método main que llama al método main de esta clase.
-//Es para que javaFX no detecte que se está llamando a launch en el main y nos deje compilar el programa.
 public class HelloApplication extends Application {
     public static Stage mainStage;
     public static boolean session_started = false;
