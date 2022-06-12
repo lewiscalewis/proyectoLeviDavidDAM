@@ -35,6 +35,10 @@ public class MusickPlayer {
 
     }
 
+    /**
+     * Devuelve un Nodo con el reproductor ya establecido
+     * @return
+     */
     public Node getControl(){
         MediaControl mediaControl = new MediaControl(this.player);
         mediaControl.setStyle("-fx-background-color:  #1b1b1b; -fx-max-width: 600; -fx-min-width: 400; -fx-min-height: 80");
@@ -43,6 +47,10 @@ public class MusickPlayer {
         return mediaControl;
     }
 
+    /**
+     * Inicializa el palyer
+     * @param url String: url de la canción
+     */
     public void setPlayer(String url){
         this.url = url;
         this.media = new Media(url);
@@ -51,6 +59,9 @@ public class MusickPlayer {
         player.stop();
     }
 
+    /**
+     * Pausa el reproductor
+     */
     public void stop_music(){
         player.stop();
     }

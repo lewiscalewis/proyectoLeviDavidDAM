@@ -27,6 +27,11 @@ public class MediaControl extends BorderPane {
     private Slider volumeSlider;
     private HBox mediaBar;
 
+    /**
+     * Constructor del player, establece todos los eventos del reproductor de música, como por ejemplo que comportamientos
+     * tener en cuenta en caso de pausa, de subir volumen...
+     * @param mp MediaPlayer
+     */
     public MediaControl(final MediaPlayer mp) {
         this.mp = mp;
         mediaView = new MediaView(mp);
@@ -159,6 +164,9 @@ public class MediaControl extends BorderPane {
 
     }
 
+    /**
+     * Actualiza los valores de tiempo del reproductor
+     */
     protected void updateValues() {
         if (playTime != null && timeSlider != null && volumeSlider != null) {
             Platform.runLater(new Runnable() {
@@ -181,6 +189,13 @@ public class MediaControl extends BorderPane {
         }
     }
 
+
+    /**
+     * Método para establecer el formato de tiempo
+     * @param elapsed
+     * @param duration
+     * @return
+     */
     private static String formatTime(Duration elapsed, Duration duration) {
         int intElapsed = (int)Math.floor(elapsed.toSeconds());
         int elapsedHours = intElapsed / (60 * 60);

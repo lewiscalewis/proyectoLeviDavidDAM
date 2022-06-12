@@ -16,6 +16,14 @@ import java.awt.*;
 
 public final class Toast
 {
+    /**
+     * Crea un toast similar al de android
+     * @param ownerStage Stage
+     * @param toastMsg String: Mensaje
+     * @param toastDelay Int
+     * @param fadeInDelay Int
+     * @param fadeOutDelay Int
+     */
     public static void makeText(Stage ownerStage, String toastMsg, int toastDelay, int fadeInDelay, int fadeOutDelay)
     {
 

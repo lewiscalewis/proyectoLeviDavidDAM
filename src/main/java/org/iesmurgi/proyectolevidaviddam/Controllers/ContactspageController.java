@@ -59,6 +59,11 @@ public class ContactspageController {
     public ContactspageController() throws IOException {
     }
 
+    /**
+     * Método que inicializa la vista y carga los usuarios
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @FXML
     void initialize() throws IOException, InterruptedException {
         ((AnchorPane)baseRoot.getParent()).setLeftAnchor(baseRoot,0.0);
@@ -81,6 +86,10 @@ public class ContactspageController {
 
     }
 
+    /**
+     * Método encargado de recibir e imprimir en pantalla todas las peticiones que tenga el usuario.
+     * @throws IOException
+     */
     void loadPetitions() throws IOException {
         Platform.runLater(()->{
             try {
@@ -152,6 +161,11 @@ public class ContactspageController {
         });
     }
 
+    /**
+     * Método llamado al rechazar una petición de amistad
+     * @param u
+     * @param petitions_container
+     */
     private void decline_action_event(FriendRequest u, VBox petitions_container) {
         try {
             String decline_url = CONSTANT.URL.getUrl()+"/decline-request";
@@ -167,6 +181,9 @@ public class ContactspageController {
         }
     }
 
+    /**
+     * Método que recarga la vista
+     */
     void reload(){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("contactspage.fxml"));
         baseRoot.getChildren().clear();
@@ -180,6 +197,10 @@ public class ContactspageController {
         }
     }
 
+    /**
+     * Método llamado al pulsar en el botón de añadir amigos.
+     * @param event
+     */
     @FXML
     void addFriend(MouseEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-friend-view.fxml"));
@@ -197,6 +218,10 @@ public class ContactspageController {
 
     }
 
+    /**
+     * Filtra los usuarios. Es llamado desde un Key event listener
+     * @param event
+     */
     @FXML
     synchronized void filterByName(KeyEvent event) {
         Platform.runLater(()->{
@@ -209,6 +234,10 @@ public class ContactspageController {
         });
     }
 
+    /**
+     * Evento que busca el usuario según lo que haya escrito en el campo de texto de busqueda
+     * @param event
+     */
     @FXML
     synchronized void search(ActionEvent event) {
         Platform.runLater(()->{
@@ -221,6 +250,11 @@ public class ContactspageController {
         });
     }
 
+    /**
+     * Es el método que se encarga de cargar los usuarios enviando una petición desde al back-end
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private synchronized void loadUsersBySearch() throws IOException, InterruptedException {
         container.getChildren().clear();
         if(!textfieldBrowser.getText().equals("")){
@@ -239,6 +273,11 @@ public class ContactspageController {
         }
     }
 
+    /**
+     * Método que itera los usuarios y genera un contenedor en la vista para cada uno
+     * @param users
+     * @throws IOException
+     */
     private void iterateUsers(User[] users) throws IOException {
         Platform.runLater(()->{
             container.getChildren().clear();
@@ -319,6 +358,11 @@ public class ContactspageController {
         });
     }
 
+    /**
+     * Método que carga los usuarios
+     * @throws IOException
+     * @throws InterruptedException
+     */
     void loadUsers() throws IOException, InterruptedException {
         GeneralDecoder d = new GeneralDecoder();
         String me = d.getUserFromToken();
@@ -337,6 +381,11 @@ public class ContactspageController {
 
     }
 
+    /**
+     * Método encargado de abrir el chat de cada contacto
+     * @param container
+     * @param contact
+     */
     void openChat(VBox container, User contact){
         container.setOnMouseClicked((event)->{
                 TranslateTransition slide = new TranslateTransition();

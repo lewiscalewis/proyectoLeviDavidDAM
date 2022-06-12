@@ -24,6 +24,13 @@ public class Auth {
     Scene scene;
     GeneralDecoder md5 = new GeneralDecoder();
 
+    /**
+     * Método encargado de autorizar el login del usuario
+     * @param username usuario a loguear
+     * @param password contraseña del usuario
+     * @param button Node para cargar datos del padre
+     * @throws IOException
+     */
     public void logIn(String username, String password, Button button) throws IOException {
         String response = "";
 
@@ -58,8 +65,6 @@ public class Auth {
                     userRequestLogin(username, tkm, helloView, helloController, scene, stage);
                     //Loads Home page
 
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -69,6 +74,16 @@ public class Auth {
         }
     }
 
+    /**
+     * Método llamado si las validaciones del usuario son correctas, en cuyo caso se inicia sesión
+     * @param username
+     * @param tkm
+     * @param helloView
+     * @param helloController
+     * @param scene
+     * @param stage
+     * @throws IOException
+     */
     public static void userRequestLogin(String username, TokenManager tkm, Parent helloView, HelloController helloController, Scene scene, Stage stage) throws IOException {
         Requester<User[]> userRequester;
         userRequester = new Requester<>("http://tux.iesmurgi.org:11230/user", Requester.Method.POST, User[].class);

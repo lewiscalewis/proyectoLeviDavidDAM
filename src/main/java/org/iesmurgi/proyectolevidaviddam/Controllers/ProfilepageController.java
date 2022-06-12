@@ -73,6 +73,11 @@ public class ProfilepageController {
     private VBox backgroundPad;
 
 
+    /**
+     * Método que carga e inicializa la vista de perfil
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public void initialize() throws IOException, URISyntaxException {
         backgroundPad.setStyle("-fx-background-color: linear-gradient(to bottom, #ff7f50, #6a5acd);");
 
@@ -101,6 +106,11 @@ public class ProfilepageController {
 
     }
 
+    /**
+     * Carga los datos del usuario desde una petición al back-end
+     * @param username usuario del que carga los datos
+     * @throws IOException
+     */
     public void loadUserData(String username) throws IOException {
         imageviewProfileImage.setImage(new Image(requestProfileImage(username)));
         imageviewProfileImage.setPreserveRatio(false);
@@ -214,157 +224,19 @@ public class ProfilepageController {
 
     }
 
-    public void setWebViewPlayer(WebView webviewPlayer, WebEngine webEngine, VBox vboxPlayer1, Label labelSongNamePlayer2, ImageView imageViewPlayer2, Hyperlink hyperlinkUsernamePlayer2){///////////////////////////////////////////
-        labelSongNamePlayer=labelSongNamePlayer2;
-        hyperlinkUsernamePlayer=hyperlinkUsernamePlayer2;
-        imageviewPlayer=imageViewPlayer2;
-        ProfilepageController.webviewPlayer =webviewPlayer;
-        ProfilepageController.webEngine =webEngine;
-
-        vboxPlayer=vboxPlayer1;
-    }
-
-
-    public static void play(String itemid){
-        webEngine.load(null);   //STOP MUSIC BEFORE STARTING AGAIN
-        webEngine.load(CONSTANT.URL.getUrl()+"/download-item/"+itemid);
-        vboxPlayer.getChildren().clear();
-        vboxPlayer.getChildren().add(webviewPlayer);
-    }
-
     public boolean first=true;
-    public void initializePlayer(VBox vboxPlayer, WebView webView){
 
-        if(first) {
-            vboxPlayer.getChildren().clear();
-            first=false;
-        }
-
-        vboxPlayer.setMaxHeight(100);
-        vboxPlayer.setMinHeight(100);
-        //vboxPlayer.setStyle("-fx-background-color:black;");
-
-        //vboxPlayer.setTranslateZ(-1);
-        vboxPlayer.setAlignment(Pos.TOP_RIGHT);
-        webviewPlayer.setTranslateX(-100);
-        //webviewPlayer.setMaxWidth(1000);
-        webviewPlayer.setMaxHeight(100);
-        webviewPlayer.setMinHeight(100);
-        webviewPlayer.setMinWidth(340);
-        webviewPlayer.setMaxWidth(340);
-        webviewPlayer.setTranslateY(46);
-        webviewPlayer.setScaleX(2);
-        webviewPlayer.setScaleY(2);
-        webviewPlayer.setTranslateX(-40);
-
-
-    }
     static Label labelSongNamePlayer;
     static Hyperlink hyperlinkUsernamePlayer;
     static ImageView imageviewPlayer;
-    public void testHomepageController(){
-        System.out.println("TEST OK....");
-    }
-
-    //Devuelve el nodo de la interfaz de una interfaz nosotros le pasamos un objeto cancion de la base de datos.
-    /*Node getSong(Item item) throws IOException, URISyntaxException {
-
-        String songName = item.getName();
-        String author = item.getUsername();
-        Image portada = new Image(new URL("https://images.ecestaticos.com/9Sfa715zzc8Efc_taTLIbLkKeJ4=/0x0:2272x1501/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F38a%2F667%2Fee7%2F38a667ee7dbc85c2f8935eeff36be807.jpg").toURI().toURL().toExternalForm());;
 
 
-        HBox hbox = new HBox();
-
-        hbox.setAlignment(Pos.CENTER);
-        //hbox.setStyle("-fx-background-color: #e45926;");
-
-        VBox song = new VBox();
-        song.setAlignment(Pos.TOP_LEFT);
-        song.setPrefWidth(600);
-        song.setMaxWidth(600);
-        song.setMinWidth(600);
-
-
-        //Label del título
-        Label labelSongName = new Label();
-        labelSongName.setMaxWidth(500);
-        labelSongName.setStyle( "-fx-font-weight: bold; " +
-                "-fx-text-fill: black;" +
-                "-fx-fill: black;" +
-                "-fx-font-size: 16; -fx-background-color: #ffffff;");
-
-        labelSongName.setMinWidth(100);
-        //Hyperlink del autor
-        Hyperlink hyperlinkAuthor = new Hyperlink();
-        Label labelDescription = new Label();
-
-        hyperlinkAuthor.setText(author);
-        labelSongName.setText(songName);
-        labelDescription.setText(item.description);
-        labelDescription.setText("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-        labelDescription.setStyle(
-                "-fx-text-fill: black; -fx-fill: black;");
-        //hyperlinkAuthor.setMaxWidth(Double.MAX_VALUE);
-
-        hyperlinkAuthor.setAlignment(Pos.TOP_LEFT);
-
-
-        //Imagen
-        ImageView imageView = new ImageView();
-        imageView.setFitHeight(100);
-        imageView.setFitWidth(100);
-
-        imageView.setImage(portada);
-
-
-        Button buttonPlay;
-        buttonPlay = new Button();
-        buttonPlay.setFont(new Font(100));
-        buttonPlay.setText("▶");
-
-
-        System.out.println(item.getId());
-
-        buttonPlay.setOnAction((event)->{
-            play(String.valueOf(item.getId()));
-            labelSongNamePlayer.setText(item.getName());
-
-            //Hyperlink del autor
-            Hyperlink hyperlinkAuthorPlayer = new Hyperlink();
-            hyperlinkUsernamePlayer.setText(item.getUsername());
-
-            try {
-                imageviewPlayer.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
-                //Aqui no hay que cargar la imagen de usuario sino el COVER!!!!!!!
-                //HAY QUE CREAR UN REQUESTCOVER(itemid)
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            labelSongName.setText(songName);
-        });
-
-        Label labelCopyright = new Label();
-        labelCopyright.setText("Free use.");
-        labelCopyright.setStyle(
-                "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #44bb44;");
-
-        if(item.copyright==1){
-            System.out.println("Tiene copyright");
-            labelCopyright.setText("® All rights reserved.");
-            labelCopyright.setStyle(
-                    "-fx-text-fill: black; -fx-fill: black; -fx-background-color: #bb4444;");
-        }
-
-        labelDescription.setPadding(new Insets(20,0,0,0));
-        song.getChildren().addAll(labelSongName,hyperlinkAuthor,labelDescription,labelCopyright,imageView);
-        hbox.getChildren().addAll(song,buttonPlay,imageView);
-
-
-        return hbox;
-    }
-*/
-
+    /**
+     * Método que carga la foto de perfil de usuario
+     * @param username usuario del que se cargará la imagen
+     * @return
+     * @throws IOException
+     */
     InputStream requestProfileImage(String username) throws IOException {
         String URL= "http://tux.iesmurgi.org:11230/download-image";
         java.net.URL server = new URL(URL);
@@ -407,7 +279,10 @@ public class ProfilepageController {
     }
 
 
-
+    /**
+     * Carga los items del usuario
+     * @param items array de items
+     */
     private  void loadItems(Item[] items){
         container.getChildren().clear();
         Platform.setImplicitExit(true);
@@ -466,15 +341,13 @@ public class ProfilepageController {
         });
     }
 
-    public void setVboxPlayer(VBox vbox){
-        ProfilepageController.vBoxPlayer = vbox;
-    }
-
-    public void setItemsFromFXML(Label label, Hyperlink hyperlink, ImageView img){
-        labelSongNamePlayer = label;
-        hyperlinkUsernamePlayer = hyperlink;
-        imageviewPlayer = img;
-    }
+    /**
+     * Obtiene las canciones
+     * @param item el item que corresponde a la canción que se descargará
+     * @return InputStream
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     Node getSong(Item item) throws IOException, URISyntaxException {
         String songName = item.getName();
         String author = item.getUsername();
@@ -733,6 +606,10 @@ public class ProfilepageController {
     }
 
 
+    /**
+     * Carga el homepage
+     * @throws IOException
+     */
     public void loadHomePage() throws IOException {
 
         TranslateTransition slide = new TranslateTransition();
@@ -769,7 +646,6 @@ public class ProfilepageController {
                     vboxPlayer.setAlignment(Pos.CENTER);
 
                     HomepageController homepageController= rootFxmlLoader.getController();
-                    homepageController.testHomepageController();
                     homepageController.setVboxPlayer(vboxPlayer);
                     homepageController.setItemsFromFXML(labelSongNamePlayer, hyperlinkUsernamePlayer, imageviewPlayer);
 
@@ -790,57 +666,11 @@ public class ProfilepageController {
         }));
 
     }
-    private void loadProfile(){
 
-        TranslateTransition slide = new TranslateTransition();
-        slide.setDuration(Duration.seconds(0.4));
-        slide.setNode(baseRoot);
-        //((HBox) event.getTarget()).setTranslateY(-6);
-
-
-        slide.setToX(6000);
-        slide.play();
-        slide.setOnFinished((event -> {
-
-            baseRoot.setTranslateX(-6000);
-            TranslateTransition slide2 = new TranslateTransition();
-            slide2.setDuration(Duration.seconds(0.4));
-            slide2.setNode(baseRoot);
-            //((HBox) event.getTarget()).setTranslateY(-6);
-
-
-            slide2.setToX(0);
-
-            try {
-                baseRoot.setAlignment(Pos.TOP_LEFT);
-                baseRoot.getChildren().clear();
-                FXMLLoader rootFxmlLoader=new FXMLLoader(
-                        HelloApplication.class.getResource(
-                                "profilepage.fxml"
-                        )
-                );
-                Pane root = rootFxmlLoader.load();
-
-                baseRoot.getChildren().add(root);
-
-                //ProfilepageController profilepageController =rootFxmlLoader.getController();
-                //profilepageController.loadUserData();
-                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                //((Stage)root.getScene().getWindow()).setMinHeight(850);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            slide2.play();
-            slide2.setOnFinished((event2)->{
-
-            });
-
-        }));
-    }
-
-
+    /**
+     * Carga el perfil de usuario
+     * @param username usuario del que se cargará el perfil
+     */
     private void loadProfile(String username){
 
         TranslateTransition slide = new TranslateTransition();
@@ -894,7 +724,6 @@ public class ProfilepageController {
 
     @Deprecated
     public void deleteUserForever() throws MalformedURLException {
-
 
     }
 }

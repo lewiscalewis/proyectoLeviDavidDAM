@@ -26,34 +26,66 @@ public class Message  {
         this.date = date;
     }
 
+    /**
+     * Establece el emisor
+     * @param username
+     */
     public void setEmisor(String username) {
         this.emisor = username;
     }
 
+    /**
+     * Establece el receptor
+     * @param receptor
+     */
     public void setReceptor(String receptor) {
         this.receptor = receptor;
     }
 
+    /**
+     * Obtiene el receptor
+     * @return
+     */
     public String getReceptor() {
         return receptor;
     }
 
+    /**
+     * Obtiene el emisor
+     * @return
+     */
     public String getEmisor() {
         return emisor;
     }
 
+    /**
+     * Obtiene el mensaje
+     * @return
+     */
     public String getMessage() {
         return body;
     }
 
+    /**
+     * Establece el mensaje
+     * @param message
+     */
     public void setMessage(String message) {
         this.body = message;
     }
 
+    /**
+     * Obtiene la fecha del mensaje
+     * @return
+     */
     public String getDatetime() {
         return date;
     }
 
+    /**
+     * Establece la fecha del mensaje
+     * @param datetime
+     */
     public void setDatetime(Date datetime) {
         this.datetime = datetime;
     }

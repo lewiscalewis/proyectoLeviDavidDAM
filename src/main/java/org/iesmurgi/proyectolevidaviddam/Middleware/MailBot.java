@@ -18,6 +18,10 @@ public class MailBot {
     final String username = "javafxuserDAM@gmail.com";
     final String password = "mocednmnpuxlqlyr";
 
+    /**
+     * Método que envía un mail al usuario
+     * @param mail String: mensaje a enviar
+     */
     public void sendMail(String mail){
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");

@@ -17,6 +17,12 @@ public class GeneralDecoder {
 
     }
 
+    /**
+     * Cifra el contenido a md5
+     * @param plainText String a cifrar
+     * @return String codificado
+     * @throws NoSuchAlgorithmException
+     */
     public String encodeMD5(String plainText) throws NoSuchAlgorithmException {
 
         MessageDigest m = MessageDigest.getInstance("MD5");
@@ -33,6 +39,10 @@ public class GeneralDecoder {
         return hashtext;
     }
 
+    /**
+     * Decodifica el token
+     * @return
+     */
     public String decodeToken() {
         String[] chunks = token.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
@@ -43,6 +53,10 @@ public class GeneralDecoder {
         return payload;
     }
 
+    /**
+     * Obtiene el usuario del token
+     * @return
+     */
     public String getUserFromToken(){
         String[] chunks = token.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
@@ -55,15 +69,4 @@ public class GeneralDecoder {
 
         return user.getUsername();
     }
-
-/*
-    public String decodeMD5(String hashText) throws NoSuchAlgorithmException {
-        String plainText;
-
-
-        return plainText;
-    }
-*/
-
-
 }

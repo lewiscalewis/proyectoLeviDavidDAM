@@ -17,22 +17,42 @@ public class FriendRequest {
         this.state = state;
     }
 
+    /**
+     * Obtiene el id
+     * @return int
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Obtiene el emisor
+     * @return String
+     */
     public String getEmisor() {
         return emisor;
     }
 
+    /**
+     * Obtine el receptor
+     * @return String
+     */
     public String getReceptor() {
         return receptor;
     }
 
+    /**
+     * Obtiene el estado de la petición
+     * @return String
+     */
     public String getState() {
         return state;
     }
 
+    /**
+     * Establece el estado de la petición
+     * @param state String: nuevo estado
+     */
     public void setState(String state) {
         this.state = state;
     }

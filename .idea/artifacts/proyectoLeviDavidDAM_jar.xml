@@ -29,6 +29,12 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-media/17.0.1/javafx-media-17.0.1-win.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/dlsc/formsfx/formsfx-core/11.3.2/formsfx-core-11.3.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/17.0.1/javafx-fxml-17.0.1.jar" path-in-jar="/" />
+      <option name="icons">
+        <JavaFxApplicationIcons>
+          <option name="linuxIcon" value="$PROJECT_DIR$/src/main/resources/org/iesmurgi/proyectolevidaviddam/images/musick_ico.ico" />
+          <option name="windowsIcon" value="$PROJECT_DIR$/src/main/resources/org/iesmurgi/proyectolevidaviddam/images/musick_ico.ico" />
+        </JavaFxApplicationIcons>
+      </option>
     </root>
   </artifact>
 </component>

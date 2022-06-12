@@ -76,6 +76,11 @@ public class HomepageController {
     public static MusickPlayer player = new MusickPlayer();
 
 
+    /**
+     * Inicializa la vista cargando todos los items
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public void initialize() throws IOException, URISyntaxException {
         String url = CONSTANT.URL.getUrl()+"/all-items";
         Requester<Item[]> req = new Requester<>(url, Requester.Method.POST, Item[].class);
@@ -110,20 +115,33 @@ public class HomepageController {
 
     }
 
+    /**
+     * Establece el vbox del player desde el padre (Hello_view)
+     * @param vbox
+     */
     public void setVboxPlayer(VBox vbox){
         vBoxPlayer = vbox;
     }
 
+    /**
+     * Establece los items de la barra del player cargando los datos desde el padre (Hello_view)
+     * @param label
+     * @param hyperlink
+     * @param img
+     */
     public void setItemsFromFXML(Label label, Hyperlink hyperlink, ImageView img){
         labelSongNamePlayer = label;
         hyperlinkUsernamePlayer = hyperlink;
         imageviewPlayer = img;
     }
 
-    public void testHomepageController(){
-        System.out.println("TEST OK....");
-    }
-
+    /**
+     *
+     * @param item el item del que cargar la canción
+     * @return
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     //Devuelve el nodo de la interfaz de una interfaz nosotros le pasamos un objeto cancion de la base de datos.
     Node getSong(Item item) throws IOException, URISyntaxException {
         String songName = item.getName();
@@ -382,6 +400,12 @@ public class HomepageController {
         return hbox;
     }
 
+    /**
+     * Descarga la canción.
+     * @param id
+     * @return devuelve la canción en InputStream
+     * @throws IOException
+     */
     static InputStream downloadAndStore(int id) throws IOException {
 
         String URL= "http://tux.iesmurgi.org:11230/download-item/"+id;
@@ -401,6 +425,10 @@ public class HomepageController {
     }
 
 
+    /**
+     * Carga el homepage
+     * @throws IOException
+     */
     public void loadHomePage() throws IOException {
 
         TranslateTransition slide = new TranslateTransition();
@@ -437,7 +465,6 @@ public class HomepageController {
                     vboxPlayer.setAlignment(Pos.CENTER);
 
                     HomepageController homepageController= rootFxmlLoader.getController();
-                    homepageController.testHomepageController();
                     homepageController.setVboxPlayer(vboxPlayer);
                     homepageController.setItemsFromFXML(labelSongNamePlayer, hyperlinkUsernamePlayer, imageviewPlayer);
 
@@ -458,50 +485,13 @@ public class HomepageController {
         }));
 
     }
+
     boolean first=true;
 
-
-    static InputStream requestProfileImage(String username) throws IOException {
-        String URL= "http://tux.iesmurgi.org:11230/download-image";
-        java.net.URL server = new java.net.URL(URL);
-        // Open a connection(?) on the URL(??) and cast the response(???)
-        HttpURLConnection connection = (HttpURLConnection) server.openConnection();
-
-
-
-
-        // Now it's "open", we can set the request method, headers etc.
-        connection.setRequestProperty("accept", "application/x-www-form-urlencoded");
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-
-        Map<String,String> params= new HashMap<>();
-        params.put("username", username);                  //La petición no llega al servidor cuando le pongo parámetros
-        params.put("token", new TokenManager().getToken());
-        //ADD PARAMETERS
-        int i = 0;
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            //System.out.println(entry.getKey() + "/" + entry.getValue());
-
-            String urlParameters  = (i > 0 ? "&" : "") + entry.getKey()+"="+entry.getValue();
-            byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
-            int    postDataLength = postData.length;
-            System.out.println("Escribiendo parámetros: key -> "+entry.getKey()+"|| value -> "+entry.getValue());
-            connection.getOutputStream().write(postData, 0, postDataLength);
-            i++;
-        }
-
-
-
-
-
-        InputStream responseStream= connection.getInputStream();
-
-        return responseStream;
-
-
-    }
-
+    /**
+     * Método que carga los items en pantalla
+     * @param items
+     */
     private  void loadItems(Item[] items){
         container.getChildren().clear();
         Platform.setImplicitExit(true);
@@ -562,6 +552,12 @@ public class HomepageController {
     }
 
 
+    /**
+     * Método que busca un item
+     * @param actionEvent
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     @FXML
     public synchronized void search(ActionEvent actionEvent) throws IOException, URISyntaxException {
         container.getChildren().clear();
@@ -603,6 +599,12 @@ public class HomepageController {
         });
     }
 
+    /**
+     * Método llamado desde un key event listener y filtra los items.
+     * @param event
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     @FXML
     public synchronized void filterByName(Event event) throws IOException, URISyntaxException {
         container.getChildren().clear();
@@ -619,6 +621,10 @@ public class HomepageController {
     }
 
 
+    /**
+     * Carga el perfil de usaurio
+     * @param username usuario del que se cargará su perfil
+     */
     private synchronized void loadProfile(String username){
 
         TranslateTransition slide = new TranslateTransition();

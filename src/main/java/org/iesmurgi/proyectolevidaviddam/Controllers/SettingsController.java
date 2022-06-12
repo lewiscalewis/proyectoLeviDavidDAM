@@ -3,22 +3,15 @@ package org.iesmurgi.proyectolevidaviddam.Controllers;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
-import org.iesmurgi.proyectolevidaviddam.HelloApplication;
 import org.iesmurgi.proyectolevidaviddam.Middleware.FileGetter;
 import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
@@ -53,6 +46,10 @@ public class SettingsController {
     private TextField state;
 
 
+    /**
+     * Carga e inicializa la vista de ajustes
+     * @throws IOException
+     */
     @FXML
     void initialize() throws IOException {
         Platform.runLater(()->{
@@ -75,6 +72,12 @@ public class SettingsController {
         });
     }
 
+    /**
+     * Envia los datos que el usuario haya escrito en el formulario
+     * @param event
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     */
     @FXML
     void sendData(ActionEvent event) throws IOException, NoSuchAlgorithmException {
         if(!changepdw.getText().equals("") && !rechangepwd.getText().equals("") && changepdw.getText().equals(rechangepwd.getText())){
@@ -100,6 +103,11 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Método que cambia la foto de perfil del usuario
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void changeProfileImage(MouseEvent event) throws IOException {
 
@@ -182,6 +190,11 @@ public class SettingsController {
     }
 
     HelloController helloController;
+
+    /**
+     * Carga los datos de la vista padre hello-view
+     * @param helloController
+     */
     public void loadImageView(HelloController helloController) {
         this.helloController = helloController;
     }

@@ -15,6 +15,10 @@ public class RecoveryController {
     @FXML
     private Button sendDataButton;
 
+    /**
+     * Método que llama a la clase de MiddleWare MailBot para enviar el correo de recuperación
+     * @param event
+     */
     @FXML
     void sendData(ActionEvent event) {
         MailBot mailBot = new MailBot();

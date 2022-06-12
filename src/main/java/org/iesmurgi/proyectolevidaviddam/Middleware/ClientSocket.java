@@ -39,18 +39,35 @@ public class ClientSocket {
 
     }
 
+    /**
+     * Constructor de la clase ClientSocket
+     * @param controller ChatController
+     */
     public ClientSocket(ChatController controller){
         this.controller = controller;
     }
 
+    /**
+     * Carga los datos del receptor del mensaje
+     * @param receptor
+     */
     public void load_receptor_data(User receptor){
         this.receptor = receptor;
     }
 
+    /**
+     * Establece la sala de chat
+     * @param room
+     */
     public void setRoom(String room) {
         this.room = room;
     }
 
+    /**
+     * Inicia el chat y escucha las peticiones que le lleguen (los mensajes recibidos)
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public void init() throws IOException, URISyntaxException {
 
         TokenManager tk = new TokenManager();
@@ -81,14 +98,27 @@ public class ClientSocket {
 
     }
 
+    /**
+     * Establece los mensajes
+     * @param message1
+     */
     private void setMessages(Message message1){
         messages.add(message1);
     }
 
+    /**
+     * Devuelve la lista de mensajes
+     * @return
+     */
     public ArrayList<Message> getMessagesAsArray(){
         return messages;
     }
 
+    /**
+     * Envía al back-end el mensaje
+     * @param message
+     * @throws IOException
+     */
     public void sendMessage(Message message) throws IOException {
         IO.Options options = IO.Options.builder()
                 //.setPath("/chat message")

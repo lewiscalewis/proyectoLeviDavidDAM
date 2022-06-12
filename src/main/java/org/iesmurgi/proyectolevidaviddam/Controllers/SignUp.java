@@ -4,33 +4,27 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.iesmurgi.proyectolevidaviddam.Enviroment.CONSTANT;
 import org.iesmurgi.proyectolevidaviddam.HelloApplication;
-import org.iesmurgi.proyectolevidaviddam.Middleware.*;
-import org.iesmurgi.proyectolevidaviddam.models.User;
+import org.iesmurgi.proyectolevidaviddam.Middleware.Auth;
+import org.iesmurgi.proyectolevidaviddam.Middleware.GeneralDecoder;
+import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.awt.*;
-import java.io.*;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class SignUp {
     @FXML
@@ -81,31 +75,21 @@ public class SignUp {
     @FXML
     private VBox vBoxSignUp;
 
-    boolean mail = false;
-    boolean username = false;
-
-    Stage stage;
-    Scene scene;
     @FXML
     private Hyperlink hyperlinkLicencia;
     @FXML
     private Hyperlink hyperlinkPrivacidad;
 
 
+    /**
+     * Inicializa la vista de registro de usuario
+     */
     public void initialize(){
-//        lblNombre.getStyleClass().setAll("lbl","lbl-primary");
-//        lblApellidos.getStyleClass().setAll("lbl", "lbl-primary");
-//        lblCorreo.getStyleClass().setAll("lbl", "lbl-primary");
-//        lblContraseña.getStyleClass().setAll("lbl", "lbl-primary");
-//        lblRepetirContraseña.getStyleClass().setAll("lbl", "lbl-primary");
-        //btnRegistrarse.getStyleClass().setAll("btn", "btn-success");
 
         hyperlinkLicencia.setOnAction((event -> {
             try {
                 Desktop.getDesktop().browse(new URL("https://www.gnu.org/licenses/gpl-3.0.en.html").toURI());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (URISyntaxException e) {
+            } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
             }
         }));
@@ -113,9 +97,7 @@ public class SignUp {
         hyperlinkPrivacidad.setOnAction((event -> {
             try {
                 Desktop.getDesktop().browse(new URL("https://www.privacypolicies.com/live/d5656c62-1743-44ef-93fa-0d0e6cb9c1ce").toURI());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (URISyntaxException e) {
+            } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
             }
         }));
@@ -124,6 +106,10 @@ public class SignUp {
 
     }
 
+    /**
+     * Abre la vista de log_in
+     * @param event
+     */
     @FXML
     void login(MouseEvent event) {
         try {
@@ -136,6 +122,13 @@ public class SignUp {
         }
     }
 
+    /**
+     * Envía los datos del formulario y registra al usuario
+     * @param event
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InterruptedException
+     */
     @FXML
     void signup(ActionEvent event) throws IOException, NoSuchAlgorithmException, InterruptedException {
         Platform.runLater(()->{
@@ -185,6 +178,12 @@ public class SignUp {
             }
         });
     }
+
+    /**
+     * Método encargado de validar el mail que introdujo el usuario
+     * @param email
+     * @return
+     */
     public static boolean isValidEmailAddress(String email) {
         boolean result = true;
         try {
@@ -195,6 +194,13 @@ public class SignUp {
         }
         return result;
     }
+
+    /**
+     * Comprueba que se haya escrito un correo en el campo
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private synchronized boolean checkMail() throws IOException, InterruptedException {
 
         boolean mail = false;
@@ -234,6 +240,12 @@ public class SignUp {
         return mail;}
     }
 
+    /**
+     * Verifica que se haya escrito un username en el formulario
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private synchronized boolean checkUsername() throws IOException, InterruptedException {
 
         boolean username = false;

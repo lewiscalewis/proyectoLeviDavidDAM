@@ -49,6 +49,9 @@ public class UploadpageController {
     private ChoiceBox<String> choiceboxGenere;
 
 
+    /**
+     * Inicializa la vista de uploads
+     */
     public void initialize(){
 
         //Esto es porque para expandirse a todoo lo que ocupe la ventana, necesita indicarselo al padre del gridRoot, que en este caso
@@ -74,6 +77,11 @@ public class UploadpageController {
 
     }
 
+    /**
+     * Método encargado de carga una imagen de portada para la canción desde el dispositivo del usuario
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void choose_image(MouseEvent event) throws IOException {
 
@@ -102,6 +110,9 @@ public class UploadpageController {
         choosed_image = true;
     }
 
+    /**
+     * Método llamado al completar el formulario para enviar los datos al back-end
+     */
     @FXML
     private void upload_music() {
 
@@ -149,6 +160,10 @@ public class UploadpageController {
         }
     }
 
+    /**
+     * Método que selecciona una canción .mp3 del dispositivo del usuario
+     * @param event
+     */
     @FXML
     void choose_music(MouseEvent event) {
 

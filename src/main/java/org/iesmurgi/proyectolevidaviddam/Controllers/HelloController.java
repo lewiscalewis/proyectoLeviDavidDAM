@@ -92,6 +92,10 @@ public class HelloController {
     @FXML
     private HBox aboutButton;
 
+    /**
+     * Inicializa la vista padre y los menús de navegación de la aplicación, cargando además los eventos asociados a cada uno.
+     * @throws IOException
+     */
     public void initialize() throws IOException {
 
         log_out_username = new GeneralDecoder().getUserFromToken();
@@ -269,6 +273,10 @@ public class HelloController {
 
     }
 
+    /**
+     * Carga la vista de profile
+     * @param username
+     */
     private void loadProfile(String username){
 
         TranslateTransition slide = new TranslateTransition();
@@ -320,56 +328,11 @@ public class HelloController {
         }));
     }
 
-    private void loadProfile(){
-
-        TranslateTransition slide = new TranslateTransition();
-        slide.setDuration(Duration.seconds(0.4));
-        slide.setNode(pageRoot);
-        //((HBox) event.getTarget()).setTranslateY(-6);
-
-
-        slide.setToX(6000);
-        slide.play();
-        slide.setOnFinished((event -> {
-
-            pageRoot.setTranslateX(-6000);
-            TranslateTransition slide2 = new TranslateTransition();
-            slide2.setDuration(Duration.seconds(0.4));
-            slide2.setNode(pageRoot);
-            //((HBox) event.getTarget()).setTranslateY(-6);
-
-
-            slide2.setToX(0);
-
-            try {
-                pageRoot.setAlignment(Pos.TOP_LEFT);
-                pageRoot.getChildren().clear();
-                FXMLLoader rootFxmlLoader=new FXMLLoader(
-                        HelloApplication.class.getResource(
-                                "profilepage.fxml"
-                        )
-                );
-                Pane root = rootFxmlLoader.load();
-
-                pageRoot.getChildren().add(root);
-
-                //ProfilepageController profilepageController =rootFxmlLoader.getController();
-                //profilepageController.loadUserData();
-                //((Stage)root.getScene().getWindow()).setMinWidth(1000);
-                //((Stage)root.getScene().getWindow()).setMinHeight(850);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            slide2.play();
-            slide2.setOnFinished((event2)->{
-
-            });
-
-        }));
-    }
-
+    /**
+     * Método que se encarga de establecer los datos del usuario en el menú superior (imagen y nombre de usuario)
+     * @param user
+     * @throws IOException
+     */
     public void loadUserData(User user) throws IOException {
         hyperlinkUser.setText(user.getName());
         imageviewProfileImage.setImage(new Image(requestProfileImage(new GeneralDecoder().getUserFromToken())));
@@ -383,9 +346,13 @@ public class HelloController {
         });
 
     }
-    boolean chatOpen=true;
 
-
+    /**
+     * Método que obtiene la imagen de perfil
+     * @param username usuario del que obtiene la imagen
+     * @return
+     * @throws IOException
+     */
     InputStream requestProfileImage(String username) throws IOException {
         String URL= "http://tux.iesmurgi.org:11230/download-image";
         java.net.URL server = new java.net.URL(URL);
@@ -428,33 +395,14 @@ public class HelloController {
     }
 
 
-
-    //Hace una petición y obtiene una imagen. NO MODIFICAR. ES DE EJEMPLO.
-    InputStream requestBinary() throws IOException {
-
-        String URL= "http://tux.iesmurgi.org:11230/download-image";
-        java.net.URL server = new java.net.URL(URL);
-        // Open a connection(?) on the URL(??) and cast the response(???)
-        HttpURLConnection connection = (HttpURLConnection) server.openConnection();
-
-        // Now it's "open", we can set the request method, headers etc.
-        connection.setRequestProperty("accept", "application/x-www-form-urlencoded");
-        connection.setRequestMethod("GET");
-        connection.setDoOutput(true);
-
-        InputStream responseStream = connection.getInputStream();
-
-
-        return responseStream;
-    }
-
-
-
-
-
     boolean first=true;
     WebView webView;
     WebEngine webEngine;
+
+    /**
+     * Evento que carga el homepage
+     * @throws IOException
+     */
     @FXML
     public void loadHomePage() throws IOException {
 
@@ -514,33 +462,13 @@ public class HelloController {
 
     }
 
-
-
-    public void firstLoadHomePage()  {
-
-
-        try {
-            pageRoot.setAlignment(Pos.TOP_LEFT);
-            pageRoot.getChildren().clear();
-            FXMLLoader rootFxmlLoader=new FXMLLoader(
-                    HelloApplication.class.getResource(
-                            "homepage.fxml"
-                    )
-            );
-            Pane root = rootFxmlLoader.load();
-            pageRoot.getChildren().add(root);
-
-
-            //((Stage)pageRoot.getScene().getWindow()).setMinWidth(1000);
-            //((Stage)pageRoot.getScene().getWindow()).setMinHeight(850);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     FXMLLoader rootFxmlLoader;
 
+    /**
+     * Evento que gestiona la desconexión del usuario y que cierra por tanto su sesión.
+     * @param e
+     * @throws IOException
+     */
     @FXML
     public void logout(Event e) throws IOException {
         try{
@@ -608,6 +536,9 @@ public class HelloController {
 
     }
 
+    /**
+     * Método que carga la vista de contactos
+     */
     @FXML
     public void loadContactsPage() {
 
@@ -654,20 +585,11 @@ public class HelloController {
         }));
     }
 
-    private void animateTransition() {
-        TranslateTransition slide = new TranslateTransition();
-        slide.setDuration(Duration.seconds(0.8));
-        slide.setNode(pageRoot);
-        //((HBox) event.getTarget()).setTranslateY(-6);
 
-
-        slide.setToX(6000);
-        slide.play();
-        slide.setOnFinished((event -> {
-            pageRoot.setTranslateX(0);
-        }));
-    }
-
+    /**
+     * Animación sobre el menú lateral
+     * @param event
+     */
     @FXML
     public void slideChatSlider(Event event) {
         TranslateTransition slide = new TranslateTransition();
@@ -678,6 +600,10 @@ public class HelloController {
         slide.play();
     }
 
+    /**
+     * Animación sobre el menú lateral al sacar el puntero de la zona del slider
+     * @param event
+     */
     @FXML
     public void slideChatSliderExited(Event event) {
         TranslateTransition slide = new TranslateTransition();
@@ -687,6 +613,10 @@ public class HelloController {
         slide.play();
     }
 
+    /**
+     * Animación sobre un item de la barra lateral, activado al sacar el puntero de su zona
+     * @param event
+     */
     @FXML
     public void onSlideHoverExited(Event event) {
         ((HBox) event.getTarget()).setStyle("-fx-background-color:#1c3787; ");
@@ -696,10 +626,12 @@ public class HelloController {
         slide.setToX(0);
         slide.setToY(0);
         slide.play();
-
-
     }
 
+    /**
+     * Animación al hacer hover sobre item
+     * @param event
+     */
     @FXML
     public void onSlideHoverEnter(Event event) {
         ((HBox) event.getTarget()).setStyle("-fx-background-color:#4436cc; ");
@@ -711,65 +643,35 @@ public class HelloController {
         slide.setToX(-10);
         slide.setToY(-2);
         slide.play();
-
-        //((HBox) event.getTarget()).setTranslateY(-6);
     }
 
+    /**
+     * Animación del menú superior
+     * @param event
+     */
     @FXML
     public void onMenuItemEnter(Event event) {
         ((HBox) event.getTarget()).setStyle("-fx-background-color:#4436cc; ");
-
-
-
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.1));
         slide.setNode((HBox) event.getTarget());
 
         slide.setToY(0);
-        //slide.setToX(2);
         slide.play();
 
     }
 
+    /**
+     * Animación del menú superior, activada al sacar el puntero de su zona
+     * @param event
+     */
     @FXML
     public void onMenuItemExited(Event event) {
         ((HBox) event.getTarget()).setStyle("-fx-background-color: #1c3787;");
         TranslateTransition slide = new TranslateTransition();
         slide.setDuration(Duration.seconds(0.1));
         slide.setNode((HBox) event.getTarget());
-        //((HBox) event.getTarget()).setTranslateY(-6);
         slide.setToY(0);
-        //slide.setToX(0);
         slide.play();
-
-
-    }
-
-    @FXML
-    public void onSliderPressed(Event event) {/*
-        System.out.println(event.getSource().getClass().getName());
-
-        if(event.getSource().getClass()==HBox.class){
-            ((HBox) event.getTarget()).setStyle("-fx-background-color:#4046c1; ");
-        }else {
-            ((Node) event.getTarget()).getParent().getParent().setStyle("-fx-background-color:#4046c1; ");
-            event.consume();
-        }*/
-    }
-
-    @FXML
-    public void onSliderReleased(Event event) {/*
-
-        if(event.getSource().getClass()==HBox.class){
-            ((HBox) event.getTarget()).setStyle("-fx-background-color:#4436cc; ");
-        }else {
-            ((Node) event.getTarget()).getParent().getParent().setStyle("-fx-background-color:#4436cc; ");
-            event.consume();
-        }*/
-    }
-
-
-    @Deprecated
-    public void loadProfilePage(Event event) {
     }
 }

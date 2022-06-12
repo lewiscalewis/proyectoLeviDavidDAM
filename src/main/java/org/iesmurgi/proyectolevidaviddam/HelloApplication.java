@@ -4,11 +4,13 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.iesmurgi.proyectolevidaviddam.Controllers.HelloController;
 import org.iesmurgi.proyectolevidaviddam.Middleware.Requester;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -18,6 +20,12 @@ public class HelloApplication extends Application {
     public static Stage mainStage;
     public static boolean session_started = false;
 
+    /**
+     * Método llamado por la libreria JavaFX como punto de entrada para la aplicación.
+     * @param stage
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
         mainStage = stage;
@@ -46,6 +54,10 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("log_in.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("MuSick");
+//        File file = new File("src/main/resources/org/iesmurgi/proyectolevidaviddam/images/musick_ico.png");
+//        Image img = new Image(file.toURI().toString());
+//        System.out.println(img.getUrl());
+//        stage.getIcons().add(img);
         stage.setMaximized(true);
         stage.setMinWidth(1200);
         stage.setMinHeight(850);

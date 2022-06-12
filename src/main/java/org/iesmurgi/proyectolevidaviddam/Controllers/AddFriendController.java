@@ -39,6 +39,11 @@ public class AddFriendController {
 
     TokenManager tk = new TokenManager();
 
+    /**
+     * En este método se inicializa la vista y se cargan los usuarios.
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @FXML
     void initialize() throws IOException, InterruptedException {
         ((AnchorPane)container.getParent()).setLeftAnchor(container,0.0);
@@ -60,10 +65,16 @@ public class AddFriendController {
         });
     }
 
+    /**
+     * método que necesita la previa carga de datos de los usuarios de la aplicación que no sean tus amigos para desde un ArrayList
+     * se cree una lista de sugerencias de posibles usuarios. Este método se activa con un key event listener.
+     * @param event
+     * @throws MalformedURLException
+     * @throws InterruptedException
+     * @throws ConnectException
+     */
     @FXML
     void filterByName(KeyEvent event) throws MalformedURLException, InterruptedException, ConnectException {
-        //método que necesita la previa carga de datos de los usuarios de la aplicación que no sean tus amigos para desde un ArrayList
-        //se cree una lista de sugerencias de posibles usuarios
         Platform.runLater(()->{
             try {
                 loadUsersBySearch();
@@ -73,6 +84,13 @@ public class AddFriendController {
         });
     }
 
+    /**
+     * Método que busca los usuarios filtrando por el texto que se encuentre escrito en el campo de texto de búsqueda de usuarios
+     * @param event
+     * @throws MalformedURLException
+     * @throws InterruptedException
+     * @throws ConnectException
+     */
     @FXML
     void search(ActionEvent event) throws MalformedURLException, InterruptedException, ConnectException {
         //recogemos todos los usuarios que coincidan con lo escrito en el textfield
@@ -85,6 +103,11 @@ public class AddFriendController {
         });
     }
 
+    /**
+     * Método que envia la petición para cargar los usuarios.
+     * @throws IOException
+     * @throws InterruptedException
+     */
     void loadUsers() throws IOException, InterruptedException {
 
         container.getChildren().clear();
@@ -97,6 +120,10 @@ public class AddFriendController {
         System.out.println("Obteniendo usuarios ...");
     }
 
+    /**
+     * Genera los contenedores con cada usuario
+     * @param users recibe la lista de usuarios
+     */
     private void getUsers(User[] users) {
         GeneralDecoder d = new GeneralDecoder();
         String me = d.getUserFromToken();
@@ -180,6 +207,11 @@ public class AddFriendController {
         });
     }
 
+    /**
+     * Es el método que filtra los usuarios y le pasa la información a los métodos que lo llaman.
+     * @throws IOException
+     * @throws InterruptedException
+     */
     void loadUsersBySearch() throws IOException, InterruptedException {
 
         GeneralDecoder d = new GeneralDecoder();

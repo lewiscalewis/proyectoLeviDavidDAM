@@ -1,5 +1,8 @@
 package org.iesmurgi.proyectolevidaviddam.Enviroment;
 
+/**
+ * Enum con las direcciones URL usadas en toda la aplicación
+ */
 public enum CONSTANT {
 
     URL("http://tux.iesmurgi.org:11230"),

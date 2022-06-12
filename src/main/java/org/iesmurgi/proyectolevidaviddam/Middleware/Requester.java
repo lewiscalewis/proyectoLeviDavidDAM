@@ -42,11 +42,22 @@ public class Requester <T>{
     Map<String,String> getParams(){
         return params;
     }
+
+    /**
+     * Añade los parámetros que se tienen que enviar al servidor
+     * @param key String: clave
+     * @param value String: valor
+     */
     public void addParam(String key, String value){
         params.put(key,value);
     }
 
 
+    /**
+     * Ejecuta la petición http
+     * @return Devuelve el resultado de la petición
+     * @throws IOException
+     */
     public synchronized T execute() throws IOException {
 
 

@@ -55,6 +55,11 @@ public class ChatController {
     ArrayList<Message> messages = new ArrayList<>();
     ClientSocket c;
 
+    /**
+     * Al inicializar esta vista, se obtiene un chat_id único para cada par de usuarios y en el servidor se crea la sala.
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @FXML
     void initialize() throws IOException, InterruptedException {
         Platform.runLater(()->{
@@ -84,21 +89,38 @@ public class ChatController {
                chatContainer.getViewportBounds().getWidth(), chatContainer.viewportBoundsProperty()));
     }
 
+    /**
+     * Método para hacer scroll en el contenedor de mensajes
+     */
     @FXML
     public void scrollDown() {
         chatContainer.setVvalue(1.0);
     }
 
+    /**
+     * Método que se activa al pulsar el botón de enviar mensaje
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void sendMessage(MouseEvent event) throws IOException {
         createMessage();
     }
 
+    /**
+     * Método que se activa al pulsar enter mientras escribes un mensaje
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void sendMessagesByKey(ActionEvent event) throws IOException {
         createMessage();
     }
 
+    /**
+     * Este método crea el mensaje como tal y lo envia por parámetros a la clase ClientSocket
+     * @throws IOException
+     */
     private void createMessage() throws IOException {
         String mess = textfieldMessages.textProperty().get();
         Date date = new Date();
@@ -120,10 +142,18 @@ public class ChatController {
         scrollDown();
     }
 
+    /**
+     * Método que sirve para inicializar y establecer los datos del usuario desde la vista padre (Contacts)
+     * @param contact
+     */
     public void setContactData(User contact){
         this.contact = contact;
     }
 
+    /**
+     * Imprime los mensajes de cada usuario en pantalla
+     * @param message
+     */
     public void printMessages(Message message){
         Platform.runLater(()->{
             VBox messageCard = new VBox();
@@ -132,13 +162,6 @@ public class ChatController {
             messageCard.prefWidth(Double.MAX_VALUE);
             messageCard.minWidth(Double.MAX_VALUE);
             messageCard.maxHeight(300);
-//            messageCard.setStyle("" +
-//                    "-fx-border-color: white; " +
-//                    "-fx-border-radius: 5; " +
-//                    "-fx-background-radius: 5; " +
-//                    "-fx-border-width: 2; " +
-//                    "-fx-background-color: white;" +
-//                    "-fx-padding: 20");
             Label usernameLabel = new Label(message.getEmisor());
             usernameLabel.setStyle("" +
                     "-fx-text-fill: black; " +
@@ -168,13 +191,17 @@ public class ChatController {
             chatBox.setStyle("-fx-background-color: #1c3787");
             chatBox.getChildren().add(messageCard);
             chatBox.setAlignment(Pos.CENTER);
-            //chatBox.setPadding(new Insets(10,10,20,10));
             chatBox.layout();
             chatContainer.layout();
             scrollDown();
         });
     }
 
+    /**
+     * Método encargado de la persisencia de los mensajes en la Base de datos.
+     * @param message
+     * @throws IOException
+     */
     public void saveMessages(Message message) throws IOException {
         Platform.runLater(()->{
             try {
@@ -191,6 +218,11 @@ public class ChatController {
         });
     }
 
+    /**
+     * Método que se encarga de obtener todos los mensajes previos del chat
+     * @return
+     * @throws IOException
+     */
     public Message[] getMessages() throws IOException {
         Message[] messages1;
         Requester<Message[]> req = new Requester<>(CONSTANT.URL.getUrl()+"/get-messages", Requester.Method.POST, Message[].class);
