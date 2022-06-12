@@ -11,6 +11,9 @@ import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
 
+
+//Punto de entrada para nuestra aplicación. TrickLauncher contiene el método main que llama al método main de esta clase.
+//Es para que javaFX no detecte que se está llamando a launch en el main y nos deje compilar el programa.
 public class HelloApplication extends Application {
     public static Stage mainStage;
     public static boolean session_started = false;
@@ -18,6 +21,8 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
         mainStage = stage;
+        
+        //Para gestionar el estado "en línea de un usuario"
         stage.setOnCloseRequest(event -> {
             Requester<String> set_online = null;
             if(session_started){
@@ -37,6 +42,7 @@ public class HelloApplication extends Application {
             Platform.exit();
         });
 
+        //Carga la vista inicial, que es para iniciar sesión e incluye un botón para ir a register
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("log_in.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("MuSick");
@@ -49,74 +55,9 @@ public class HelloApplication extends Application {
         stage.show();
         Thread.sleep(500);
         stage.toFront();
-
-
-        ///
-        /// Endpoint /users request
-        ///
-/*
-        // Create a neat value object to hold the URL
-        URL url = new URL("http://10.147.20.65:3000/users");
-
-        // Open a connection(?) on the URL(??) and cast the response(???)
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        // Now it's "open", we can set the request method, headers etc.
-        connection.setRequestProperty("accept", "application/json");
-        connection.setRequestMethod("POST");
-        // This line makes the request
-        InputStream responseStream = connection.getInputStream();
-        Gson gson = new Gson();
-
-
-        BufferedReader responseBR=new BufferedReader(new InputStreamReader(responseStream));
-        String usersJSON="";
-        int character=0;
-        while((character=responseBR.read())!=-1){
-            usersJSON+=(char)character;
-        }
-        System.out.println(usersJSON);
-        User[] users=gson.fromJson(usersJSON,User[].class);
-
-        for (User user:users) {
-            System.out.println(user.toString());
-        }
-
-
-        Requester<User[]> requester=new Requester<>("http://10.147.20.65:3000/users", Requester.Method.POST,User[].class);
-        User [] users =requester.execute();
-        for(User user:users){
-            System.out.println(user.toString());
-        }
-*/
-
-        /*
-        Requester<User[]> requester=new Requester<>("http://10.147.20.65:3000/", Requester.Method.POST,User[].class);
-        requester.addParam("username","lewiscalewis");
-        User[] users =requester.execute();
-        for(User user:users){
-            System.out.println(user.toString());
-        }*/
-
-
-        //STRING REQUESTER PARA LEVI
-/*
-        Requester<String> stringRequester=new Requester<>(
-                "http://tux.iesmurgi.org:11230",
-                Requester.Method.POST,
-                String.class
-        );
-        //stringRequester.addParam("username","lewiscalewis");
-        String[] stringRespuesta=new String[]{
-                stringRequester.execute()
-        };
-        System.out.println(stringRespuesta[0]);
-*/
-
-        ////////////////////////////////////////////////////////////////////////////////
     }
 
-
+    //Método de entrada para la aplicación. Llamado por TrickLauncher.
     public static void main(String[] args) {
         launch();
     }
